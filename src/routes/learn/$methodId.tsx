@@ -4,11 +4,10 @@ import { useState, type ReactNode } from 'react'
 import { z } from 'zod'
 import { methods, type BankMethod } from '#/content/methods'
 import { questions } from '#/content/questions'
+import { MethodIcon } from '#/components/learn/MethodIcon'
 import { MethodPickerDialog } from '#/components/learn/MethodPickerDialog'
-import { METHOD_LOOKS } from '#/components/learn/method-looks'
 import { PracticeStep } from '#/components/learn/PracticeStep'
 import { HandsOnStepView, WatchStepView } from '#/components/learn/StepViews'
-import { buttonStyles } from '#/components/ui/button-styles'
 
 export const Route = createFileRoute('/learn/$methodId')({
   validateSearch: z.object({
@@ -61,7 +60,7 @@ function LessonPage() {
     number > 1 &&
     stepLink(
       number - 1,
-      buttonStyles.secondary,
+      'inline-flex items-center justify-center gap-2 rounded-full border border-line-strong bg-surface px-5 py-2.5 text-sm font-semibold text-ink transition hover:bg-sunken focus-visible:ring-4 focus-visible:ring-ink-faint/30 focus-visible:outline-none',
       <>
         <ArrowLeft className="size-4" aria-hidden="true" /> ย้อนกลับ
       </>,
@@ -71,7 +70,7 @@ function LessonPage() {
       {back}
       {stepLink(
         number + 1,
-        `${buttonStyles.primary} ml-auto`,
+        'inline-flex items-center justify-center gap-2 rounded-full bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-500 focus-visible:ring-4 focus-visible:ring-brand-500/30 focus-visible:outline-none ml-auto',
         <>
           {number === lessonSteps ? 'ลองโจทย์จริง' : 'ขั้นถัดไป'}
           <ArrowRight className="size-4" aria-hidden="true" />
@@ -124,15 +123,12 @@ function LessonPage() {
 
 /** The method's name and a bar of every step; each segment jumps to its step. */
 function LessonHeader({ method, number }: { method: BankMethod; number: number }) {
-  const { icon: Icon, tile } = METHOD_LOOKS[method.id]
   const titles = [...method.steps.map((step) => step.title), 'ลองโจทย์จริง']
 
   return (
     <header className="mt-6 mb-6 sm:mb-8">
       <div className="flex items-center gap-3">
-        <span className={`grid size-11 shrink-0 place-items-center rounded-2xl ${tile}`}>
-          <Icon className="size-5" aria-hidden="true" />
-        </span>
+        <MethodIcon methodId={method.id} />
         <div className="min-w-0">
           <p className="font-semibold text-ink">{method.name}</p>
           <p className="text-sm text-ink-muted tabular-nums">

@@ -4,18 +4,34 @@ import { CHOICE_LABELS } from '#/cube/question'
 import type { ExampleChoice, LessonStep, Verdict } from '#/lesson/method'
 import type { Pose } from '#/lesson/scene'
 import { ChoiceCard, type ChoiceState } from '#/components/quiz/ChoiceCard'
-import { toneStyles } from '#/components/ui/tone-styles'
 
 interface VerdictLook {
   label: string
   icon: LucideIcon
-  tone: (typeof toneStyles)[keyof typeof toneStyles]
   state: ChoiceState
+  /** Colour of the label under the choice. */
+  text: string
+  /** Colours of the panel explaining the verdict. */
+  panel: string
 }
 
 const VERDICTS: Record<Verdict, VerdictLook> = {
-  keep: { label: 'ใช้ได้', icon: CircleCheck, tone: toneStyles.emerald, state: 'correct' },
-  cut: { label: 'ตัดทิ้ง', icon: CircleX, tone: toneStyles.rose, state: 'wrong' },
+  keep: {
+    label: 'ใช้ได้',
+    icon: CircleCheck,
+    state: 'correct',
+    text: 'text-emerald-700 dark:text-emerald-400',
+    panel:
+      'border-emerald-200 bg-emerald-50 text-emerald-900 dark:border-emerald-400/25 dark:bg-emerald-400/10 dark:text-emerald-200',
+  },
+  cut: {
+    label: 'ตัดทิ้ง',
+    icon: CircleX,
+    state: 'wrong',
+    text: 'text-rose-700 dark:text-rose-400',
+    panel:
+      'border-rose-200 bg-rose-50 text-rose-900 dark:border-rose-400/25 dark:bg-rose-400/10 dark:text-rose-200',
+  },
 }
 
 interface WorkedExampleProps {
@@ -55,7 +71,7 @@ export function WorkedExample({ example, held, onHold }: WorkedExampleProps) {
               onClick={() => reveal(index)}
               footer={
                 verdict ? (
-                  <span className={verdict.tone.text}>{verdict.label}</span>
+                  <span className={verdict.text}>{verdict.label}</span>
                 ) : (
                   <span className="text-ink-faint">แตะเพื่อเฉลย</span>
                 )
@@ -71,11 +87,11 @@ export function WorkedExample({ example, held, onHold }: WorkedExampleProps) {
 }
 
 function Verdict({ label, choice }: { label: string; choice: ExampleChoice }) {
-  const { label: verdict, icon: Icon, tone } = VERDICTS[choice.verdict]
+  const { label: verdict, icon: Icon, panel } = VERDICTS[choice.verdict]
   return (
     <p
       role="status"
-      className={`mt-4 flex items-start gap-2 rounded-2xl border px-4 py-3 text-sm ${tone.panel}`}
+      className={`mt-4 flex items-start gap-2 rounded-2xl border px-4 py-3 text-sm ${panel}`}
     >
       <Icon className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
       <span>

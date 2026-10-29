@@ -1,5 +1,4 @@
 import { useId } from 'react'
-import { surfaceStyles } from '#/components/ui/surface-styles'
 
 interface WidgetProps {
   title: string
@@ -20,7 +19,9 @@ export function Widget({ title, aside, className = '', children }: WidgetProps) 
         </h2>
         {aside}
       </div>
-      <div className={`${surfaceStyles.tray} flex flex-1 flex-col gap-2`}>{children}</div>
+      <div className="flex flex-1 flex-col gap-2 rounded-[28px] bg-contrast/[0.035] p-2 ring-1 ring-contrast/5">
+        {children}
+      </div>
     </section>
   )
 }

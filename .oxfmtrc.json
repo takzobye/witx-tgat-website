@@ -2,5 +2,6 @@
   "$schema": "./node_modules/oxfmt/configuration_schema.json",
   "semi": false,
   "singleQuote": true,
+  "sortTailwindcss": { "stylesheet": "./src/styles.css" },
   "ignorePatterns": ["src/routeTree.gen.ts", "src/content/questions/", "*.md"]
 }

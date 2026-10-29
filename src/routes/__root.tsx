@@ -3,7 +3,6 @@ import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
 import { AppBackdrop } from '#/components/layout/AppBackdrop'
 import { AppNav } from '#/components/layout/AppNav'
-import { buttonStyles } from '#/components/ui/button-styles'
 import { CANVAS_COLORS, readThemePreference } from '#/theme/theme'
 
 import appCss from '../styles.css?url'
@@ -60,7 +59,10 @@ function NotFound() {
     <div className="grid place-items-center gap-4 py-24 text-center">
       <p className="text-6xl font-bold text-ink-faint">404</p>
       <p className="text-lg text-ink-soft">ไม่พบหน้าที่ต้องการ</p>
-      <Link to="/" className={buttonStyles.primary}>
+      <Link
+        to="/"
+        className="inline-flex items-center justify-center gap-2 rounded-full bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-500 focus-visible:ring-4 focus-visible:ring-brand-500/30 focus-visible:outline-none"
+      >
         กลับหน้าแรก
       </Link>
     </div>

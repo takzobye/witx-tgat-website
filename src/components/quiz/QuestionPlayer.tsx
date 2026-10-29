@@ -3,8 +3,6 @@ import { ArrowRight, Box, CircleCheck, CircleX, RotateCcw } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { CHOICE_LABELS, type Question } from '#/cube/question'
 import { matchView } from '#/cube/view'
-import { buttonStyles } from '#/components/ui/button-styles'
-import { toneStyles } from '#/components/ui/tone-styles'
 import { ChoiceCard, type ChoiceState } from './ChoiceCard'
 import { QuestionFigure } from './QuestionFigure'
 import { useFigureState } from './use-figure-state'
@@ -81,7 +79,9 @@ export function QuestionPlayer({ question, nextId, onCheck }: QuestionPlayerProp
           <div
             role="status"
             className={`rounded-2xl border p-4 sm:p-5 ${
-              selected === question.answer ? toneStyles.emerald.panel : toneStyles.rose.panel
+              selected === question.answer
+                ? 'border-emerald-200 bg-emerald-50 text-emerald-900 dark:border-emerald-400/25 dark:bg-emerald-400/10 dark:text-emerald-200'
+                : 'border-rose-200 bg-rose-50 text-rose-900 dark:border-rose-400/25 dark:bg-rose-400/10 dark:text-rose-200'
             }`}
           >
             {selected === question.answer ? (
@@ -97,19 +97,26 @@ export function QuestionPlayer({ question, nextId, onCheck }: QuestionPlayerProp
               <p className="mt-2 leading-relaxed text-ink-soft">{question.explanation}</p>
             )}
             <div className="mt-4 flex flex-wrap gap-2">
-              <button type="button" onClick={retry} className={buttonStyles.secondary}>
+              <button
+                type="button"
+                onClick={retry}
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-line-strong bg-surface px-5 py-2.5 text-sm font-semibold text-ink transition hover:bg-sunken focus-visible:ring-4 focus-visible:ring-ink-faint/30 focus-visible:outline-none"
+              >
                 <RotateCcw className="size-4" /> ทำข้อนี้อีกครั้ง
               </button>
               {nextId ? (
                 <Link
                   to="/questions/$questionId"
                   params={{ questionId: nextId }}
-                  className={buttonStyles.primary}
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-500 focus-visible:ring-4 focus-visible:ring-brand-500/30 focus-visible:outline-none"
                 >
                   ข้อต่อไป <ArrowRight className="size-4" />
                 </Link>
               ) : (
-                <Link to="/questions" className={buttonStyles.primary}>
+                <Link
+                  to="/questions"
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-500 focus-visible:ring-4 focus-visible:ring-brand-500/30 focus-visible:outline-none"
+                >
                   ดูโจทย์ทั้งหมด
                 </Link>
               )}
@@ -124,7 +131,7 @@ export function QuestionPlayer({ question, nextId, onCheck }: QuestionPlayerProp
               type="button"
               disabled={selected === null}
               onClick={check}
-              className={buttonStyles.primary}
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-500 focus-visible:ring-4 focus-visible:ring-brand-500/30 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-brand-600"
             >
               ตรวจคำตอบ
             </button>

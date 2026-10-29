@@ -9,7 +9,6 @@ import { QuestionShelf } from '#/components/dashboard/QuestionShelf'
 import { RecentAnswers } from '#/components/dashboard/RecentAnswers'
 import { WeeklyActivity } from '#/components/dashboard/WeeklyActivity'
 import { Widget } from '#/components/dashboard/Widget'
-import { buttonStyles } from '#/components/ui/button-styles'
 import { Skeleton } from '#/components/ui/Skeleton'
 
 export const Route = createFileRoute('/')({ component: DashboardPage })
@@ -57,11 +56,16 @@ function Hero({ progress }: { progress: BankProgress | null }) {
           <Link
             to="/questions/$questionId"
             params={{ questionId: start.id }}
-            className={buttonStyles.primary}
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-500 focus-visible:ring-4 focus-visible:ring-brand-500/30 focus-visible:outline-none"
           >
             <CirclePlay className="size-5" /> เริ่มฝึก
           </Link>
-          <Link to="/questions" aria-label="คลังโจทย์" title="คลังโจทย์" className={buttonStyles.icon}>
+          <Link
+            to="/questions"
+            aria-label="คลังโจทย์"
+            title="คลังโจทย์"
+            className="grid size-10 shrink-0 place-items-center rounded-full border border-line-strong bg-surface text-ink-soft transition hover:bg-sunken hover:text-ink focus-visible:ring-4 focus-visible:ring-ink-faint/30 focus-visible:outline-none"
+          >
             <LayoutGrid className="size-5" />
           </Link>
         </div>

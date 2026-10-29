@@ -4,8 +4,6 @@ import { questions } from '#/content/questions'
 import type { QuestionStatus } from '#/progress/summary'
 import type { BankProgress } from '#/progress/use-progress'
 import { NetDiagram } from '#/components/cube/NetDiagram'
-import { surfaceStyles } from '#/components/ui/surface-styles'
-import { toneStyles } from '#/components/ui/tone-styles'
 import { Widget } from './Widget'
 
 const SHELF_SIZE = 6
@@ -23,7 +21,7 @@ export function QuestionShelf({ progress }: { progress: BankProgress | null }) {
       title="คลังโจทย์"
       aside={<span className="text-xs text-ink-faint tabular-nums">{questions.length} ข้อ</span>}
     >
-      <ul className={`${surfaceStyles.card} grid grid-cols-3 gap-2 p-2`}>
+      <ul className="grid grid-cols-3 gap-2 rounded-[20px] bg-surface p-2 shadow-[0_1px_2px_rgb(28_25_23/0.06)] ring-1 ring-contrast/5">
         {questions.slice(0, SHELF_SIZE).map((question) => {
           const status = progress?.statusById.get(question.id)
           return (
@@ -40,13 +38,13 @@ export function QuestionShelf({ progress }: { progress: BankProgress | null }) {
                 </span>
                 {status === 'solved' && (
                   <CircleCheck
-                    className={`absolute top-1 right-1 size-4 ${toneStyles.emerald.text}`}
+                    className="absolute top-1 right-1 size-4 text-emerald-700 dark:text-emerald-400"
                     aria-hidden="true"
                   />
                 )}
                 {status === 'retry' && (
                   <RotateCcw
-                    className={`absolute top-1 right-1 size-3.5 ${toneStyles.amber.text}`}
+                    className="absolute top-1 right-1 size-3.5 text-amber-700 dark:text-amber-400"
                     aria-hidden="true"
                   />
                 )}
@@ -57,7 +55,7 @@ export function QuestionShelf({ progress }: { progress: BankProgress | null }) {
       </ul>
       <Link
         to="/questions"
-        className={`${surfaceStyles.card} mt-auto block px-4 py-3 text-center text-xs font-semibold text-ink-soft transition hover:bg-sunken hover:text-accent-ink`}
+        className="mt-auto block rounded-[20px] bg-surface px-4 py-3 text-center text-xs font-semibold text-ink-soft shadow-[0_1px_2px_rgb(28_25_23/0.06)] ring-1 ring-contrast/5 transition hover:bg-sunken hover:text-accent-ink"
       >
         ดูโจทย์ทั้งหมด
       </Link>

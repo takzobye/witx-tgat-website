@@ -1,10 +1,13 @@
 import { CircleCheck, RotateCcw } from 'lucide-react'
 import type { QuestionStatus } from '#/progress/summary'
-import { toneStyles } from '#/components/ui/tone-styles'
 
 const STATUSES = {
-  solved: { label: 'ทำถูกแล้ว', icon: CircleCheck, className: toneStyles.emerald.text },
-  retry: { label: 'ยังไม่ถูก', icon: RotateCcw, className: toneStyles.amber.text },
+  solved: {
+    label: 'ทำถูกแล้ว',
+    icon: CircleCheck,
+    className: 'text-emerald-700 dark:text-emerald-400',
+  },
+  retry: { label: 'ยังไม่ถูก', icon: RotateCcw, className: 'text-amber-700 dark:text-amber-400' },
 } as const
 
 /** Nothing for questions not tried yet. */

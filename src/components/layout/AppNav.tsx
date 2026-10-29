@@ -9,19 +9,6 @@ const NAV_ITEMS = [
   { to: '/lab', label: 'สร้างโจทย์', icon: PenLine, exact: false },
 ] as const
 
-const FOCUS_RING = 'focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-brand-500/30'
-
-const ITEM = `group relative flex h-10 items-center gap-2 rounded-full px-3 text-sm font-medium transition lg:size-12 lg:justify-center lg:px-0 ${FOCUS_RING}`
-const ITEM_ACTIVE = 'bg-brand-600 text-white'
-const ITEM_INACTIVE = 'text-ink-muted hover:bg-surface hover:text-ink'
-
-const TOOLTIP =
-  'whitespace-nowrap lg:pointer-events-none lg:absolute lg:left-full lg:ml-4 lg:rounded-lg lg:bg-ink lg:px-2.5 lg:py-1.5 lg:text-xs lg:text-canvas lg:opacity-0 lg:shadow-lg lg:transition lg:group-hover:opacity-100 lg:group-focus-visible:opacity-100'
-// Inline next to the icon on tablets, screen-reader only on phones, a tooltip on the rail.
-const ITEM_LABEL = `max-sm:sr-only ${TOOLTIP}`
-// Screen-reader only until the rail can show it as a tooltip.
-const TOGGLE_LABEL = `max-lg:sr-only ${TOOLTIP}`
-
 /** A top bar on small screens that becomes a left rail from `lg` up. */
 export function AppNav() {
   return (
@@ -41,12 +28,15 @@ export function AppNav() {
             key={to}
             to={to}
             activeOptions={{ exact }}
-            className={ITEM}
-            activeProps={{ className: ITEM_ACTIVE }}
-            inactiveProps={{ className: ITEM_INACTIVE }}
+            className="group relative flex h-10 items-center gap-2 rounded-full px-3 text-sm font-medium transition focus-visible:ring-4 focus-visible:ring-brand-500/30 focus-visible:outline-none lg:size-12 lg:justify-center lg:px-0"
+            activeProps={{ className: 'bg-brand-600 text-white' }}
+            inactiveProps={{ className: 'text-ink-muted hover:bg-surface hover:text-ink' }}
           >
             <Icon className="size-5 shrink-0" aria-hidden="true" />
-            <span className={ITEM_LABEL}>{label}</span>
+            {/* Inline next to the icon on tablets, screen-reader only on phones, a tooltip on the rail. */}
+            <span className="whitespace-nowrap max-sm:sr-only lg:pointer-events-none lg:absolute lg:left-full lg:ml-4 lg:rounded-lg lg:bg-ink lg:px-2.5 lg:py-1.5 lg:text-xs lg:text-canvas lg:opacity-0 lg:shadow-lg lg:transition lg:group-hover:opacity-100 lg:group-focus-visible:opacity-100">
+              {label}
+            </span>
           </Link>
         ))}
       </nav>
@@ -66,16 +56,21 @@ function ThemeToggle() {
   }
 
   // CSS picks the icon and label, so the server never has to guess the device's setting.
+  // Each label is screen-reader only until the rail can show it as a tooltip.
   return (
     <button
       type="button"
       onClick={toggle}
-      className={`group relative grid size-10 shrink-0 place-items-center rounded-full bg-contrast/[0.04] text-ink-muted ring-1 ring-contrast/5 transition hover:bg-surface hover:text-ink lg:size-12 ${FOCUS_RING}`}
+      className="group relative grid size-10 shrink-0 place-items-center rounded-full bg-contrast/[0.04] text-ink-muted ring-1 ring-contrast/5 transition hover:bg-surface hover:text-ink focus-visible:ring-4 focus-visible:ring-brand-500/30 focus-visible:outline-none lg:size-12"
     >
       <Moon className="size-5 dark:hidden" aria-hidden="true" />
       <Sun className="hidden size-5 dark:block" aria-hidden="true" />
-      <span className={`${TOGGLE_LABEL} dark:hidden`}>โหมดมืด</span>
-      <span className={`${TOGGLE_LABEL} hidden dark:block`}>โหมดสว่าง</span>
+      <span className="whitespace-nowrap max-lg:sr-only lg:pointer-events-none lg:absolute lg:left-full lg:ml-4 lg:rounded-lg lg:bg-ink lg:px-2.5 lg:py-1.5 lg:text-xs lg:text-canvas lg:opacity-0 lg:shadow-lg lg:transition lg:group-hover:opacity-100 lg:group-focus-visible:opacity-100 dark:hidden">
+        โหมดมืด
+      </span>
+      <span className="hidden whitespace-nowrap max-lg:sr-only lg:pointer-events-none lg:absolute lg:left-full lg:ml-4 lg:rounded-lg lg:bg-ink lg:px-2.5 lg:py-1.5 lg:text-xs lg:text-canvas lg:opacity-0 lg:shadow-lg lg:transition lg:group-hover:opacity-100 lg:group-focus-visible:opacity-100 dark:block">
+        โหมดสว่าง
+      </span>
     </button>
   )
 }

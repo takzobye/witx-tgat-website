@@ -1,17 +1,9 @@
 import { Lightbulb, Timer, type LucideIcon } from 'lucide-react'
 import type { ReactNode } from 'react'
 import type { LessonStep } from '#/lesson/method'
-import { toneStyles } from '#/components/ui/tone-styles'
 import { HandsOnFigure, SceneFigure } from './SceneFigure'
 import { useSceneTimeline } from './use-scene-timeline'
 import { WorkedExample } from './WorkedExample'
-
-const LAYOUT = 'grid gap-6 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:items-start'
-/** Keeps the 3D figure in view while the explanation scrolls past on wide screens. */
-const FIGURE_COLUMN = 'lg:sticky lg:top-6'
-
-const RULE_PANEL =
-  'border-brand-200 bg-brand-50 text-brand-900 dark:border-brand-400/25 dark:bg-brand-400/10 dark:text-brand-200'
 
 interface StepViewProps {
   step: LessonStep
@@ -24,8 +16,9 @@ interface StepViewProps {
 export function WatchStepView({ step, number, nav }: StepViewProps) {
   const timeline = useSceneTimeline(step.scene)
   return (
-    <div className={LAYOUT}>
-      <div className={FIGURE_COLUMN}>
+    <div className="grid gap-6 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:items-start">
+      {/* Sticky, so the 3D figure stays in view while the explanation scrolls past. */}
+      <div className="lg:sticky lg:top-6">
         <SceneFigure step={step} timeline={timeline} />
       </div>
       <StepArticle step={step} number={number} nav={nav}>
@@ -45,8 +38,8 @@ export function WatchStepView({ step, number, nav }: StepViewProps) {
 /** A step where the learner folds the net by hand. */
 export function HandsOnStepView({ step, number, nav }: StepViewProps) {
   return (
-    <div className={LAYOUT}>
-      <div className={FIGURE_COLUMN}>
+    <div className="grid gap-6 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:items-start">
+      <div className="lg:sticky lg:top-6">
         <HandsOnFigure step={step} />
       </div>
       <StepArticle step={step} number={number} nav={nav} />
@@ -66,11 +59,19 @@ function StepArticle({ step, number, nav, children }: StepViewProps & { children
           <p key={paragraph}>{paragraph}</p>
         ))}
       </div>
-      <Callout icon={Lightbulb} title="กฎที่ต้องจำ" className={RULE_PANEL}>
+      <Callout
+        icon={Lightbulb}
+        title="กฎที่ต้องจำ"
+        className="border-brand-200 bg-brand-50 text-brand-900 dark:border-brand-400/25 dark:bg-brand-400/10 dark:text-brand-200"
+      >
         {step.rule}
       </Callout>
       {step.examTip && (
-        <Callout icon={Timer} title="เทคนิคในห้องสอบ" className={toneStyles.amber.panel}>
+        <Callout
+          icon={Timer}
+          title="เทคนิคในห้องสอบ"
+          className="border-amber-200 bg-amber-50 text-amber-900 dark:border-amber-400/25 dark:bg-amber-400/10 dark:text-amber-200"
+        >
           {step.examTip}
         </Callout>
       )}

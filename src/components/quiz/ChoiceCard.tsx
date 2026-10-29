@@ -2,7 +2,6 @@ import { Check, X } from 'lucide-react'
 import type { ReactNode } from 'react'
 import type { CubeView } from '#/cube/view'
 import { IsoCube } from '#/components/cube/IsoCube'
-import { toneStyles } from '#/components/ui/tone-styles'
 
 export type ChoiceState = 'idle' | 'selected' | 'correct' | 'wrong' | 'muted'
 
@@ -39,7 +38,7 @@ export function ChoiceCard({ label, view, state, pressed, onClick, footer }: Cho
       onClick={onClick}
       aria-pressed={pressed}
       aria-label={`ตัวเลือก ${label}`}
-      className={`group relative flex flex-col items-center rounded-2xl border-2 bg-surface p-3 text-left transition focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-brand-500/30 sm:p-4 ${CARD_STYLES[state]}`}
+      className={`group relative flex flex-col items-center rounded-2xl border-2 bg-surface p-3 text-left transition focus-visible:ring-4 focus-visible:ring-brand-500/30 focus-visible:outline-none sm:p-4 ${CARD_STYLES[state]}`}
     >
       <span
         className={`absolute top-2.5 left-2.5 grid size-8 place-items-center rounded-full text-base font-semibold transition ${BADGE_STYLES[state]}`}
@@ -47,10 +46,10 @@ export function ChoiceCard({ label, view, state, pressed, onClick, footer }: Cho
         {label}
       </span>
       {state === 'correct' && (
-        <Check className={`absolute top-3 right-3 size-5 ${toneStyles.emerald.text}`} />
+        <Check className="absolute top-3 right-3 size-5 text-emerald-700 dark:text-emerald-400" />
       )}
       {state === 'wrong' && (
-        <X className={`absolute top-3 right-3 size-5 ${toneStyles.rose.text}`} />
+        <X className="absolute top-3 right-3 size-5 text-rose-700 dark:text-rose-400" />
       )}
       <IsoCube view={view} className="mt-4 h-28 w-full sm:h-36" />
       <span className="mt-2 flex h-5 items-center text-xs font-medium">{footer}</span>

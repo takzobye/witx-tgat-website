@@ -5,16 +5,10 @@ import { methods } from '#/content/methods'
 import { questions } from '#/content/questions'
 import type { BankProgress } from '#/progress/use-progress'
 import { NetDiagram } from '#/components/cube/NetDiagram'
+import { MethodIcon } from '#/components/learn/MethodIcon'
 import { MethodPickerDialog } from '#/components/learn/MethodPickerDialog'
-import { METHOD_LOOKS } from '#/components/learn/method-looks'
 import { DifficultyBadge } from '#/components/quiz/DifficultyBadge'
-import { buttonStyles } from '#/components/ui/button-styles'
 import { Skeleton } from '#/components/ui/Skeleton'
-import { surfaceStyles } from '#/components/ui/surface-styles'
-import { toneStyles } from '#/components/ui/tone-styles'
-
-const TAG =
-  'inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ring-1 ring-inset'
 
 const MEDIA_TONES = {
   brand: 'bg-linear-to-br from-brand-50 to-cyan-100 dark:from-brand-500/20 dark:to-cyan-500/10',
@@ -36,7 +30,7 @@ interface FeatureCardProps {
 
 function FeatureCard({ media, tone, tag, aside, title, description, action }: FeatureCardProps) {
   return (
-    <article className={`${surfaceStyles.card} flex flex-col overflow-hidden`}>
+    <article className="flex flex-col overflow-hidden rounded-[20px] bg-surface shadow-[0_1px_2px_rgb(28_25_23/0.06)] ring-1 ring-contrast/5">
       <div className={`grid h-36 place-items-center p-5 ${MEDIA_TONES[tone]}`}>{media}</div>
       <div className="flex flex-1 flex-col p-4 pt-3.5">
         <div className="flex items-center justify-between gap-2 text-xs text-ink-muted">
@@ -71,15 +65,21 @@ export function NextQuestionCard({ progress }: { progress: BankProgress | null }
     return (
       <FeatureCard
         tone="emerald"
-        media={<Trophy className={`size-14 ${toneStyles.emerald.text}`} strokeWidth={1.5} />}
-        tag={<span className={`${TAG} ${toneStyles.emerald.badge}`}>ครบแล้ว</span>}
+        media={
+          <Trophy className="size-14 text-emerald-700 dark:text-emerald-400" strokeWidth={1.5} />
+        }
+        tag={
+          <span className="inline-flex items-center rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-medium text-emerald-700 ring-1 ring-emerald-600/20 ring-inset dark:bg-emerald-400/10 dark:text-emerald-300 dark:ring-emerald-400/25">
+            ครบแล้ว
+          </span>
+        }
         title="ทำถูกครบทุกข้อแล้ว"
         description="ลองทำซ้ำตั้งแต่ข้อแรกเพื่อพับในหัวให้เร็วและแม่นขึ้น"
         action={
           <Link
             to="/questions/$questionId"
             params={{ questionId: questions[0].id }}
-            className={buttonStyles.soft}
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-accent-soft px-5 py-2.5 text-sm font-semibold text-accent-ink transition hover:bg-brand-100 focus-visible:ring-4 focus-visible:ring-brand-500/30 focus-visible:outline-none dark:hover:bg-brand-400/25"
           >
             ทบทวนอีกรอบ <ArrowRight className="size-4" />
           </Link>
@@ -100,7 +100,7 @@ export function NextQuestionCard({ progress }: { progress: BankProgress | null }
         <Link
           to="/questions/$questionId"
           params={{ questionId: next.id }}
-          className={buttonStyles.soft}
+          className="inline-flex items-center justify-center gap-2 rounded-full bg-accent-soft px-5 py-2.5 text-sm font-semibold text-accent-ink transition hover:bg-brand-100 focus-visible:ring-4 focus-visible:ring-brand-500/30 focus-visible:outline-none dark:hover:bg-brand-400/25"
         >
           เริ่มทำ <ArrowRight className="size-4" />
         </Link>
@@ -120,24 +120,20 @@ export function GuidedPracticeCard() {
         media={
           <div className="flex flex-col items-center gap-3">
             <div className="flex gap-2">
-              {methods.map((method) => {
-                const { icon: Icon, tile } = METHOD_LOOKS[method.id]
-                return (
-                  <span
-                    key={method.id}
-                    title={method.name}
-                    className={`grid size-12 place-items-center rounded-2xl shadow-sm ring-1 ring-contrast/5 ${tile}`}
-                  >
-                    <Icon className="size-6" aria-hidden="true" />
-                  </span>
-                )
-              })}
+              {methods.map((method) => (
+                <MethodIcon
+                  key={method.id}
+                  methodId={method.id}
+                  title={method.name}
+                  className="shadow-sm ring-1 ring-contrast/5"
+                />
+              ))}
             </div>
             <p className="text-sm font-bold text-ink">3 สูตรพับกล่อง</p>
           </div>
         }
         tag={
-          <span className={`${TAG} ${toneStyles.amber.badge} gap-1`}>
+          <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2.5 py-0.5 text-xs font-medium text-amber-700 ring-1 ring-amber-600/20 ring-inset dark:bg-amber-400/10 dark:text-amber-300 dark:ring-amber-400/25">
             <GraduationCap className="size-3.5" aria-hidden="true" /> บทเรียน
           </span>
         }
@@ -145,7 +141,11 @@ export function GuidedPracticeCard() {
         title="เริ่มฝึกทีละขั้น พร้อมลงสนามสอบจริง"
         description="เลือก 1 ใน 3 สูตรพับกล่อง เรียนทีละขั้นด้วยภาพ 3 มิติ แล้วลองกับโจทย์จริง"
         action={
-          <button type="button" onClick={() => setPicking(true)} className={buttonStyles.soft}>
+          <button
+            type="button"
+            onClick={() => setPicking(true)}
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-accent-soft px-5 py-2.5 text-sm font-semibold text-accent-ink transition hover:bg-brand-100 focus-visible:ring-4 focus-visible:ring-brand-500/30 focus-visible:outline-none dark:hover:bg-brand-400/25"
+          >
             เลือกวิธีฝึก <ArrowRight className="size-4" />
           </button>
         }

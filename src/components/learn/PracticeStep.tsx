@@ -5,8 +5,6 @@ import type { BankMethod } from '#/content/methods'
 import type { BankQuestion } from '#/content/questions'
 import { recordAttempt } from '#/progress/attempts'
 import { QuestionPlayer } from '#/components/quiz/QuestionPlayer'
-import { buttonStyles } from '#/components/ui/button-styles'
-import { surfaceStyles } from '#/components/ui/surface-styles'
 
 interface PracticeStepProps {
   method: BankMethod
@@ -40,7 +38,10 @@ export function PracticeStep({
         </p>
       </header>
 
-      <section aria-label="ลำดับขั้นตอนในห้องสอบ" className={surfaceStyles.tray}>
+      <section
+        aria-label="ลำดับขั้นตอนในห้องสอบ"
+        className="rounded-[28px] bg-contrast/[0.035] p-2 ring-1 ring-contrast/5"
+      >
         <div className="flex items-center gap-2 px-3 pt-2 pb-3 text-sm font-semibold text-ink-muted">
           <ListChecks className="size-4" aria-hidden="true" /> ลำดับในห้องสอบ
         </div>
@@ -48,7 +49,7 @@ export function PracticeStep({
           {method.checklist.map((item, index) => (
             <li
               key={item}
-              className={`${surfaceStyles.card} flex gap-3 p-3.5 text-sm leading-snug text-ink-soft`}
+              className="flex gap-3 rounded-[20px] bg-surface p-3.5 text-sm leading-snug text-ink-soft shadow-[0_1px_2px_rgb(28_25_23/0.06)] ring-1 ring-contrast/5"
             >
               <span className="grid size-6 shrink-0 place-items-center rounded-full bg-accent-soft text-xs font-semibold text-accent-ink">
                 {index + 1}
@@ -72,10 +73,17 @@ export function PracticeStep({
       <nav className="flex flex-wrap items-center justify-between gap-3 border-t border-line pt-5">
         {back}
         <div className="flex flex-wrap gap-2">
-          <button type="button" onClick={onPickAnother} className={buttonStyles.secondary}>
+          <button
+            type="button"
+            onClick={onPickAnother}
+            className="inline-flex items-center justify-center gap-2 rounded-full border border-line-strong bg-surface px-5 py-2.5 text-sm font-semibold text-ink transition hover:bg-sunken focus-visible:ring-4 focus-visible:ring-ink-faint/30 focus-visible:outline-none"
+          >
             <Shuffle className="size-4" aria-hidden="true" /> ลองวิธีอื่น
           </button>
-          <Link to="/questions" className={buttonStyles.primary}>
+          <Link
+            to="/questions"
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-500 focus-visible:ring-4 focus-visible:ring-brand-500/30 focus-visible:outline-none"
+          >
             <LayoutGrid className="size-4" aria-hidden="true" /> ฝึกต่อในคลังโจทย์
           </Link>
         </div>

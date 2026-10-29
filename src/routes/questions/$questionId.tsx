@@ -76,10 +76,12 @@ interface PagerLinkProps {
 }
 
 function PagerLink({ question, label, children }: PagerLinkProps) {
-  const shape = 'grid size-8 place-items-center rounded-full'
   if (!question) {
     return (
-      <span aria-hidden="true" className={`${shape} text-ink-faint`}>
+      <span
+        aria-hidden="true"
+        className="grid size-8 place-items-center rounded-full text-ink-faint"
+      >
         {children}
       </span>
     )
@@ -90,7 +92,7 @@ function PagerLink({ question, label, children }: PagerLinkProps) {
       params={{ questionId: question.id }}
       aria-label={label}
       title={label}
-      className={`${shape} text-ink-soft transition hover:bg-fill-strong`}
+      className="grid size-8 place-items-center rounded-full text-ink-soft transition hover:bg-fill-strong"
     >
       {children}
     </Link>

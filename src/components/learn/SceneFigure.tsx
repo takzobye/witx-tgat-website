@@ -5,9 +5,6 @@ import { LazyFoldStage } from '#/components/fold-stage/LazyFoldStage'
 import { LazyLessonStage } from '#/components/lesson-stage/LazyLessonStage'
 import type { SceneTimeline } from './use-scene-timeline'
 
-const FRAME = 'flex flex-col overflow-hidden rounded-3xl border border-line bg-surface shadow-sm'
-const STAGE_HEIGHT = 'h-72 sm:h-96 lg:h-[30rem]'
-
 const PLAYBACK = {
   pause: { icon: Pause, label: 'หยุด' },
   resume: { icon: Play, label: 'เล่นต่อ' },
@@ -20,8 +17,8 @@ export function SceneFigure({ step, timeline }: { step: LessonStep; timeline: Sc
   const playback = PLAYBACK[playing ? 'pause' : held || index < count - 1 ? 'resume' : 'replay']
 
   return (
-    <figure className={FRAME}>
-      <div className={`relative ${STAGE_HEIGHT}`}>
+    <figure className="flex flex-col overflow-hidden rounded-3xl border border-line bg-surface shadow-sm">
+      <div className="relative h-72 sm:h-96 lg:h-[30rem]">
         <LazyLessonStage
           sceneId={step.id}
           arts={step.scene.arts}
@@ -82,8 +79,8 @@ export function SceneFigure({ step, timeline }: { step: LessonStep; timeline: Sc
 export function HandsOnFigure({ step }: { step: LessonStep }) {
   const [fold, setFold] = useState(0)
   return (
-    <figure className={FRAME}>
-      <div className={STAGE_HEIGHT}>
+    <figure className="flex flex-col overflow-hidden rounded-3xl border border-line bg-surface shadow-sm">
+      <div className="h-72 sm:h-96 lg:h-[30rem]">
         <LazyFoldStage
           cube={step.scene.cube}
           fold={fold}

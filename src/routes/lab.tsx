@@ -13,7 +13,6 @@ import { questionFiles } from '#/content/question-files'
 import { ChoiceCard } from '#/components/quiz/ChoiceCard'
 import { QuestionFigure } from '#/components/quiz/QuestionFigure'
 import { useFigureState } from '#/components/quiz/use-figure-state'
-import { toneStyles } from '#/components/ui/tone-styles'
 
 export const Route = createFileRoute('/lab')({
   head: () => ({ meta: [{ title: 'สร้างโจทย์ · ฝึกพับกล่อง TGAT2' }] }),
@@ -45,9 +44,6 @@ function parse(source: string): Parsed {
   }
   return { status: 'ready', draft: result.data, answer: checkAnswer(result.data) }
 }
-
-const TOOLBAR_BUTTON =
-  'inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium text-ink-soft transition hover:bg-fill hover:text-ink'
 
 function LabPage() {
   const [source, setSource] = useState(questionFiles[0].text)
@@ -105,15 +101,23 @@ function LabPage() {
               </select>
             </label>
             <div className="flex items-center gap-1">
-              <button type="button" onClick={copy} className={TOOLBAR_BUTTON}>
+              <button
+                type="button"
+                onClick={copy}
+                className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium text-ink-soft transition hover:bg-fill hover:text-ink"
+              >
                 {copied ? (
-                  <Check className={`size-4 ${toneStyles.emerald.text}`} />
+                  <Check className="size-4 text-emerald-700 dark:text-emerald-400" />
                 ) : (
                   <Copy className="size-4" />
                 )}
                 {copied ? 'คัดลอกแล้ว' : 'คัดลอก'}
               </button>
-              <button type="button" onClick={download} className={TOOLBAR_BUTTON}>
+              <button
+                type="button"
+                onClick={download}
+                className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium text-ink-soft transition hover:bg-fill hover:text-ink"
+              >
                 <Download className="size-4" /> ดาวน์โหลด
               </button>
             </div>
@@ -175,9 +179,18 @@ function StatusBanner({ parsed }: { parsed: Parsed }) {
 }
 
 const BANNER_TONES = {
-  success: { box: toneStyles.emerald.panel, icon: CircleCheck },
-  warning: { box: toneStyles.amber.panel, icon: AlertTriangle },
-  error: { box: toneStyles.rose.panel, icon: X },
+  success: {
+    box: 'border-emerald-200 bg-emerald-50 text-emerald-900 dark:border-emerald-400/25 dark:bg-emerald-400/10 dark:text-emerald-200',
+    icon: CircleCheck,
+  },
+  warning: {
+    box: 'border-amber-200 bg-amber-50 text-amber-900 dark:border-amber-400/25 dark:bg-amber-400/10 dark:text-amber-200',
+    icon: AlertTriangle,
+  },
+  error: {
+    box: 'border-rose-200 bg-rose-50 text-rose-900 dark:border-rose-400/25 dark:bg-rose-400/10 dark:text-rose-200',
+    icon: X,
+  },
 } as const
 
 function Banner({
@@ -238,9 +251,9 @@ function Preview({ draft, answer }: { draft: QuestionDraft; answer: AnswerCheck 
             onClick={() => figure.compare(index)}
             footer={
               draft.foldable[index] ? (
-                <span className={toneStyles.emerald.text}>พับได้</span>
+                <span className="text-emerald-700 dark:text-emerald-400">พับได้</span>
               ) : (
-                <span className={toneStyles.rose.text}>พับไม่ได้</span>
+                <span className="text-rose-700 dark:text-rose-400">พับไม่ได้</span>
               )
             }
           />

@@ -34,7 +34,7 @@ pnpm build
 ### ทำไมไม่ใช้ UI lib (shadcn ฯลฯ)
 
 ตั้งใจไม่ใช้เลย อยากให้เว็บเบา ลีน ๆ ไม่แบกของที่ไม่ได้ใช้
-เว็บนี้ UI ไม่ได้เยอะขนาดนั้น ส่วนที่ต้องใช้ซ้ำก็ทำเองเฉพาะจุดไว้ใน `src/components/ui/` (style ของปุ่ม พื้นผิว สีสถานะ skeleton) แค่นั้นพอ
+เว็บนี้ UI ไม่ได้เยอะขนาดนั้น ส่วนที่ต้องใช้ซ้ำก็ทำเป็นคอมโพเนนต์เองเฉพาะจุด (อย่าง `Skeleton` ใน `src/components/ui/`) ส่วน class ของ Tailwind เขียนตรง ๆ ที่ตัว element เลย ไม่ทำไฟล์ style กลาง แค่นั้นพอ
 แล้วยุคนี้ให้ AI ช่วยเขียนคอมโพเนนต์เองก็ไวพอ ๆ กับไปลง lib อยู่แล้ว แถมได้ตรงกับที่อยากได้เป๊ะกว่า
 
 ### ทำไมยังไม่ลง skill ให้ AI
@@ -48,7 +48,7 @@ pnpm build
 - **ความคืบหน้า** (ข้อที่ทำถูก ความแม่น กิจกรรม 7 วัน) เก็บไว้ในเบราว์เซอร์ผู้เรียนเท่านั้นผ่าน `localStorage` แล้วอ่านด้วย `useSyncExternalStore`
   ฝั่ง server ไม่รู้ประวัติอะไรเลย หน้าเลยโชว์ skeleton ไปก่อนจนกว่าจะ hydrate เสร็จ
 - **ธีมสว่าง/มืด** ตามเครื่องไปก่อนจนกว่าผู้ใช้จะกดสลับเอง ค่าที่เลือกเก็บใน cookie `theme` ให้ server render ธีมถูกตั้งแต่แรก ไม่กะพริบ
-  สีพื้นฐานใช้ token ตามบทบาท (`bg-surface`, `text-ink`, `border-line` …) ที่ประกาศไว้ใน `src/styles.css` ส่วนสีสถานะใช้ `toneStyles`
+  สีพื้นฐานใช้ token ตามบทบาท (`bg-surface`, `text-ink`, `border-line` …) ที่ประกาศไว้ใน `src/styles.css` ส่วนสีสถานะเขียน `emerald` / `amber` / `rose` ตรง ๆ คู่กับ `dark:`
   — อย่าไปใช้ `stone-*` / `white` ตรง ๆ ในคอมโพเนนต์นะ
 
 ## เพิ่มโจทย์
@@ -124,7 +124,7 @@ src/lesson/        โดเมนของบทเรียน: scene (จั�
 src/content/       คลังโจทย์ JSON + ตัวโหลดที่ตรวจทุกไฟล์, methods/ เนื้อหาบทเรียน 3 สูตร
 src/progress/      ประวัติการตอบ (localStorage) + สรุปความคืบหน้าสำหรับแดชบอร์ด
 src/theme/         ธีมที่ผู้ใช้เลือก (cookie อ่านได้ทั้ง server และ browser)
-src/components/    ui/ (style กลางที่ทำเอง), layout/ (แถบเมนู), dashboard/ (การ์ดหน้าแรก), cube/ (SVG), fold-stage/ (three.js),
+src/components/    ui/ (คอมโพเนนต์กลาง), layout/ (แถบเมนู), dashboard/ (การ์ดหน้าแรก), cube/ (SVG), fold-stage/ (three.js),
                    quiz/ (หน้าทำโจทย์), lesson-stage/ (three.js ของบทเรียน: พับ เลื่อน กลิ้ง), learn/ (หน้าต่างเลือกวิธีและหน้าบทเรียน)
 src/routes/        / (แดชบอร์ด), /questions (คลังโจทย์), /questions/$questionId, /learn/$methodId, /lab
 ```

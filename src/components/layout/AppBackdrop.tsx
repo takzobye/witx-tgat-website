@@ -54,7 +54,7 @@ export function AppBackdrop() {
           className={`absolute bg-radial ${paint} to-transparent to-70% opacity-35 mix-blend-multiply motion-safe:animate-drift dark:opacity-15 dark:mix-blend-screen ${spot} ${drift}`}
         />
       ))}
-      <div className="bg-grain absolute inset-0 opacity-[0.08] mix-blend-multiply dark:opacity-[0.12] dark:mix-blend-overlay" />
+      <div className="absolute inset-0 bg-grain opacity-[0.08] mix-blend-multiply dark:opacity-[0.12] dark:mix-blend-overlay" />
     </div>
   )
 }

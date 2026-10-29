@@ -1,7 +1,6 @@
 import { WEEK_LENGTH } from '#/progress/summary'
 import type { BankProgress } from '#/progress/use-progress'
 import { Skeleton } from '#/components/ui/Skeleton'
-import { surfaceStyles } from '#/components/ui/surface-styles'
 import { Widget } from './Widget'
 
 const shortDay = new Intl.DateTimeFormat('th-TH', { weekday: 'narrow' })
@@ -19,7 +18,7 @@ export function WeeklyActivity({ progress }: { progress: BankProgress | null }) 
 
   return (
     <Widget title={`กิจกรรม ${WEEK_LENGTH} วัน`}>
-      <div className={`${surfaceStyles.card} flex items-center gap-4 p-4`}>
+      <div className="flex items-center gap-4 rounded-[20px] bg-surface p-4 shadow-[0_1px_2px_rgb(28_25_23/0.06)] ring-1 ring-contrast/5">
         <div className="grid size-16 shrink-0 place-content-center rounded-2xl bg-accent-soft text-center">
           {answered === undefined ? (
             <Skeleton className="h-7 w-8 rounded-md" />
@@ -62,7 +61,7 @@ export function WeeklyActivity({ progress }: { progress: BankProgress | null }) 
               ))}
         </ol>
       </div>
-      <div className={`${surfaceStyles.card} mt-auto px-4 py-3 text-center`}>
+      <div className="mt-auto rounded-[20px] bg-surface px-4 py-3 text-center shadow-[0_1px_2px_rgb(28_25_23/0.06)] ring-1 ring-contrast/5">
         {answered === undefined ? (
           <Skeleton className="mx-auto h-4 w-32 rounded-md" />
         ) : (
