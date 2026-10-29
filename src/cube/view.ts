@@ -57,6 +57,25 @@ export function matchView(cube: FoldedCube, view: CubeView): ViewMatch {
   return best
 }
 
+/**
+ * The way of holding the folded cube that shows these faces on top, left and right,
+ * whatever their drawings look like. Throws if no rotation can, e.g. for a mirror image.
+ */
+export function orientationShowing(cube: FoldedCube, faces: Readonly<Record<Slot, string>>): Matrix3 {
+  const normalOf = (id: string) => {
+    const face = cube.faces.find((f) => f.face.id === id)
+    if (!face) throw new Error(`No face "${id}" in the folded cube`)
+    return face.normal
+  }
+  const orientation = CUBE_ROTATIONS.find((rotation) =>
+    SLOTS.every((slot) => equals(apply(rotation, normalOf(faces[slot])), SLOT_FRAMES[slot].normal)),
+  )
+  if (!orientation) {
+    throw new Error(`No way to hold the cube with ${faces.top} on top, ${faces.left} left, ${faces.right} right`)
+  }
+  return orientation
+}
+
 export function canFold(cube: FoldedCube, view: CubeView): boolean {
   return matchView(cube, view).matchedSlots === SLOTS.length
 }

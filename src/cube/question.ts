@@ -68,10 +68,15 @@ const slotRefSchema = z.union([
     .transform(({ face, rotate }) => ({ faceId: face, turns: TURNS_BY_DEGREES[rotate] })),
 ])
 
-const viewRefSchema = z.strictObject({ top: slotRefSchema, left: slotRefSchema, right: slotRefSchema })
+/** A cube as an answer choice draws it: which face shows on each side, and how it is turned. */
+export const viewRefSchema = z.strictObject({
+  top: slotRefSchema,
+  left: slotRefSchema,
+  right: slotRefSchema,
+})
 
 type SlotRef = z.output<typeof slotRefSchema>
-type ViewRef = z.output<typeof viewRefSchema>
+export type ViewRef = z.output<typeof viewRefSchema>
 
 const questionInputSchema = z.strictObject({
   title: z.string().trim().min(1),
@@ -166,7 +171,7 @@ export const questionSchema = questionDraftSchema.transform((draft, ctx) => {
 
 export type Question = z.output<typeof questionSchema>
 
-function resolveView(view: ViewRef, artById: ReadonlyMap<string, Art>): CubeView {
+export function resolveView(view: ViewRef, artById: ReadonlyMap<string, Art>): CubeView {
   const resolve = ({ faceId, turns }: SlotRef): SlotFace => {
     const art = artById.get(faceId)
     if (!art) throw new Error(`Unknown face "${faceId}" should have been rejected`)

@@ -1,9 +1,12 @@
 import { Link } from '@tanstack/react-router'
-import { ArrowRight, Trophy } from 'lucide-react'
+import { ArrowRight, GraduationCap, Trophy } from 'lucide-react'
+import { useState } from 'react'
+import { methods } from '#/content/methods'
 import { questions } from '#/content/questions'
 import type { BankProgress } from '#/progress/use-progress'
 import { NetDiagram } from '#/components/cube/NetDiagram'
-import { LogoMark } from '#/components/layout/LogoMark'
+import { MethodPickerDialog } from '#/components/learn/MethodPickerDialog'
+import { METHOD_LOOKS } from '#/components/learn/method-looks'
 import { DifficultyBadge } from '#/components/quiz/DifficultyBadge'
 import { buttonStyles } from '#/components/ui/button-styles'
 import { Skeleton } from '#/components/ui/Skeleton'
@@ -104,24 +107,48 @@ export function NextQuestionCard({ progress }: { progress: BankProgress | null }
   )
 }
 
-export function LabCard() {
+/** Step-by-step lessons in the three methods; opens the picker to choose one. */
+export function GuidedPracticeCard() {
+  const [picking, setPicking] = useState(false)
+
   return (
-    <FeatureCard
-      tone="amber"
-      media={
-        <div className="flex flex-col items-center gap-2.5">
-          <LogoMark className="size-12" />
-          <p className="text-sm font-bold text-ink">ห้องสร้างโจทย์</p>
-        </div>
-      }
-      tag={<span className={`${TAG} ${toneStyles.amber.badge}`}>เครื่องมือ</span>}
-      title="สร้างโจทย์พับกล่องของคุณเอง"
-      description="เขียนโจทย์เป็น JSON แล้วระบบจะพับแผ่นคลี่และหาคำตอบให้ทันที"
-      action={
-        <Link to="/lab" className={buttonStyles.soft}>
-          เปิดห้องสร้างโจทย์ <ArrowRight className="size-4" />
-        </Link>
-      }
-    />
+    <>
+      <FeatureCard
+        tone="amber"
+        media={
+          <div className="flex flex-col items-center gap-3">
+            <div className="flex gap-2">
+              {methods.map((method) => {
+                const { icon: Icon, tile } = METHOD_LOOKS[method.id]
+                return (
+                  <span
+                    key={method.id}
+                    title={method.name}
+                    className={`grid size-12 place-items-center rounded-2xl shadow-sm ring-1 ring-contrast/5 ${tile}`}
+                  >
+                    <Icon className="size-6" aria-hidden="true" />
+                  </span>
+                )
+              })}
+            </div>
+            <p className="text-sm font-bold text-ink">3 สูตรพับกล่อง</p>
+          </div>
+        }
+        tag={
+          <span className={`${TAG} ${toneStyles.amber.badge} gap-1`}>
+            <GraduationCap className="size-3.5" aria-hidden="true" /> บทเรียน
+          </span>
+        }
+        aside={<span>ทีละขั้น · ภาพ 3 มิติ</span>}
+        title="เริ่มฝึกทีละขั้น พร้อมลงสนามสอบจริง"
+        description="เลือก 1 ใน 3 สูตรพับกล่อง เรียนทีละขั้นด้วยภาพ 3 มิติ แล้วลองกับโจทย์จริง"
+        action={
+          <button type="button" onClick={() => setPicking(true)} className={buttonStyles.soft}>
+            เลือกวิธีฝึก <ArrowRight className="size-4" />
+          </button>
+        }
+      />
+      <MethodPickerDialog open={picking} onClose={() => setPicking(false)} />
+    </>
   )
 }

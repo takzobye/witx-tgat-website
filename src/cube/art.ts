@@ -47,6 +47,34 @@ export function shapeFill(shape: Shape): string | null {
   return shape.fill === 'black' ? COLORS.ink : COLORS.gray
 }
 
+/** The drawing turned clockwise by `turns` about the centre of its box. */
+export function turnArt(art: Art, turns: QuarterTurns): Art {
+  return art.map((shape) => turnShape(shape, turns))
+}
+
+function turnShape(shape: Shape, turns: QuarterTurns): Shape {
+  const turn = (point: Point) => turnPoint(point, turns)
+
+  switch (shape.type) {
+    case 'rect': {
+      // A quarter turn keeps a rectangle axis-aligned; only its opposite corners move.
+      const [x1, y1] = turn([shape.x, shape.y])
+      const [x2, y2] = turn([shape.x + shape.w, shape.y + shape.h])
+      const x = Math.min(x1, x2)
+      const y = Math.min(y1, y2)
+      return { ...shape, x, y, w: Math.max(x1, x2) - x, h: Math.max(y1, y2) - y }
+    }
+    case 'circle': {
+      const [cx, cy] = turn([shape.cx, shape.cy])
+      return { ...shape, cx, cy }
+    }
+    case 'polygon':
+      return { ...shape, points: shape.points.map(turn) }
+    case 'line':
+      return { ...shape, from: turn(shape.from), to: turn(shape.to) }
+  }
+}
+
 /**
  * A canonical description of how `art` looks after turning it clockwise by `turns`.
  * Two faces look identical exactly when their keys are equal — so blank faces match

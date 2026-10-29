@@ -3,6 +3,8 @@ import {
   IDENTITY,
   QUARTER_TURNS,
   apply,
+  cross,
+  equals,
   multiply,
   quarterTurn,
   type Matrix3,
@@ -11,7 +13,8 @@ import {
 
 export type Direction = 'up' | 'down' | 'left' | 'right'
 
-const DIRECTIONS: readonly Direction[] = ['up', 'right', 'down', 'left']
+/** Clockwise from up, so a quarter turn clockwise moves one place along. */
+export const DIRECTIONS: readonly Direction[] = ['up', 'right', 'down', 'left']
 
 export type Cell = readonly [col: number, row: number]
 
@@ -87,8 +90,11 @@ export function parseLayout(rows: readonly string[]): { id: string; cell: Cell }
   )
 }
 
-/** Folds a net into a cube, or throws `NetError` if the cells cannot form one. */
-export function foldNet(faces: readonly NetFace[]): FoldedCube {
+/**
+ * Folds a net into a cube, or throws `NetError` if the cells cannot form one.
+ * `rootId` names the face that stays put; by default it is the one with the most neighbours.
+ */
+export function foldNet(faces: readonly NetFace[], rootId?: string): FoldedCube {
   if (faces.length !== 6) {
     throw new NetError(`แผ่นคลี่ของลูกบาศก์ต้องมี 6 หน้า แต่พบ ${faces.length} หน้า`)
   }
@@ -112,7 +118,7 @@ export function foldNet(faces: readonly NetFace[]): FoldedCube {
     return { face, children }
   }
 
-  const root = build(pickRoot(faces, byCell), IDENTITY)
+  const root = build(rootId === undefined ? pickRoot(faces, byCell) : findFace(faces, rootId), IDENTITY)
 
   if (visited.size !== faces.length) {
     throw new NetError('ทุกหน้าของแผ่นคลี่ต้องต่อกันเป็นชิ้นเดียว')
@@ -130,6 +136,37 @@ function pickRoot(faces: readonly NetFace[], byCell: Map<string, NetFace>): NetF
   return faces.reduce((best, face) => (neighbours(face) > neighbours(best) ? face : best))
 }
 
+function findFace(faces: readonly NetFace[], id: string): NetFace {
+  const face = faces.find((f) => f.id === id)
+  if (!face) throw new NetError(`ไม่มีหน้า "${id}" ในแผ่นคลี่`)
+  return face
+}
+
+/** Where the side of a folded face points, in the root face's frame. */
+function sideDirection({ normal, up }: FoldedFace, side: Direction): Vec3 {
+  const right = cross(up, normal)
+  switch (side) {
+    case 'up':
+      return up
+    case 'right':
+      return right
+    case 'down':
+      return [-up[0], -up[1], -up[2]]
+    case 'left':
+      return [-right[0], -right[1], -right[2]]
+  }
+}
+
+/**
+ * The side of `face`, as laid out in the net, that touches `other` once folded.
+ * Throws if the two faces are opposite each other.
+ */
+export function sideFacing(face: FoldedFace, other: FoldedFace): Direction {
+  const side = DIRECTIONS.find((d) => equals(sideDirection(face, d), other.normal))
+  if (!side) throw new NetError(`หน้า "${face.face.id}" กับ "${other.face.id}" ไม่ได้ติดกัน`)
+  return side
+}
+
 function foldedFace(face: NetFace, orientation: Matrix3): FoldedFace {
   return {
     face,
@@ -139,11 +176,11 @@ function foldedFace(face: NetFace, orientation: Matrix3): FoldedFace {
   }
 }
 
-function step([col, row]: Cell, direction: Direction): Cell {
+export function step([col, row]: Cell, direction: Direction): Cell {
   const [dc, dr] = STEPS[direction]
   return [col + dc, row + dr]
 }
 
-function cellKey([col, row]: Cell): string {
+export function cellKey([col, row]: Cell): string {
   return `${col},${row}`
 }

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { appearanceKey, type Art } from './art'
+import { appearanceKey, turnArt, type Art } from './art'
 import { QUARTER_TURNS } from './geometry'
 
 const turnsOf = (art: Art) => QUARTER_TURNS.map((turns) => appearanceKey(art, turns))
@@ -63,5 +63,24 @@ describe('appearanceKey', () => {
     const dotTop: Art = [{ type: 'circle', cx: 50, cy: 10, r: 5, fill: 'black' }]
     const dotRight: Art = [{ type: 'circle', cx: 90, cy: 50, r: 5, fill: 'black' }]
     expect(appearanceKey(dotTop, 1)).toBe(appearanceKey(dotRight, 0))
+  })
+})
+
+describe('turnArt', () => {
+  const sampler: Art = [
+    { type: 'rect', x: 0, y: 50, w: 50, h: 30, fill: 'none' },
+    { type: 'circle', cx: 75, cy: 25, r: 8, fill: 'gray' },
+    { type: 'polygon', points: [[10, 10], [40, 10], [10, 30]], fill: 'black' },
+    { type: 'line', from: [0, 0], to: [100, 60] },
+  ]
+
+  it('draws what appearanceKey describes for every turn', () => {
+    for (const turns of QUARTER_TURNS) {
+      expect(appearanceKey(turnArt(sampler, turns), 0)).toBe(appearanceKey(sampler, turns))
+    }
+  })
+
+  it('keeps rectangles as rectangles inside the box', () => {
+    expect(turnArt([sampler[0]], 1)).toEqual([{ type: 'rect', x: 20, y: 0, w: 30, h: 50, fill: 'none' }])
   })
 })

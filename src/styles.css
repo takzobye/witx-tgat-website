@@ -68,6 +68,11 @@ body {
   @apply bg-canvas font-sans text-ink antialiased;
 }
 
+/* The page behind a modal dialog stays put. */
+html:has(dialog:modal) {
+  overflow: hidden;
+}
+
 /* A backdrop splash wandering back and forth; each sets `--drift-*` for its own path. */
 @utility animate-drift {
   animation: drift var(--drift-duration) ease-in-out infinite alternate;

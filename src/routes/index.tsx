@@ -4,7 +4,7 @@ import { questions } from '#/content/questions'
 import { formatPercent } from '#/progress/format'
 import { useProgress, type BankProgress } from '#/progress/use-progress'
 import { DifficultyProgress } from '#/components/dashboard/DifficultyProgress'
-import { LabCard, NextQuestionCard } from '#/components/dashboard/FeaturedCards'
+import { GuidedPracticeCard, NextQuestionCard } from '#/components/dashboard/FeaturedCards'
 import { QuestionShelf } from '#/components/dashboard/QuestionShelf'
 import { RecentAnswers } from '#/components/dashboard/RecentAnswers'
 import { WeeklyActivity } from '#/components/dashboard/WeeklyActivity'
@@ -25,7 +25,7 @@ function DashboardPage() {
         <Widget title="แนะนำสำหรับคุณ">
           <div className="grid flex-1 gap-2 sm:grid-cols-2">
             <NextQuestionCard progress={progress} />
-            <LabCard />
+            <GuidedPracticeCard />
           </div>
         </Widget>
         <DifficultyProgress progress={progress} />

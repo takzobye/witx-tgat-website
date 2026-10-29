@@ -1,14 +1,13 @@
 import { useFrame, useThree } from '@react-three/fiber'
 import { useCallback, useEffect, useMemo, useRef } from 'react'
-import { MathUtils, Matrix4, Quaternion, SRGBColorSpace, Vector3, type Group } from 'three'
-import type { Art } from '#/cube/art'
+import { MathUtils, Quaternion, Vector3, type Group } from 'three'
 import type { Matrix3 } from '#/cube/geometry'
 import { HINGES, type FoldChild, type FoldNode, type FoldedCube } from '#/cube/net'
-import { paintFace } from './paint-face'
+import { FacePanel } from './FacePanel'
+import { toQuaternion } from './quaternion'
 
 /** Higher settles faster. */
 const DAMPING = 4
-const INSIDE_COLOR = '#c7d2fe'
 const CUBE_CENTRE = new Vector3(0.5, -0.5, -0.5)
 const UNTURNED = new Quaternion()
 
@@ -78,7 +77,9 @@ export function FoldModel({ cube, fold, orientation }: FoldModelProps) {
 function FaceNode({ node, registerHinge }: { node: FoldNode; registerHinge: RegisterHinge }) {
   return (
     <>
-      <FacePanel art={node.face.art} />
+      <group position={[0.5, -0.5, 0]}>
+        <FacePanel art={node.face.art} />
+      </group>
       {node.children.map((child) => (
         <group
           key={child.face.id}
@@ -91,32 +92,6 @@ function FaceNode({ node, registerHinge }: { node: FoldNode; registerHinge: Regi
         </group>
       ))}
     </>
-  )
-}
-
-/** A unit face in its local frame (x ∈ [0, 1], y ∈ [-1, 0]): printed in front, plain behind. */
-function FacePanel({ art }: { art: Art }) {
-  const canvas = useMemo(() => paintFace(art), [art])
-  const anisotropy = useThree((state) => state.gl.capabilities.getMaxAnisotropy())
-
-  return (
-    <group position={[0.5, -0.5, 0]}>
-      <mesh>
-        <planeGeometry />
-        <meshStandardMaterial roughness={0.9}>
-          <canvasTexture
-            attach="map"
-            args={[canvas]}
-            colorSpace={SRGBColorSpace}
-            anisotropy={anisotropy}
-          />
-        </meshStandardMaterial>
-      </mesh>
-      <mesh rotation-y={Math.PI}>
-        <planeGeometry />
-        <meshStandardMaterial color={INSIDE_COLOR} roughness={0.9} />
-      </mesh>
-    </group>
   )
 }
 
@@ -134,11 +109,6 @@ function centreOfNet(cube: FoldedCube): Vector3 {
     rootRow - (Math.min(...rows) + Math.max(...rows) + 1) / 2,
     0,
   )
-}
-
-function toQuaternion([[a, b, c], [d, e, f], [g, h, i]]: Matrix3): Quaternion {
-  const rotation = new Matrix4().set(a, b, c, 0, d, e, f, 0, g, h, i, 0, 0, 0, 0, 1)
-  return new Quaternion().setFromRotationMatrix(rotation)
 }
 
 function settle(value: number, target: number): number {

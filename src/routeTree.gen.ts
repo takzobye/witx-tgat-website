@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as LabRouteImport } from './routes/lab'
+import { Route as LearnMethodIdRouteImport } from './routes/learn/$methodId'
 import { Route as QuestionsIndexRouteImport } from './routes/questions/index'
 import { Route as QuestionsQuestionIdRouteImport } from './routes/questions/$questionId'
 
@@ -22,6 +23,11 @@ const IndexRoute = IndexRouteImport.update({
 const LabRoute = LabRouteImport.update({
   id: '/lab',
   path: '/lab',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LearnMethodIdRoute = LearnMethodIdRouteImport.update({
+  id: '/learn/$methodId',
+  path: '/learn/$methodId',
   getParentRoute: () => rootRouteImport,
 } as any)
 const QuestionsIndexRoute = QuestionsIndexRouteImport.update({
@@ -38,12 +44,14 @@ const QuestionsQuestionIdRoute = QuestionsQuestionIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/lab': typeof LabRoute
+  '/learn/$methodId': typeof LearnMethodIdRoute
   '/questions/$questionId': typeof QuestionsQuestionIdRoute
   '/questions/': typeof QuestionsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/lab': typeof LabRoute
+  '/learn/$methodId': typeof LearnMethodIdRoute
   '/questions/$questionId': typeof QuestionsQuestionIdRoute
   '/questions': typeof QuestionsIndexRoute
 }
@@ -51,20 +59,30 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/lab': typeof LabRoute
+  '/learn/$methodId': typeof LearnMethodIdRoute
   '/questions/$questionId': typeof QuestionsQuestionIdRoute
   '/questions/': typeof QuestionsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/lab' | '/questions/$questionId' | '/questions/'
+  fullPaths:
+    '/' | '/lab' | '/learn/$methodId' | '/questions/$questionId' | '/questions/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/lab' | '/questions/$questionId' | '/questions'
-  id: '__root__' | '/' | '/lab' | '/questions/$questionId' | '/questions/'
+  to:
+    '/' | '/lab' | '/learn/$methodId' | '/questions/$questionId' | '/questions'
+  id:
+    | '__root__'
+    | '/'
+    | '/lab'
+    | '/learn/$methodId'
+    | '/questions/$questionId'
+    | '/questions/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   LabRoute: typeof LabRoute
+  LearnMethodIdRoute: typeof LearnMethodIdRoute
   QuestionsQuestionIdRoute: typeof QuestionsQuestionIdRoute
   QuestionsIndexRoute: typeof QuestionsIndexRoute
 }
@@ -83,6 +101,13 @@ declare module '@tanstack/react-router' {
       path: '/lab'
       fullPath: '/lab'
       preLoaderRoute: typeof LabRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/learn/$methodId': {
+      id: '/learn/$methodId'
+      path: '/learn/$methodId'
+      fullPath: '/learn/$methodId'
+      preLoaderRoute: typeof LearnMethodIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/questions/': {
@@ -105,6 +130,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   LabRoute: LabRoute,
+  LearnMethodIdRoute: LearnMethodIdRoute,
   QuestionsQuestionIdRoute: QuestionsQuestionIdRoute,
   QuestionsIndexRoute: QuestionsIndexRoute,
 }

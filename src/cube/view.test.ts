@@ -10,7 +10,15 @@ import {
 } from './geometry'
 import { foldNet, type FoldedCube } from './net'
 import { CUBE_NETS, netFromRows } from './test-nets'
-import { SLOT_FRAMES, canFold, matchView, type CubeView, type Slot, type SlotFace } from './view'
+import {
+  SLOT_FRAMES,
+  canFold,
+  matchView,
+  orientationShowing,
+  type CubeView,
+  type Slot,
+  type SlotFace,
+} from './view'
 
 /** Looks different in every rotation; the dot size makes each face unique. */
 const uniqueArt = (index: number): Art => [
@@ -68,5 +76,23 @@ describe('matchView', () => {
         expect(canFold(cube, { ...view, [slot]: { faceId: blank.id, art: blank.art, turns: 0 } })).toBe(true)
       }
     }
+  })
+})
+
+describe('orientationShowing', () => {
+  it('holds the cube with the named faces on top, left and right', () => {
+    for (const cube of cubes) {
+      for (const orientation of CUBE_ROTATIONS) {
+        const view = viewOf(cube, orientation)
+        const faces = { top: view.top.faceId, left: view.left.faceId, right: view.right.faceId }
+        expect(orientationShowing(cube, faces)).toEqual(orientation)
+      }
+    }
+  })
+
+  it('refuses a mirror image', () => {
+    const view = viewOf(cubes[0], CUBE_ROTATIONS[0])
+    const mirrored = { top: view.top.faceId, left: view.right.faceId, right: view.left.faceId }
+    expect(() => orientationShowing(cubes[0], mirrored)).toThrow()
   })
 })
