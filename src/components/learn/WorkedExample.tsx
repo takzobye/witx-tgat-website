@@ -86,7 +86,12 @@ export function WorkedExample({ example, held, onHold }: WorkedExampleProps) {
   )
 }
 
-function Verdict({ label, choice }: { label: string; choice: ExampleChoice }) {
+interface VerdictProps {
+  label: string
+  choice: ExampleChoice
+}
+
+function Verdict({ label, choice }: VerdictProps) {
   const { label: verdict, icon: Icon, panel } = VERDICTS[choice.verdict]
   return (
     <p

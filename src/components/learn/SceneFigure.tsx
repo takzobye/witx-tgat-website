@@ -9,8 +9,13 @@ const PLAYBACK = {
   replay: { icon: RotateCcw, label: 'เล่นอีกครั้ง' },
 } as const
 
+interface SceneFigureProps {
+  step: LessonStep
+  timeline: SceneTimeline
+}
+
 /** The step's scene playing in 3D, with its caption and controls to replay or step through it. */
-export function SceneFigure({ step, timeline }: { step: LessonStep; timeline: SceneTimeline }) {
+export function SceneFigure({ step, timeline }: SceneFigureProps) {
   const { pose, index, count, playing, held } = timeline
   const playback = PLAYBACK[playing ? 'pause' : held || index < count - 1 ? 'resume' : 'replay']
 

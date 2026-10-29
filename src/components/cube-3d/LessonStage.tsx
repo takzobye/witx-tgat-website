@@ -68,16 +68,15 @@ export default function LessonStage({ sceneId, arts, pose, onArrive }: LessonSta
   )
 }
 
-/** Aims the camera so the whole pose fits, each time the pose, the canvas shape or `reframes` changes. */
-function Framing({
-  controls,
-  pose,
-  reframes,
-}: {
+interface FramingProps {
   controls: CameraControls | null
   pose: Pose
+  /** Bumped to bring the camera back. */
   reframes: number
-}) {
+}
+
+/** Aims the camera so the whole pose fits, each time the pose, the canvas shape or `reframes` changes. */
+function Framing({ controls, pose, reframes }: FramingProps) {
   const aspect = useThree((state) => state.size.width / state.size.height)
   const state = useMemo(() => stageState(pose), [pose])
 

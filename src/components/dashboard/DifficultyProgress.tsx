@@ -1,11 +1,11 @@
-import { HardDrive, SignalHigh, SignalLow, SignalMedium } from 'lucide-react'
+import { HardDrive, SignalHigh, SignalLow, SignalMedium, type LucideIcon } from 'lucide-react'
 import { DIFFICULTIES, DIFFICULTY_LABELS, type Difficulty } from '#/cube/question'
 import { clearAttempts } from '#/progress/attempts'
 import type { BankProgress } from '#/progress/use-progress'
 import { Skeleton } from '#/components/ui/Skeleton'
 import { Widget } from './Widget'
 
-const LEVELS = {
+const LEVELS: Record<Difficulty, { icon: LucideIcon; tile: string; bar: string }> = {
   easy: {
     icon: SignalLow,
     tile: 'bg-emerald-50 text-emerald-600 dark:bg-emerald-400/10 dark:text-emerald-400',
@@ -21,7 +21,7 @@ const LEVELS = {
     tile: 'bg-rose-50 text-rose-600 dark:bg-rose-400/10 dark:text-rose-400',
     bar: 'bg-rose-500',
   },
-} as const satisfies Record<Difficulty, unknown>
+}
 
 export function DifficultyProgress({ progress }: { progress: BankProgress | null }) {
   const clear = () => {

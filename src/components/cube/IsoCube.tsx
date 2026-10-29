@@ -41,8 +41,13 @@ const SLOT_OUTLINE = mapSlots(({ origin, u, v }) =>
 const WIDTH = 2 * COS_30 * ART_SIZE + 2 * PADDING
 const HEIGHT = 2 * ART_SIZE + 2 * PADDING
 
+interface IsoCubeProps {
+  view: CubeView
+  className?: string
+}
+
 /** A cube drawn in isometric view, the way answer choices appear in the exam. */
-export function IsoCube({ view, className }: { view: CubeView; className?: string }) {
+export function IsoCube({ view, className }: IsoCubeProps) {
   return (
     <svg
       viewBox={`${-WIDTH / 2} ${-HEIGHT / 2} ${WIDTH} ${HEIGHT}`}

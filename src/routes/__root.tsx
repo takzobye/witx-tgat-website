@@ -1,11 +1,11 @@
 import { HeadContent, Link, Scripts, createRootRoute } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
+import type { ReactNode } from 'react'
+import { CANVAS_COLORS, readThemePreference } from '#/theme/theme'
+import appCss from '#/styles.css?url'
 import { AppBackdrop } from '#/components/layout/AppBackdrop'
 import { AppNav } from '#/components/layout/AppNav'
-import { CANVAS_COLORS, readThemePreference } from '#/theme/theme'
-
-import appCss from '#/styles.css?url'
 
 export const Route = createRootRoute({
   loader: () => ({ theme: readThemePreference() }),
@@ -30,7 +30,7 @@ export const Route = createRootRoute({
   notFoundComponent: NotFound,
 })
 
-function RootDocument({ children }: { children: React.ReactNode }) {
+function RootDocument({ children }: { children: ReactNode }) {
   const { theme } = Route.useLoaderData()
 
   return (

@@ -1,11 +1,11 @@
-import { useId } from 'react'
+import { useId, type ReactNode } from 'react'
 
 interface WidgetProps {
   title: string
   /** Shown opposite the title, e.g. a count or a small action. */
-  aside?: React.ReactNode
+  aside?: ReactNode
   className?: string
-  children: React.ReactNode
+  children: ReactNode
 }
 
 /** A titled tray of cards; stretches to the height of its grid row. */

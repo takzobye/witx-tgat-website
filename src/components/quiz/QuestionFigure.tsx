@@ -1,4 +1,4 @@
-import { Box, Grid2x2 } from 'lucide-react'
+import { Box, Grid2x2, type LucideIcon } from 'lucide-react'
 import type { FoldedCube, NetFace } from '#/cube/net'
 import { CHOICE_LABELS } from '#/cube/question'
 import { matchView, type CubeView, type ViewMatch } from '#/cube/view'
@@ -15,7 +15,7 @@ interface QuestionFigureProps {
   showFaceIds?: boolean
 }
 
-const MODES: { value: FigureMode; label: string; icon: typeof Box }[] = [
+const MODES: { value: FigureMode; label: string; icon: LucideIcon }[] = [
   { value: 'net', label: 'แผ่นคลี่', icon: Grid2x2 },
   { value: '3d', label: 'พับ 3D', icon: Box },
 ]

@@ -75,8 +75,13 @@ export function WeeklyActivity({ progress }: { progress: BankProgress | null }) 
   )
 }
 
-/** `share` is the day's answers relative to the busiest day, from 0 to 1. */
-function DayBar({ share, highlight }: { share: number; highlight: boolean }) {
+interface DayBarProps {
+  /** The day's answers relative to the busiest day, from 0 to 1. */
+  share: number
+  highlight: boolean
+}
+
+function DayBar({ share, highlight }: DayBarProps) {
   return (
     <div className="relative h-16 w-full max-w-5 overflow-hidden rounded-md bg-fill">
       {share > 0 && (
