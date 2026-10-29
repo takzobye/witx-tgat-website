@@ -31,12 +31,26 @@ export const quickCut = defineMethod({
         ...LONG_HOOK,
         poses: [
           { note: 'ในแถว: B เว้น 1 ช่องถึง D', opposite: [['B', 'D']] },
-          { note: 'C เว้น 1 ช่องถึง E', opposite: [['B', 'D'], ['C', 'E']] },
+          {
+            note: 'C เว้น 1 ช่องถึง E',
+            opposite: [
+              ['B', 'D'],
+              ['C', 'E'],
+            ],
+          },
           {
             note: 'A กับ F ยื่นออกคนละฝั่งของแถว จึงเป็นคู่ตรงข้าม',
-            opposite: [['B', 'D'], ['C', 'E'], ['A', 'F']],
+            opposite: [
+              ['B', 'D'],
+              ['C', 'E'],
+              ['A', 'F'],
+            ],
           },
-          { note: 'พับแล้ว แต่ละสีเห็นได้ทีละหน้าเสมอ', fold: 1, view: { top: 'A', left: 'C', right: 'D' } },
+          {
+            note: 'พับแล้ว แต่ละสีเห็นได้ทีละหน้าเสมอ',
+            fold: 1,
+            view: { top: 'A', left: 'C', right: 'D' },
+          },
         ],
       },
     },
@@ -55,7 +69,11 @@ export const quickCut = defineMethod({
             note: 'หมุนดูกล่องจริง: คู่ตรงข้ามไม่เคยโผล่พร้อมกัน',
             fold: 1,
             view: { top: 'A', left: 'C', right: 'D' },
-            opposite: [['B', 'D'], ['C', 'E'], ['A', 'F']],
+            opposite: [
+              ['B', 'D'],
+              ['C', 'E'],
+              ['A', 'F'],
+            ],
           },
           { note: 'หันไปอีกด้าน ก็ยังเห็นสีละหน้า', view: { top: 'A', left: 'E', right: 'B' } },
           { note: 'พลิกกลับหัวก็เช่นกัน', view: { top: 'F', left: 'C', right: 'B' } },
@@ -64,9 +82,21 @@ export const quickCut = defineMethod({
       example: {
         prompt: 'ใช้คู่ตรงข้ามตัดก่อน ข้อไหนตัดทิ้งได้ทันที',
         choices: [
-          { view: { top: 'A', left: 'B', right: 'D' }, verdict: 'cut', reason: 'B กับ D เป็นคู่ตรงข้าม' },
-          { view: { top: 'F', left: 'C', right: 'A' }, verdict: 'cut', reason: 'A กับ F เป็นคู่ตรงข้าม' },
-          { view: { top: 'A', left: 'C', right: 'D' }, verdict: 'keep', reason: 'ไม่มีคู่ตรงข้าม และตรงกับกล่องจริง' },
+          {
+            view: { top: 'A', left: 'B', right: 'D' },
+            verdict: 'cut',
+            reason: 'B กับ D เป็นคู่ตรงข้าม',
+          },
+          {
+            view: { top: 'F', left: 'C', right: 'A' },
+            verdict: 'cut',
+            reason: 'A กับ F เป็นคู่ตรงข้าม',
+          },
+          {
+            view: { top: 'A', left: 'C', right: 'D' },
+            verdict: 'keep',
+            reason: 'ไม่มีคู่ตรงข้าม และตรงกับกล่องจริง',
+          },
         ],
       },
     },
@@ -93,7 +123,11 @@ export const quickCut = defineMethod({
             verdict: 'cut',
             reason: 'หัวลูกศรชี้ลง หนีจาก A',
           },
-          { view: { top: 'A', left: 'C', right: 'D' }, verdict: 'keep', reason: 'หัวลูกศรชี้ขึ้นหา A ถูกต้อง' },
+          {
+            view: { top: 'A', left: 'C', right: 'D' },
+            verdict: 'keep',
+            reason: 'หัวลูกศรชี้ขึ้นหา A ถูกต้อง',
+          },
           {
             view: { top: 'A', left: { face: 'C', rotate: 270 }, right: 'D' },
             verdict: 'cut',
@@ -133,7 +167,11 @@ export const quickCut = defineMethod({
           { note: 'แขนซ้าย A กับแขนขวา C เป็นคู่ตรงข้าม', opposite: [['A', 'C']] },
           {
             note: 'แกนกลาง B D E F: เว้น 1 ช่อง = ตรงข้าม',
-            opposite: [['A', 'C'], ['B', 'E'], ['D', 'F']],
+            opposite: [
+              ['A', 'C'],
+              ['B', 'E'],
+              ['D', 'F'],
+            ],
           },
           { note: 'พับแล้ว สีเดียวกันอยู่ตรงข้ามกันครบ 3 คู่', fold: 1 },
         ],
@@ -151,8 +189,21 @@ export const quickCut = defineMethod({
         ...STAIRS,
         poses: [
           { note: 'ตัว Z แรก A B C D: ปลาย A กับ D ตรงข้ามกัน', opposite: [['A', 'D']] },
-          { note: 'Z ถัดไป B C D E: B กับ E', opposite: [['A', 'D'], ['B', 'E']] },
-          { note: 'Z สุดท้าย C D E F: C กับ F', opposite: [['A', 'D'], ['B', 'E'], ['C', 'F']] },
+          {
+            note: 'Z ถัดไป B C D E: B กับ E',
+            opposite: [
+              ['A', 'D'],
+              ['B', 'E'],
+            ],
+          },
+          {
+            note: 'Z สุดท้าย C D E F: C กับ F',
+            opposite: [
+              ['A', 'D'],
+              ['B', 'E'],
+              ['C', 'F'],
+            ],
+          },
           { note: 'พับแล้ว สีเดียวกันอยู่ตรงข้ามกันหมด', fold: 1 },
         ],
       },

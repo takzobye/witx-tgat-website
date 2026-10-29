@@ -56,7 +56,10 @@ describe('planTransition', () => {
 })
 
 describe('segmentFrames', () => {
-  const { poses } = scene({ note: 'flat' }, { note: 'rolled', move: { face: 'A', from: 'C', onto: 'D' } })
+  const { poses } = scene(
+    { note: 'flat' },
+    { note: 'rolled', move: { face: 'A', from: 'C', onto: 'D' } },
+  )
   const [move] = planTransition(stageState(poses[0]), stageState(poses[1]))
 
   it('starts and ends exactly where the two states are', () => {

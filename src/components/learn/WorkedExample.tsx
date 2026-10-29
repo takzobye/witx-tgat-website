@@ -73,7 +73,10 @@ export function WorkedExample({ example, held, onHold }: WorkedExampleProps) {
 function Verdict({ label, choice }: { label: string; choice: ExampleChoice }) {
   const { label: verdict, icon: Icon, tone } = VERDICTS[choice.verdict]
   return (
-    <p role="status" className={`mt-4 flex items-start gap-2 rounded-2xl border px-4 py-3 text-sm ${tone.panel}`}>
+    <p
+      role="status"
+      className={`mt-4 flex items-start gap-2 rounded-2xl border px-4 py-3 text-sm ${tone.panel}`}
+    >
       <Icon className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
       <span>
         <span className="font-semibold">

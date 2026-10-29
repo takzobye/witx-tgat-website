@@ -13,11 +13,13 @@ import { Skeleton } from '#/components/ui/Skeleton'
 import { surfaceStyles } from '#/components/ui/surface-styles'
 import { toneStyles } from '#/components/ui/tone-styles'
 
-const TAG = 'inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ring-1 ring-inset'
+const TAG =
+  'inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ring-1 ring-inset'
 
 const MEDIA_TONES = {
   brand: 'bg-linear-to-br from-brand-50 to-cyan-100 dark:from-brand-500/20 dark:to-cyan-500/10',
-  emerald: 'bg-linear-to-br from-emerald-50 to-teal-100 dark:from-emerald-500/20 dark:to-teal-500/10',
+  emerald:
+    'bg-linear-to-br from-emerald-50 to-teal-100 dark:from-emerald-500/20 dark:to-teal-500/10',
   amber: 'bg-linear-to-br from-amber-50 to-orange-100 dark:from-amber-500/20 dark:to-orange-500/10',
 } as const
 

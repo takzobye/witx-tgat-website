@@ -22,7 +22,13 @@ export interface FoldStageProps {
   caption?: string
 }
 
-export default function FoldStage({ cube, fold, onFoldChange, orientation, caption }: FoldStageProps) {
+export default function FoldStage({
+  cube,
+  fold,
+  onFoldChange,
+  orientation,
+  caption,
+}: FoldStageProps) {
   // Kept in state: the controls mount inside the canvas after this component does,
   // and the camera can only be aimed once they exist.
   const [controls, setControls] = useState<CameraControls | null>(null)

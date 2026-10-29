@@ -118,7 +118,10 @@ export function foldNet(faces: readonly NetFace[], rootId?: string): FoldedCube 
     return { face, children }
   }
 
-  const root = build(rootId === undefined ? pickRoot(faces, byCell) : findFace(faces, rootId), IDENTITY)
+  const root = build(
+    rootId === undefined ? pickRoot(faces, byCell) : findFace(faces, rootId),
+    IDENTITY,
+  )
 
   if (visited.size !== faces.length) {
     throw new NetError('ทุกหน้าของแผ่นคลี่ต้องต่อกันเป็นชิ้นเดียว')

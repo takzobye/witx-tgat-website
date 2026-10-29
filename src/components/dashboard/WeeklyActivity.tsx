@@ -5,7 +5,11 @@ import { surfaceStyles } from '#/components/ui/surface-styles'
 import { Widget } from './Widget'
 
 const shortDay = new Intl.DateTimeFormat('th-TH', { weekday: 'narrow' })
-const longDay = new Intl.DateTimeFormat('th-TH', { weekday: 'long', day: 'numeric', month: 'short' })
+const longDay = new Intl.DateTimeFormat('th-TH', {
+  weekday: 'long',
+  day: 'numeric',
+  month: 'short',
+})
 
 export function WeeklyActivity({ progress }: { progress: BankProgress | null }) {
   const week = progress?.week
@@ -28,7 +32,10 @@ export function WeeklyActivity({ progress }: { progress: BankProgress | null }) 
             </>
           )}
         </div>
-        <ol aria-label="จำนวนครั้งที่ตอบในแต่ละวัน" className="flex flex-1 items-end justify-between gap-1.5">
+        <ol
+          aria-label="จำนวนครั้งที่ตอบในแต่ละวัน"
+          className="flex flex-1 items-end justify-between gap-1.5"
+        >
           {week
             ? week.map(({ day, answered: count }, index) => {
                 const today = index === week.length - 1

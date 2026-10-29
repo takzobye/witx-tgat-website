@@ -62,7 +62,10 @@ describe('matchView', () => {
 
   it('reports how close a wrong drawing comes', () => {
     const view = viewOf(cubes[0], CUBE_ROTATIONS[5])
-    const turned: CubeView = { ...view, top: { ...view.top, turns: QUARTER_TURNS[(view.top.turns + 1) % 4] } }
+    const turned: CubeView = {
+      ...view,
+      top: { ...view.top, turns: QUARTER_TURNS[(view.top.turns + 1) % 4] },
+    }
     expect(matchView(cubes[0], turned).matchedSlots).toBe(2)
   })
 
@@ -73,7 +76,9 @@ describe('matchView', () => {
     for (const slot of ['top', 'left', 'right'] as const) {
       if (view[slot].art.length > 0) continue
       for (const blank of blanks) {
-        expect(canFold(cube, { ...view, [slot]: { faceId: blank.id, art: blank.art, turns: 0 } })).toBe(true)
+        expect(
+          canFold(cube, { ...view, [slot]: { faceId: blank.id, art: blank.art, turns: 0 } }),
+        ).toBe(true)
       }
     }
   })

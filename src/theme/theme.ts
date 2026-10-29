@@ -13,9 +13,13 @@ export type Theme = z.output<typeof themeSchema>
 export type ThemePreference = Theme | null
 
 /** Page background per theme, for the browser's toolbar. Matches `--color-canvas` in styles.css. */
-export const CANVAS_COLORS = { light: '#f7f6f3', dark: '#0e0d0c' } as const satisfies Record<Theme, string>
+export const CANVAS_COLORS = { light: '#f7f6f3', dark: '#0e0d0c' } as const satisfies Record<
+  Theme,
+  string
+>
 
-const parse = (value: string | undefined): ThemePreference => themeSchema.safeParse(value).data ?? null
+const parse = (value: string | undefined): ThemePreference =>
+  themeSchema.safeParse(value).data ?? null
 
 /**
  * Read from a cookie rather than browser storage, so the server renders the chosen theme

@@ -1,7 +1,13 @@
 import { describe, expect, it } from 'vitest'
 import type { Art } from './art'
 import { CUBE_ROTATIONS, apply, clockwiseTurns, equals } from './geometry'
-import { arrange, foldArrangement, reattach, sameArrangement, type Arrangement } from './arrangement'
+import {
+  arrange,
+  foldArrangement,
+  reattach,
+  sameArrangement,
+  type Arrangement,
+} from './arrangement'
 import { NetError, type FoldedCube } from './net'
 import { CUBE_NETS } from './test-nets'
 
@@ -83,12 +89,16 @@ describe('reattach', () => {
 
   it('refuses faces that are not neighbours in the net', () => {
     const start = arrange(['.A..', 'BCDE', '.F..'])
-    expect(() => reattach(start, fold(start), { face: 'A', from: 'D', onto: 'B' })).toThrow(NetError)
+    expect(() => reattach(start, fold(start), { face: 'A', from: 'D', onto: 'B' })).toThrow(
+      NetError,
+    )
   })
 
   it('refuses to hang a face from the face opposite it', () => {
     const start = arrange(['.A..', 'BCDE', '.F..'])
-    expect(() => reattach(start, fold(start), { face: 'A', from: 'C', onto: 'F' })).toThrow(NetError)
+    expect(() => reattach(start, fold(start), { face: 'A', from: 'C', onto: 'F' })).toThrow(
+      NetError,
+    )
   })
 })
 

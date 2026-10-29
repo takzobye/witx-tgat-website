@@ -30,7 +30,10 @@ function parse(source: string): Parsed {
   try {
     json = JSON.parse(source)
   } catch (error) {
-    return { status: 'syntax-error', message: error instanceof Error ? error.message : String(error) }
+    return {
+      status: 'syntax-error',
+      message: error instanceof Error ? error.message : String(error),
+    }
   }
   const result = questionDraftSchema.safeParse(json)
   if (!result.success) {
@@ -74,7 +77,9 @@ function LabPage() {
         <p className="mt-3 leading-relaxed text-ink-soft">
           เขียนโจทย์เป็น JSON แล้วดูผลได้ทันที ระบบจะพับแผ่นคลี่และบอกว่าตัวเลือกไหนพับได้จริง
           เมื่อเรียบร้อยแล้วให้บันทึกเป็นไฟล์ใหม่ใน{' '}
-          <code className="rounded bg-fill-strong/70 px-1.5 py-0.5 text-sm">src/content/questions/</code>{' '}
+          <code className="rounded bg-fill-strong/70 px-1.5 py-0.5 text-sm">
+            src/content/questions/
+          </code>{' '}
           ชื่อไฟล์จะเป็นทั้งลำดับและ URL ของโจทย์
         </p>
       </header>
@@ -101,7 +106,11 @@ function LabPage() {
             </label>
             <div className="flex items-center gap-1">
               <button type="button" onClick={copy} className={TOOLBAR_BUTTON}>
-                {copied ? <Check className={`size-4 ${toneStyles.emerald.text}`} /> : <Copy className="size-4" />}
+                {copied ? (
+                  <Check className={`size-4 ${toneStyles.emerald.text}`} />
+                ) : (
+                  <Copy className="size-4" />
+                )}
                 {copied ? 'คัดลอกแล้ว' : 'คัดลอก'}
               </button>
               <button type="button" onClick={download} className={TOOLBAR_BUTTON}>
@@ -152,7 +161,11 @@ function StatusBanner({ parsed }: { parsed: Parsed }) {
       <ul className="mt-1 list-disc space-y-1 pl-5 text-sm">
         {parsed.issues.map(({ path, message }, i) => (
           <li key={i}>
-            {path && <code className="mr-1.5 rounded bg-rose-100 px-1 py-0.5 dark:bg-rose-400/15">{path}</code>}
+            {path && (
+              <code className="mr-1.5 rounded bg-rose-100 px-1 py-0.5 dark:bg-rose-400/15">
+                {path}
+              </code>
+            )}
             {message}
           </li>
         ))}
@@ -244,27 +257,24 @@ function FormatGuide() {
       <dl className="mt-4 grid gap-x-8 gap-y-4 text-sm leading-relaxed text-ink-soft md:grid-cols-[10rem_1fr]">
         <dt className="font-mono font-semibold text-ink">layout</dt>
         <dd>
-          วาดแผ่นคลี่เป็นแถวตัวอักษร 1 ตัวต่อ 1 หน้า (A–Z หรือตัวเลข) และใช้ <code>.</code>{' '}
-          แทนช่องว่าง ต้องมี 6 หน้าที่พับเป็นลูกบาศก์ได้จริง เช่น{' '}
-          <code>["A...", "BCDE", ".F.."]</code>
+          วาดแผ่นคลี่เป็นแถวตัวอักษร 1 ตัวต่อ 1 หน้า (A–Z หรือตัวเลข) และใช้ <code>.</code> แทนช่องว่าง ต้องมี 6
+          หน้าที่พับเป็นลูกบาศก์ได้จริง เช่น <code>["A...", "BCDE", ".F.."]</code>
         </dd>
         <dt className="font-mono font-semibold text-ink">faces</dt>
         <dd>
           ลวดลายของแต่ละหน้า วาดในกรอบ 100×100 โดยมุมซ้ายบนคือ (0, 0) และมองจากด้านนอกกล่อง
-          หน้าที่ไม่ได้ใส่จะเป็นหน้าว่าง รูปที่ใช้ได้:{' '}
-          <code>{'{ "type": "rect", "x", "y", "w", "h" }'}</code>,{' '}
+          หน้าที่ไม่ได้ใส่จะเป็นหน้าว่าง รูปที่ใช้ได้: <code>{'{ "type": "rect", "x", "y", "w", "h" }'}</code>,{' '}
           <code>{'{ "type": "circle", "cx", "cy", "r" }'}</code>,{' '}
           <code>{'{ "type": "polygon", "points": [[x, y], …] }'}</code>,{' '}
-          <code>{'{ "type": "line", "from": [x, y], "to": [x, y] }'}</code> ใส่{' '}
-          <code>"fill"</code> เป็น <code>"black"</code> (ค่าเริ่มต้น), <code>"gray"</code> หรือ{' '}
-          <code>"none"</code> (เส้นขอบอย่างเดียว)
+          <code>{'{ "type": "line", "from": [x, y], "to": [x, y] }'}</code> ใส่ <code>"fill"</code>{' '}
+          เป็น <code>"black"</code> (ค่าเริ่มต้น), <code>"gray"</code> หรือ <code>"none"</code>{' '}
+          (เส้นขอบอย่างเดียว)
         </dd>
         <dt className="font-mono font-semibold text-ink">choices</dt>
         <dd>
-          ตัวเลือก 2–5 ข้อ แต่ละข้อบอกหน้าที่เห็นด้าน <code>top</code>, <code>left</code>,{' '}
-          <code>right</code> เขียนเป็น <code>"A"</code> หรือ{' '}
-          <code>{'{ "face": "A", "rotate": 90 }'}</code> (หมุนตามเข็มนาฬิกา) ถ้าไม่หมุน
-          ลายด้านซ้ายและขวาจะตั้งตรง ส่วนด้านบนจะวางเหมือนพับขึ้นมาจากหน้าด้านซ้าย
+          ตัวเลือก 2–5 ข้อ แต่ละข้อบอกหน้าที่เห็นด้าน <code>top</code>, <code>left</code>, <code>right</code>{' '}
+          เขียนเป็น <code>"A"</code> หรือ <code>{'{ "face": "A", "rotate": 90 }'}</code>{' '}
+          (หมุนตามเข็มนาฬิกา) ถ้าไม่หมุน ลายด้านซ้ายและขวาจะตั้งตรง ส่วนด้านบนจะวางเหมือนพับขึ้นมาจากหน้าด้านซ้าย
           สลับไปดู 3D เพื่อเช็กว่าหน้าตาตรงกับที่ตั้งใจไว้
         </dd>
         <dt className="font-mono font-semibold text-ink">ask</dt>

@@ -18,8 +18,11 @@ export const Route = createFileRoute('/learn/$methodId')({
   loader: ({ params }) => {
     const index = methods.findIndex((method) => method.id === params.methodId)
     if (index === -1) throw notFound()
-    const practiceIndex = questions.findIndex((question) => question.id === methods[index].practiceId)
-    if (practiceIndex === -1) throw new Error(`Practice question "${methods[index].practiceId}" is missing`)
+    const practiceIndex = questions.findIndex(
+      (question) => question.id === methods[index].practiceId,
+    )
+    if (practiceIndex === -1)
+      throw new Error(`Practice question "${methods[index].practiceId}" is missing`)
     return { index, practiceIndex }
   },
   head: ({ loaderData }) => ({
@@ -82,7 +85,10 @@ function LessonPage() {
   return (
     <div className="py-6 sm:py-10">
       <nav className="flex items-center justify-between gap-4 text-sm">
-        <Link to="/" className="inline-flex items-center gap-1.5 text-ink-muted transition hover:text-ink">
+        <Link
+          to="/"
+          className="inline-flex items-center gap-1.5 text-ink-muted transition hover:text-ink"
+        >
           <ArrowLeft className="size-4" aria-hidden="true" /> หน้าหลัก
         </Link>
         <button

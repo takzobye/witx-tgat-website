@@ -53,9 +53,7 @@ const shapeSchema = z.discriminatedUnion('type', [
   z.strictObject({ type: z.literal('line'), from: point, to: point }),
 ])
 
-const faceIdSchema = z
-  .string()
-  .regex(/^[A-Za-z0-9]$/, 'ชื่อหน้าต้องเป็นตัวอักษร A–Z หรือตัวเลข 1 ตัว')
+const faceIdSchema = z.string().regex(/^[A-Za-z0-9]$/, 'ชื่อหน้าต้องเป็นตัวอักษร A–Z หรือตัวเลข 1 ตัว')
 
 /** `"A"` or `{ "face": "A", "rotate": 90 }` — rotation is clockwise, in degrees. */
 const slotRefSchema = z.union([

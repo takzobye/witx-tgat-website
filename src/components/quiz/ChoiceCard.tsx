@@ -46,8 +46,12 @@ export function ChoiceCard({ label, view, state, pressed, onClick, footer }: Cho
       >
         {label}
       </span>
-      {state === 'correct' && <Check className={`absolute top-3 right-3 size-5 ${toneStyles.emerald.text}`} />}
-      {state === 'wrong' && <X className={`absolute top-3 right-3 size-5 ${toneStyles.rose.text}`} />}
+      {state === 'correct' && (
+        <Check className={`absolute top-3 right-3 size-5 ${toneStyles.emerald.text}`} />
+      )}
+      {state === 'wrong' && (
+        <X className={`absolute top-3 right-3 size-5 ${toneStyles.rose.text}`} />
+      )}
       <IsoCube view={view} className="mt-4 h-28 w-full sm:h-36" />
       <span className="mt-2 flex h-5 items-center text-xs font-medium">{footer}</span>
     </button>

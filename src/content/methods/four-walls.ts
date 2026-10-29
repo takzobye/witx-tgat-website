@@ -55,7 +55,14 @@ export const fourWalls = defineMethod({
       scene: {
         ...CROSS,
         poses: [
-          { note: 'สีเดียวกัน = คู่ตรงข้าม', opposite: [['B', 'D'], ['C', 'E'], ['A', 'F']] },
+          {
+            note: 'สีเดียวกัน = คู่ตรงข้าม',
+            opposite: [
+              ['B', 'D'],
+              ['C', 'E'],
+              ['A', 'F'],
+            ],
+          },
           { note: 'พับแล้ว แต่ละสีเห็นได้ทีละหน้า', fold: 1, view: { top: 'A', left: 'C', right: 'D' } },
           { note: 'พลิกดูมุมไหน สีเดียวกันก็ไม่โผล่พร้อมกัน', view: { top: 'F', left: 'C', right: 'B' } },
         ],
@@ -63,9 +70,21 @@ export const fourWalls = defineMethod({
       example: {
         prompt: 'ข้อไหนตัดทิ้งได้ทันทีด้วยกฎด้านตรงข้าม',
         choices: [
-          { view: { top: 'A', left: 'B', right: 'D' }, verdict: 'cut', reason: 'B กับ D เว้นกัน 1 ช่อง เป็นคู่ตรงข้าม' },
-          { view: { top: 'A', left: 'C', right: 'D' }, verdict: 'keep', reason: 'ไม่มีคู่ตรงข้าม และตรงกับกล่องจริง' },
-          { view: { top: 'A', left: 'E', right: 'C' }, verdict: 'cut', reason: 'C กับ E เว้นกัน 1 ช่อง เป็นคู่ตรงข้าม' },
+          {
+            view: { top: 'A', left: 'B', right: 'D' },
+            verdict: 'cut',
+            reason: 'B กับ D เว้นกัน 1 ช่อง เป็นคู่ตรงข้าม',
+          },
+          {
+            view: { top: 'A', left: 'C', right: 'D' },
+            verdict: 'keep',
+            reason: 'ไม่มีคู่ตรงข้าม และตรงกับกล่องจริง',
+          },
+          {
+            view: { top: 'A', left: 'E', right: 'C' },
+            verdict: 'cut',
+            reason: 'C กับ E เว้นกัน 1 ช่อง เป็นคู่ตรงข้าม',
+          },
         ],
       },
     },
@@ -82,7 +101,15 @@ export const fourWalls = defineMethod({
         poses: [
           { note: 'หัวลูกศรของ C ชี้ไปที่ขอบที่ต่อกับ A', meet: [['C', 'A']] },
           { note: 'พับแล้วหัวลูกศรก็ยังชี้หา A', fold: 1, view: { top: 'A', left: 'C', right: 'D' } },
-          { note: 'ขอบของ A ยังไปชนกับ B และ D ด้วย', fold: 0, view: null, meet: [['A', 'B'], ['A', 'D']] },
+          {
+            note: 'ขอบของ A ยังไปชนกับ B และ D ด้วย',
+            fold: 0,
+            view: null,
+            meet: [
+              ['A', 'B'],
+              ['A', 'D'],
+            ],
+          },
           { note: 'ขอบสีเดียวกันมาประกบกันพอดี', fold: 1, view: { top: 'A', left: 'B', right: 'C' } },
         ],
       },
@@ -99,7 +126,11 @@ export const fourWalls = defineMethod({
             verdict: 'cut',
             reason: 'ลูกศรชี้ไปทาง D แต่ในแผ่นคลี่ต้องชี้หา A',
           },
-          { view: { top: 'A', left: 'C', right: 'D' }, verdict: 'keep', reason: 'หัวลูกศรชี้เข้าหา A ตรงกับแผ่นคลี่' },
+          {
+            view: { top: 'A', left: 'C', right: 'D' },
+            verdict: 'keep',
+            reason: 'หัวลูกศรชี้เข้าหา A ตรงกับแผ่นคลี่',
+          },
         ],
       },
     },
@@ -120,7 +151,11 @@ export const fourWalls = defineMethod({
             meet: [['B', 'E']],
           },
           { note: 'ยก B กับ A ไปต่อท้าย E โดยไม่กลับหัว', move: { face: 'B', from: 'C', onto: 'E' } },
-          { note: 'พับแล้วได้กล่องเดิม เห็น B ติดกับ E ชัด ๆ', fold: 1, view: { top: 'A', left: 'E', right: 'B' } },
+          {
+            note: 'พับแล้วได้กล่องเดิม เห็น B ติดกับ E ชัด ๆ',
+            fold: 1,
+            view: { top: 'A', left: 'E', right: 'B' },
+          },
         ],
       },
     },
@@ -161,12 +196,19 @@ export const fourWalls = defineMethod({
           },
           {
             note: 'เลือก C เป็นผนังหน้า ผนังหลังคือหน้าตรงข้าม F',
-            opposite: [['E', 'B'], ['C', 'F']],
+            opposite: [
+              ['E', 'B'],
+              ['C', 'F'],
+            ],
             labels: { E: 'พื้น', B: 'เพดาน', C: 'ผนังหน้า', F: 'ผนังหลัง' },
           },
           {
             note: 'ที่เหลือ A กับ D คือผนังข้างสองฝั่ง',
-            opposite: [['E', 'B'], ['C', 'F'], ['A', 'D']],
+            opposite: [
+              ['E', 'B'],
+              ['C', 'F'],
+              ['A', 'D'],
+            ],
             labels: { E: 'พื้น', B: 'เพดาน', C: 'ผนังหน้า', F: 'ผนังหลัง', A: 'ผนังข้าง', D: 'ผนังข้าง' },
           },
           { note: 'พับแล้วทุกหน้าอยู่ตรงตำแหน่งในห้อง', fold: 1 },

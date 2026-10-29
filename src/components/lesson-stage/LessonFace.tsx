@@ -35,12 +35,13 @@ const EDGE_LIFT = 0.004
 const LABEL_LIFT = 0.03
 
 /** Where a side's mark sits on the unit panel, and its size. */
-const EDGE_BARS: Record<Direction, { position: [number, number, number]; size: [number, number] }> = {
-  up: { position: [0, 0.5 - EDGE_WIDTH / 2, EDGE_LIFT], size: [1, EDGE_WIDTH] },
-  down: { position: [0, -0.5 + EDGE_WIDTH / 2, EDGE_LIFT], size: [1, EDGE_WIDTH] },
-  left: { position: [-0.5 + EDGE_WIDTH / 2, 0, EDGE_LIFT], size: [EDGE_WIDTH, 1] },
-  right: { position: [0.5 - EDGE_WIDTH / 2, 0, EDGE_LIFT], size: [EDGE_WIDTH, 1] },
-}
+const EDGE_BARS: Record<Direction, { position: [number, number, number]; size: [number, number] }> =
+  {
+    up: { position: [0, 0.5 - EDGE_WIDTH / 2, EDGE_LIFT], size: [1, EDGE_WIDTH] },
+    down: { position: [0, -0.5 + EDGE_WIDTH / 2, EDGE_LIFT], size: [1, EDGE_WIDTH] },
+    left: { position: [-0.5 + EDGE_WIDTH / 2, 0, EDGE_LIFT], size: [EDGE_WIDTH, 1] },
+    right: { position: [0.5 - EDGE_WIDTH / 2, 0, EDGE_LIFT], size: [EDGE_WIDTH, 1] },
+  }
 
 interface LessonFaceProps {
   art: Art
@@ -63,7 +64,8 @@ export function LessonFace({ art, tint, edges, label, panelRef }: LessonFaceProp
     const color = material.current?.color
     if (!color || color.equals(target)) return
     color.lerp(target, 1 - Math.exp(-TINT_RATE * Math.min(delta, 0.1)))
-    const gap = Math.abs(color.r - target.r) + Math.abs(color.g - target.g) + Math.abs(color.b - target.b)
+    const gap =
+      Math.abs(color.r - target.r) + Math.abs(color.g - target.g) + Math.abs(color.b - target.b)
     if (gap < 1e-3) color.copy(target)
     invalidate()
   })

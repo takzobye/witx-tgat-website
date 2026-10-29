@@ -21,7 +21,10 @@ describe('methods', () => {
   it('keep exactly one choice in every example, like an exam question', () => {
     for (const step of methods.flatMap((method) => method.steps)) {
       if (!step.example) continue
-      expect(step.example.choices.filter((c) => c.verdict === 'keep'), step.id).toHaveLength(1)
+      expect(
+        step.example.choices.filter((c) => c.verdict === 'keep'),
+        step.id,
+      ).toHaveLength(1)
     }
   })
 })

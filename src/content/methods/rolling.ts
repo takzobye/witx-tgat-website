@@ -30,7 +30,10 @@ export const rolling = defineMethod({
       scene: {
         ...HOOK,
         poses: [
-          { note: 'แถวที่ยาวที่สุด: B C D E', paint: { B: 'indigo', C: 'indigo', D: 'indigo', E: 'indigo' } },
+          {
+            note: 'แถวที่ยาวที่สุด: B C D E',
+            paint: { B: 'indigo', C: 'indigo', D: 'indigo', E: 'indigo' },
+          },
           { note: 'แถวนี้ม้วนเป็นวงรอบกล่อง', fold: { B: 1, D: 1, E: 1 } },
           { note: 'อีก 2 หน้าปิดหัวท้ายของวง', fold: 1 },
         ],
@@ -47,7 +50,14 @@ export const rolling = defineMethod({
       scene: {
         ...HOOK,
         poses: [
-          { note: 'สีเดียวกัน = คู่ตรงข้าม', opposite: [['B', 'D'], ['C', 'E'], ['A', 'F']] },
+          {
+            note: 'สีเดียวกัน = คู่ตรงข้าม',
+            opposite: [
+              ['B', 'D'],
+              ['C', 'E'],
+              ['A', 'F'],
+            ],
+          },
           { note: 'พับแล้วเห็นได้แค่สีละหน้า', fold: 1, view: { top: 'A', left: 'C', right: 'D' } },
           { note: 'พลิกดูด้านล่างก็เช่นกัน', view: { top: 'F', left: 'C', right: 'B' } },
         ],
@@ -55,13 +65,21 @@ export const rolling = defineMethod({
       example: {
         prompt: 'ตัดคู่ตรงข้ามก่อน ข้อไหนตัดได้ทันที',
         choices: [
-          { view: { top: 'A', left: 'B', right: 'D' }, verdict: 'cut', reason: 'B กับ D เว้นกัน 1 ช่อง' },
+          {
+            view: { top: 'A', left: 'B', right: 'D' },
+            verdict: 'cut',
+            reason: 'B กับ D เว้นกัน 1 ช่อง',
+          },
           {
             view: { top: { face: 'A', rotate: 90 }, left: 'C', right: 'D' },
             verdict: 'keep',
             reason: 'ไม่มีคู่ตรงข้าม รอดไปเทียบลายต่อ',
           },
-          { view: { top: 'F', left: 'C', right: 'A' }, verdict: 'cut', reason: 'A กับ F อยู่นอกแถวคนละฝั่ง' },
+          {
+            view: { top: 'F', left: 'C', right: 'A' },
+            verdict: 'cut',
+            reason: 'A กับ F อยู่นอกแถวคนละฝั่ง',
+          },
         ],
       },
     },
@@ -77,8 +95,18 @@ export const rolling = defineMethod({
         ...HOOK,
         poses: [
           { note: 'ลูกศรบน C ชี้ไปหา A', meet: [['C', 'A']] },
-          { note: 'ครึ่งดำของ B ชิดขอบที่จะไปชนกับ E', meet: [['C', 'A'], ['B', 'E']] },
-          { note: 'พับแล้ว ครึ่งดำของ B ติดกับ E จริง', fold: 1, view: { top: 'A', left: 'E', right: 'B' } },
+          {
+            note: 'ครึ่งดำของ B ชิดขอบที่จะไปชนกับ E',
+            meet: [
+              ['C', 'A'],
+              ['B', 'E'],
+            ],
+          },
+          {
+            note: 'พับแล้ว ครึ่งดำของ B ติดกับ E จริง',
+            fold: 1,
+            view: { top: 'A', left: 'E', right: 'B' },
+          },
         ],
       },
       example: {

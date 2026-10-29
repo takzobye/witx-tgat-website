@@ -22,7 +22,12 @@ export function SceneFigure({ step, timeline }: { step: LessonStep; timeline: Sc
   return (
     <figure className={FRAME}>
       <div className={`relative ${STAGE_HEIGHT}`}>
-        <LazyLessonStage sceneId={step.id} arts={step.scene.arts} pose={pose} onArrive={timeline.onArrive} />
+        <LazyLessonStage
+          sceneId={step.id}
+          arts={step.scene.arts}
+          pose={pose}
+          onArrive={timeline.onArrive}
+        />
         <figcaption
           aria-live="polite"
           className="pointer-events-none absolute inset-x-3 top-3 flex justify-start"
@@ -79,7 +84,12 @@ export function HandsOnFigure({ step }: { step: LessonStep }) {
   return (
     <figure className={FRAME}>
       <div className={STAGE_HEIGHT}>
-        <LazyFoldStage cube={step.scene.cube} fold={fold} onFoldChange={setFold} orientation={null} />
+        <LazyFoldStage
+          cube={step.scene.cube}
+          fold={fold}
+          onFoldChange={setFold}
+          orientation={null}
+        />
       </div>
       <figcaption className="border-t border-line px-4 py-2.5 text-sm text-ink-muted">
         {step.scene.poses[0].note}

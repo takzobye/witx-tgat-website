@@ -49,7 +49,13 @@ export function LessonModel({ arts, pose, onArrive }: LessonModelProps) {
   const target = useMemo(() => stageState(pose), [pose])
 
   // Starts at rest on the first pose; later poses are animated to.
-  const motion = useRef<Motion>({ settled: target, queue: [], elapsed: 0, arriving: true, waking: false })
+  const motion = useRef<Motion>({
+    settled: target,
+    queue: [],
+    elapsed: 0,
+    arriving: true,
+    waking: false,
+  })
 
   const registerPanel = useCallback((id: string, group: Group | null) => {
     if (group) panels.current.set(id, group)
@@ -85,7 +91,9 @@ export function LessonModel({ arts, pose, onArrive }: LessonModelProps) {
     }
 
     const [next] = current.queue
-    const frames = next ? segmentFrames(next, current.elapsed / next.seconds) : stateFrames(current.settled)
+    const frames = next
+      ? segmentFrames(next, current.elapsed / next.seconds)
+      : stateFrames(current.settled)
     for (const [id, matrix] of frames.panels) {
       const group = panels.current.get(id)
       if (!group) continue

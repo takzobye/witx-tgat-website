@@ -42,10 +42,7 @@ export function arrange(rows: readonly string[]): Arrangement {
 }
 
 /** The net with each drawing turned as placed, ready to fold. */
-export function netFaces(
-  arrangement: Arrangement,
-  arts: Readonly<Record<string, Art>>,
-): NetFace[] {
+export function netFaces(arrangement: Arrangement, arts: Readonly<Record<string, Art>>): NetFace[] {
   return Object.entries(arrangement).map(([id, { cell, turns }]) => ({
     id,
     cell,

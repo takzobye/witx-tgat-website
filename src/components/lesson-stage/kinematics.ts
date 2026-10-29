@@ -62,9 +62,13 @@ export function planTransition(from: StageState, to: StageState): Segment[] {
   const fromFlat = laidFlat(from)
   const toFlat = laidFlat(to)
   return [
-    ...(samePose(from, fromFlat) ? [] : [{ kind: 'fold' as const, from, to: fromFlat, seconds: FOLD_SECONDS }]),
+    ...(samePose(from, fromFlat)
+      ? []
+      : [{ kind: 'fold' as const, from, to: fromFlat, seconds: FOLD_SECONDS }]),
     { kind: 'move', from: fromFlat, to: toFlat, seconds: MOVE_SECONDS },
-    ...(samePose(toFlat, to) ? [] : [{ kind: 'fold' as const, from: toFlat, to, seconds: FOLD_SECONDS }]),
+    ...(samePose(toFlat, to)
+      ? []
+      : [{ kind: 'fold' as const, from: toFlat, to, seconds: FOLD_SECONDS }]),
   ]
 }
 
@@ -80,7 +84,10 @@ export function segmentFrames({ kind, from, to }: Segment, progress: number): Fr
   const t = easeInOut(progress)
   if (kind === 'move') {
     const panels = new Map(
-      Object.keys(to.arrangement).map((id) => [id, movingPanel(from.arrangement[id], to.arrangement[id], t)]),
+      Object.keys(to.arrangement).map((id) => [
+        id,
+        movingPanel(from.arrangement[id], to.arrangement[id], t),
+      ]),
     )
     return { panels, orientation: to.orientation }
   }
@@ -121,7 +128,10 @@ export function framingDistance(
   let distance = 0
   for (const matrix of panels.values()) {
     for (const [x, y] of PANEL_CORNERS) {
-      const corner = new Vector3(x, y, 0).applyMatrix4(matrix).sub(centre).applyQuaternion(orientation)
+      const corner = new Vector3(x, y, 0)
+        .applyMatrix4(matrix)
+        .sub(centre)
+        .applyQuaternion(orientation)
       const depth = corner.dot(towardsCamera)
       distance = Math.max(
         distance,
@@ -175,7 +185,9 @@ function foldedPanels(
       const angle = sign * folds[child.face.id] * (Math.PI / 2)
       const hinge = new Matrix4()
         .makeTranslation(...pivot)
-        .multiply(axis === 'x' ? new Matrix4().makeRotationX(angle) : new Matrix4().makeRotationY(angle))
+        .multiply(
+          axis === 'x' ? new Matrix4().makeRotationX(angle) : new Matrix4().makeRotationY(angle),
+        )
         .multiply(new Matrix4().makeTranslation(...offset))
       place(child, corner.clone().multiply(hinge))
     }

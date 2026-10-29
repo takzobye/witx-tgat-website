@@ -72,7 +72,10 @@ function Framing({
   useEffect(() => {
     if (!controls) return
     const direction = isShut(state) ? SHUT_VIEW : OPEN_VIEW
-    const [x, y, z] = direction.clone().multiplyScalar(framingDistance(state, direction, FOV, aspect)).toArray()
+    const [x, y, z] = direction
+      .clone()
+      .multiplyScalar(framingDistance(state, direction, FOV, aspect))
+      .toArray()
     void controls.setLookAt(x, y, z, 0, 0, 0, true)
   }, [controls, state, aspect, reframes])
 

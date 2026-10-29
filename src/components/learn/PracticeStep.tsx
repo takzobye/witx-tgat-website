@@ -20,12 +20,21 @@ interface PracticeStepProps {
 }
 
 /** The last step: the method as an exam checklist, tried on a real question from the bank. */
-export function PracticeStep({ method, question, next, number, onPickAnother, back }: PracticeStepProps) {
+export function PracticeStep({
+  method,
+  question,
+  next,
+  number,
+  onPickAnother,
+  back,
+}: PracticeStepProps) {
   return (
     <div className="flex flex-col gap-6">
       <header>
         <p className="text-sm font-medium text-accent-ink">ขั้นที่ {number} · ลงสนาม</p>
-        <h1 className="mt-1 text-2xl font-bold text-balance sm:text-3xl">ลองใช้{method.name}กับโจทย์จริง</h1>
+        <h1 className="mt-1 text-2xl font-bold text-balance sm:text-3xl">
+          ลองใช้{method.name}กับโจทย์จริง
+        </h1>
         <p className="mt-2 max-w-2xl leading-relaxed text-ink-soft">
           ทำตามลำดับนี้ทุกข้อ จนทำได้โดยไม่ต้องเปิดดู แล้วค่อยกดตรวจคำตอบ
         </p>
@@ -37,7 +46,10 @@ export function PracticeStep({ method, question, next, number, onPickAnother, ba
         </div>
         <ol className="grid gap-2 sm:grid-cols-2 lg:grid-cols-5">
           {method.checklist.map((item, index) => (
-            <li key={item} className={`${surfaceStyles.card} flex gap-3 p-3.5 text-sm leading-snug text-ink-soft`}>
+            <li
+              key={item}
+              className={`${surfaceStyles.card} flex gap-3 p-3.5 text-sm leading-snug text-ink-soft`}
+            >
               <span className="grid size-6 shrink-0 place-items-center rounded-full bg-accent-soft text-xs font-semibold text-accent-ink">
                 {index + 1}
               </span>

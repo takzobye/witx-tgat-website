@@ -83,14 +83,21 @@ export function defineMethod<const Id extends string>(spec: MethodSpec<Id>): Met
   }
 }
 
-function resolveChoice(scene: Scene, { view: ref, verdict, reason }: ExampleChoiceSpec): ExampleChoice {
+function resolveChoice(
+  scene: Scene,
+  { view: ref, verdict, reason }: ExampleChoiceSpec,
+): ExampleChoice {
   const artById = new Map(Object.entries(scene.arts))
   const view = resolveView(viewRefSchema.parse(ref), artById)
   if (canFold(scene.cube, view) !== (verdict === 'keep')) {
-    throw new Error(`Example choice ${JSON.stringify(ref)} should be "${verdict}" but the cube says otherwise`)
+    throw new Error(
+      `Example choice ${JSON.stringify(ref)} should be "${verdict}" but the cube says otherwise`,
+    )
   }
   const match = matchView(scene.cube, view)
   const note =
-    verdict === 'keep' ? 'กล่องจริงตรงกับรูปนี้ทุกหน้า' : `กล่องจริงตรงกับรูปนี้เพียง ${match.matchedSlots} จาก 3 หน้า`
+    verdict === 'keep'
+      ? 'กล่องจริงตรงกับรูปนี้ทุกหน้า'
+      : `กล่องจริงตรงกับรูปนี้เพียง ${match.matchedSlots} จาก 3 หน้า`
   return { view, verdict, reason, match, pose: heldPose(scene, match.orientation, note) }
 }

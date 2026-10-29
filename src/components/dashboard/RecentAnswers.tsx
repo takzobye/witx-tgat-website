@@ -64,7 +64,10 @@ export function RecentAnswers({ progress, className }: RecentAnswersProps) {
                     </span>
                   )}
                 </span>
-                <time dateTime={new Date(at).toISOString()} className="shrink-0 text-xs text-ink-faint">
+                <time
+                  dateTime={new Date(at).toISOString()}
+                  className="shrink-0 text-xs text-ink-faint"
+                >
                   {formatTimeAgo(at, progress.now)}
                 </time>
               </Link>

@@ -30,7 +30,12 @@ export function WatchStepView({ step, number, nav }: StepViewProps) {
       </div>
       <StepArticle step={step} number={number} nav={nav}>
         {step.example && (
-          <WorkedExample key={step.id} example={step.example} held={timeline.held} onHold={timeline.hold} />
+          <WorkedExample
+            key={step.id}
+            example={step.example}
+            held={timeline.held}
+            onHold={timeline.hold}
+          />
         )}
       </StepArticle>
     </div>

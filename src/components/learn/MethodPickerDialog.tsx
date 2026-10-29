@@ -49,7 +49,10 @@ export function MethodPickerDialog({ open, onClose }: MethodPickerDialogProps) {
       className={SHEET}
     >
       <div className="px-4 pt-3 pb-[max(1.25rem,env(safe-area-inset-bottom))] sm:px-6 sm:pt-6 sm:pb-6">
-        <div aria-hidden="true" className="mx-auto mb-3 h-1.5 w-10 rounded-full bg-fill-strong sm:hidden" />
+        <div
+          aria-hidden="true"
+          className="mx-auto mb-3 h-1.5 w-10 rounded-full bg-fill-strong sm:hidden"
+        />
         <header className="flex items-start justify-between gap-4">
           <div>
             <h2 id={titleId} className="text-lg font-bold text-ink sm:text-xl">
@@ -92,7 +95,9 @@ export function MethodPickerDialog({ open, onClose }: MethodPickerDialogProps) {
                         {method.badge}
                       </span>
                     </span>
-                    <span className="mt-1 block text-sm leading-relaxed text-ink-soft">{method.tagline}</span>
+                    <span className="mt-1 block text-sm leading-relaxed text-ink-soft">
+                      {method.tagline}
+                    </span>
                     <span className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-ink-muted">
                       <span>เหมาะกับ{method.bestFor}</span>
                       <span className="inline-flex items-center gap-1">

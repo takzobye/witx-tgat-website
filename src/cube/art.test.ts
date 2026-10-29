@@ -70,7 +70,15 @@ describe('turnArt', () => {
   const sampler: Art = [
     { type: 'rect', x: 0, y: 50, w: 50, h: 30, fill: 'none' },
     { type: 'circle', cx: 75, cy: 25, r: 8, fill: 'gray' },
-    { type: 'polygon', points: [[10, 10], [40, 10], [10, 30]], fill: 'black' },
+    {
+      type: 'polygon',
+      points: [
+        [10, 10],
+        [40, 10],
+        [10, 30],
+      ],
+      fill: 'black',
+    },
     { type: 'line', from: [0, 0], to: [100, 60] },
   ]
 
@@ -81,6 +89,8 @@ describe('turnArt', () => {
   })
 
   it('keeps rectangles as rectangles inside the box', () => {
-    expect(turnArt([sampler[0]], 1)).toEqual([{ type: 'rect', x: 20, y: 0, w: 30, h: 50, fill: 'none' }])
+    expect(turnArt([sampler[0]], 1)).toEqual([
+      { type: 'rect', x: 20, y: 0, w: 30, h: 50, fill: 'none' },
+    ])
   })
 })

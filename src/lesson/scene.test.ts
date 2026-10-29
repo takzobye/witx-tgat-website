@@ -34,7 +34,15 @@ describe('resolveScene', () => {
   })
 
   it('tints each opposite pair its own colour', () => {
-    const [pose] = resolveScene(scene({ note: 'pairs', opposite: [['B', 'D'], ['A', 'F']] })).poses
+    const [pose] = resolveScene(
+      scene({
+        note: 'pairs',
+        opposite: [
+          ['B', 'D'],
+          ['A', 'F'],
+        ],
+      }),
+    ).poses
     expect(pose.tints).toEqual({ B: 'indigo', D: 'indigo', A: 'amber', F: 'amber' })
   })
 
@@ -60,7 +68,10 @@ describe('resolveScene', () => {
     ['a mirror-image view', { note: '', fold: 1, view: { top: 'A', left: 'D', right: 'C' } }],
     ['an unknown face', { note: '', paint: { Z: 'amber' } }],
     ['a fold past shut', { note: '', fold: 1.5 }],
-    ['a move between faces that are not neighbours', { note: '', move: { face: 'A', from: 'D', onto: 'B' } }],
+    [
+      'a move between faces that are not neighbours',
+      { note: '', move: { face: 'A', from: 'D', onto: 'B' } },
+    ],
   ])('refuses %s', (_, pose) => {
     expect(() => resolveScene(scene(pose))).toThrow()
   })

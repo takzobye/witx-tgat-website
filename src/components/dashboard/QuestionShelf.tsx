@@ -10,10 +10,11 @@ import { Widget } from './Widget'
 
 const SHELF_SIZE = 6
 
-const STATUS_LABELS = { new: 'ยังไม่ได้ทำ', retry: 'ยังไม่ถูก', solved: 'ทำถูกแล้ว' } as const satisfies Record<
-  QuestionStatus,
-  string
->
+const STATUS_LABELS = {
+  new: 'ยังไม่ได้ทำ',
+  retry: 'ยังไม่ถูก',
+  solved: 'ทำถูกแล้ว',
+} as const satisfies Record<QuestionStatus, string>
 
 /** The start of the question bank as a grid of nets, marked with how each went. */
 export function QuestionShelf({ progress }: { progress: BankProgress | null }) {

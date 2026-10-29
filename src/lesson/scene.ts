@@ -104,7 +104,14 @@ export function resolveScene(spec: SceneSpec): Scene {
       cube = fold(arrangement)
     }
     shown = { ...shown, ...changes }
-    const { fold: closure = 0, view = null, paint = {}, opposite = [], meet = [], labels = {} } = shown
+    const {
+      fold: closure = 0,
+      view = null,
+      paint = {},
+      opposite = [],
+      meet = [],
+      labels = {},
+    } = shown
 
     for (const id of [...Object.keys(paint), ...Object.keys(labels)]) assertFace(id)
     return {
@@ -113,7 +120,9 @@ export function resolveScene(spec: SceneSpec): Scene {
       folds: resolveFolds(ids, closure, assertFace),
       orientation: view ? orientationShowing(cube, view) : IDENTITY,
       tints: { ...paint, ...pairTints(cube, opposite) },
-      edges: meet.flatMap((pair, i) => edgeMarks(arrangement, cube, pair, EDGE_TONES[i % EDGE_TONES.length])),
+      edges: meet.flatMap((pair, i) =>
+        edgeMarks(arrangement, cube, pair, EDGE_TONES[i % EDGE_TONES.length]),
+      ),
       labels,
       note,
     }
@@ -175,7 +184,12 @@ function pairTints(cube: FoldedCube, pairs: readonly FacePair[]): Record<string,
 }
 
 /** Marks the edge two faces share once folded, on the drawing of each. */
-function edgeMarks(arrangement: Arrangement, cube: FoldedCube, [a, b]: FacePair, tone: Tone): EdgeMark[] {
+function edgeMarks(
+  arrangement: Arrangement,
+  cube: FoldedCube,
+  [a, b]: FacePair,
+  tone: Tone,
+): EdgeMark[] {
   const mark = (faceId: string, otherId: string): EdgeMark => {
     const netSide = sideFacing(foldedFace(cube, faceId), foldedFace(cube, otherId))
     // The drawing is turned clockwise by `turns` in the net; undo that to find its own side.

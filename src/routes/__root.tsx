@@ -17,12 +17,13 @@ export const Route = createRootRoute({
       { title: 'ฝึกพับกล่อง · TGAT2 ความสามารถทางด้านมิติสัมพันธ์' },
       {
         name: 'description',
-        content:
-          'ฝึกโจทย์พับกล่อง (แผ่นคลี่ลูกบาศก์) สำหรับ TGAT2 พร้อมโมเดล 3 มิติที่พับให้ดูได้ทันที',
+        content: 'ฝึกโจทย์พับกล่อง (แผ่นคลี่ลูกบาศก์) สำหรับ TGAT2 พร้อมโมเดล 3 มิติที่พับให้ดูได้ทันที',
       },
       // Only one theme-color survives HeadContent's de-duplication, so a visitor following
       // their device gets none and the browser picks its own toolbar colour.
-      ...(loaderData?.theme ? [{ name: 'theme-color', content: CANVAS_COLORS[loaderData.theme] }] : []),
+      ...(loaderData?.theme
+        ? [{ name: 'theme-color', content: CANVAS_COLORS[loaderData.theme] }]
+        : []),
     ],
     links: [{ rel: 'stylesheet', href: appCss }],
   }),
