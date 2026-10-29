@@ -1,198 +1,71 @@
-Welcome to your new TanStack Start app!
+# ฝึกพับกล่อง · TGAT2 มิติสัมพันธ์
 
-# Getting Started
-
-To run this application:
-
-```bash
-npm install
-npm run dev
-```
-
-# Building For Production
-
-To build this application for production:
+เว็บฝึกโจทย์ "พับกล่อง" (แผ่นคลี่ลูกบาศก์) ของ TGAT2 ผู้เรียนดูแผ่นคลี่ เลือกลูกบาศก์ที่ถูกต้อง
+แล้วเปิดโมเดล 3D ที่พับให้ดูจริง และหมุนเทียบกับทุกตัวเลือกได้
 
 ```bash
-npm run build
+pnpm install
+pnpm dev        # http://localhost:3000
+pnpm test       # ทดสอบเรขาคณิตการพับ + ตรวจไฟล์โจทย์ทุกไฟล์
+pnpm typecheck
+pnpm build
 ```
 
-## Styling
+## Tech stack
 
-This project uses [Tailwind CSS](https://tailwindcss.com/) for styling.
+| ส่วน | ใช้ | เหตุผล |
+| --- | --- | --- |
+| แอป | TanStack Start + Router, React 19, Tailwind CSS 4 | SSR, file routes, route-level code splitting |
+| 3D | three.js ผ่าน `@react-three/fiber` + `@react-three/drei` (`CameraControls`) | แผ่นคลี่คือต้นไม้ของบานพับ — แต่ละหน้าเป็น `group` ซ้อนกันและหมุนรอบขอบของหน้าพ่อ จึงพับทั้งกล่องได้ด้วยค่าเดียว |
+| แอนิเมชัน | `useFrame` + `MathUtils.damp` | ไม่ต้องใช้ GSAP / Framer Motion และไม่ re-render React ทุกเฟรม (`frameloop="demand"` วาดเฉพาะตอนมีการเคลื่อนไหว) |
+| ภาพ 2D | SVG | แผ่นคลี่และลูกบาศก์ไอโซเมตริกคมชัดทุกขนาด เหมือนภาพในข้อสอบ |
+| โจทย์ | JSON + Zod | ตรวจรูปแบบและ "พับจริง" เพื่อหาคำตอบตอนโหลด |
 
-### Removing Tailwind CSS
+three.js ถูกแยกเป็น chunk ที่โหลดเฉพาะตอนเปิดมุมมอง 3D (`LazyFoldStage`) หน้าแรกจึงเบา
 
-If you prefer not to use Tailwind CSS:
+## เพิ่มโจทย์
 
-1. Remove the demo pages in `src/routes/demo/`
-2. Replace the Tailwind import in `src/styles.css` with your own styles
-3. Remove `tailwindcss()` from the plugins array in `vite.config.ts`
-4. Remove `@tailwindcss/vite` and `tailwindcss` from `package.json`
+สร้างไฟล์ใหม่ใน `src/content/questions/` ชื่อไฟล์คือทั้งลำดับและ URL (เช่น `07-my-question.json` → `/questions/07-my-question`)
+แนะนำให้ร่างในหน้า **สร้างโจทย์** (`/lab`) ซึ่งแสดงผลและตรวจให้ทันที
 
-
-## Deploy to Vercel
-
-1. Push this repo to GitHub, GitLab, or Bitbucket
-2. In Vercel, choose **Add New > Project** and import the repo
-3. Keep the detected TanStack Start framework settings
-4. Add production values from `.env.example` under **Settings > Environment Variables**
-5. Deploy
-
-Vercel runs the build script and deploys Nitro's output as Vercel Functions and
-static assets. The included `vercel.json` makes framework detection explicit.
-
-Variables prefixed with `VITE_` are included in the browser bundle. Keep secrets
-unprefixed so they remain server-only.
-
-
-
-## Routing
-
-This project uses [TanStack Router](https://tanstack.com/router) with file-based routing. Routes are managed as files in `src/routes`.
-
-### Adding A Route
-
-To add a new route to your application just add a new file in the `./src/routes` directory.
-
-TanStack will automatically generate the content of the route file for you.
-
-Now that you have two routes you can use a `Link` component to navigate between them.
-
-### Adding Links
-
-To use SPA (Single Page Application) navigation you will need to import the `Link` component from `@tanstack/react-router`.
-
-```tsx
-import { Link } from "@tanstack/react-router";
-```
-
-Then anywhere in your JSX you can use it like so:
-
-```tsx
-<Link to="/about">About</Link>
-```
-
-This will create a link that will navigate to the `/about` route.
-
-More information on the `Link` component can be found in the [Link documentation](https://tanstack.com/router/v1/docs/framework/react/api/router/linkComponent).
-
-### Using A Layout
-
-In the File Based Routing setup the layout is located in `src/routes/__root.tsx`. Anything you add to the root route will appear in all the routes. The route content will appear in the JSX where you render `{children}` in the `shellComponent`.
-
-Here is an example layout that includes a header:
-
-```tsx
-import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
-
-export const Route = createRootRoute({
-  head: () => ({
-    meta: [
-      { charSet: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'My App' },
+```json
+{
+  "title": "แถบคู่กับสี่เหลี่ยมทึบ",
+  "difficulty": "easy",
+  "layout": ["A...", "BCDE", ".F.."],
+  "faces": {
+    "A": [
+      { "type": "rect", "x": 0, "y": 29, "w": 100, "h": 11 },
+      { "type": "rect", "x": 0, "y": 60, "w": 100, "h": 11 }
     ],
-  }),
-  shellComponent: ({ children }) => (
-    <html lang="en">
-      <head>
-        <HeadContent />
-      </head>
-      <body>
-        <header>
-          <nav>
-            <Link to="/">Home</Link>
-            <Link to="/about">About</Link>
-          </nav>
-        </header>
-        {children}
-        <Scripts />
-      </body>
-    </html>
-  ),
-})
-```
-
-More information on layouts can be found in the [Layouts documentation](https://tanstack.com/router/latest/docs/framework/react/guide/routing-concepts#layouts).
-
-## Server Functions
-
-TanStack Start provides server functions that allow you to write server-side code that seamlessly integrates with your client components.
-
-```tsx
-import { createServerFn } from '@tanstack/react-start'
-
-const getServerTime = createServerFn({
-  method: 'GET',
-}).handler(async () => {
-  return new Date().toISOString()
-})
-
-// Use in a component
-function MyComponent() {
-  const [time, setTime] = useState('')
-  
-  useEffect(() => {
-    getServerTime().then(setTime)
-  }, [])
-  
-  return <div>Server time: {time}</div>
+    "B": [{ "type": "rect", "x": 0, "y": 50, "w": 50, "h": 50, "fill": "none" }],
+    "C": [{ "type": "rect", "x": 25, "y": 25, "w": 50, "h": 50 }]
+  },
+  "choices": [
+    { "top": "A", "left": { "face": "B", "rotate": 90 }, "right": "C" },
+    { "top": "A", "left": "B", "right": "C" }
+  ],
+  "explanation": "ข้อความอธิบายหลังตรวจคำตอบ"
 }
 ```
 
-## API Routes
+- **`layout`** วาดแผ่นคลี่เป็นแถวตัวอักษร หนึ่งตัวต่อหนึ่งหน้า (`A–Z`, `0–9`) และ `.` คือช่องว่าง ต้องมี 6 หน้าที่พับเป็นลูกบาศก์ได้จริง
+- **`faces`** ลวดลายของแต่ละหน้าในกรอบ 100×100 (มุมซ้ายบน = 0,0 มองจากด้านนอกกล่อง) หน้าที่ไม่ใส่คือหน้าว่าง
+  รูปที่ใช้ได้: `rect {x,y,w,h}`, `circle {cx,cy,r}`, `polygon {points}`, `line {from,to}` และ `fill`: `"black"` (ค่าเริ่มต้น) / `"gray"` / `"none"`
+- **`choices`** 2–5 ข้อ แต่ละข้อบอกหน้าที่เห็นด้าน `top`, `left`, `right` เป็น `"A"` หรือ `{ "face": "A", "rotate": 90 }` (องศาตามเข็มนาฬิกา)
+  `rotate: 0` คือหน้าตั้งตรงเมื่อมองจากด้านนอก — ด้านบนวางเหมือนพับขึ้นมาจากหน้าด้านซ้าย
+- **`ask`** `"possible"` (ค่าเริ่มต้น) ถามรูปที่พับได้ หรือ `"impossible"` ถามรูปที่พับไม่ได้
+- **`difficulty`** `"easy"` / `"medium"` / `"hard"`, **`prompt`** (ไม่บังคับ) ใช้แทนคำถามเริ่มต้น
 
-You can create API routes by using the `server` property in your route definitions:
+**ไม่ต้องระบุคำตอบ** ระบบพับแผ่นคลี่แล้วลองจับลูกบาศก์ทั้ง 24 แบบเพื่อดูว่าตัวเลือกไหนพับได้
+โดยเทียบ "หน้าตา" ของลวดลาย (หน้าว่างใช้แทนกันได้ และลายที่สมมาตรเมื่อหมุนถือว่าเหมือนเดิม)
+โจทย์ที่มีคำตอบไม่ใช่ 1 ข้อพอดีจะไม่ผ่าน `pnpm test` และโหลดไม่ขึ้น
 
-```tsx
-import { createFileRoute } from '@tanstack/react-router'
-import { json } from '@tanstack/react-start'
+## โครงสร้าง
 
-export const Route = createFileRoute('/api/hello')({
-  server: {
-    handlers: {
-      GET: () => json({ message: 'Hello, World!' }),
-    },
-  },
-})
 ```
-
-## Data Fetching
-
-There are multiple ways to fetch data in your application. You can use TanStack Query to fetch data from a server. But you can also use the `loader` functionality built into TanStack Router to load the data for a route before it's rendered.
-
-For example:
-
-```tsx
-import { createFileRoute } from '@tanstack/react-router'
-
-export const Route = createFileRoute('/people')({
-  loader: async () => {
-    const response = await fetch('https://swapi.dev/api/people')
-    return response.json()
-  },
-  component: PeopleComponent,
-})
-
-function PeopleComponent() {
-  const data = Route.useLoaderData()
-  return (
-    <ul>
-      {data.results.map((person) => (
-        <li key={person.name}>{person.name}</li>
-      ))}
-    </ul>
-  )
-}
+src/cube/          โดเมน (ไม่มี React): geometry, art, การพับแผ่นคลี่ (net), การเทียบภาพ (view), schema ของโจทย์
+src/content/       คลังโจทย์ JSON + ตัวโหลดที่ตรวจทุกไฟล์
+src/components/    cube/ (SVG), fold-stage/ (three.js), quiz/ (หน้าทำโจทย์)
+src/routes/        /, /questions/$questionId, /lab
 ```
-
-Loaders simplify your data fetching logic dramatically. Check out more information in the [Loader documentation](https://tanstack.com/router/latest/docs/framework/react/guide/data-loading#loader-parameters).
-
-
-
-# Learn More
-
-You can learn more about all of the offerings from TanStack in the [TanStack documentation](https://tanstack.com).
-
-For TanStack Start specific documentation, visit [TanStack Start](https://tanstack.com/start).

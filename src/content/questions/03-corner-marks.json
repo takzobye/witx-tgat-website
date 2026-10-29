@@ -1,0 +1,26 @@
+{
+  "title": "มุมทึบกับวงแหวน",
+  "difficulty": "medium",
+  "layout": [
+    "AB..",
+    ".CDE",
+    ".F.."
+  ],
+  "faces": {
+    "A": [{ "type": "polygon", "points": [[0, 0], [100, 0], [0, 100]] }],
+    "B": [{ "type": "circle", "cx": 72, "cy": 72, "r": 12 }],
+    "D": [{ "type": "circle", "cx": 50, "cy": 50, "r": 28, "fill": "none" }],
+    "E": [{ "type": "rect", "x": 0, "y": 0, "w": 100, "h": 24, "fill": "gray" }],
+    "F": [
+      { "type": "line", "from": [50, 15], "to": [50, 85] },
+      { "type": "line", "from": [15, 50], "to": [85, 50] }
+    ]
+  },
+  "choices": [
+    { "top": { "face": "E", "rotate": 270 }, "left": "A", "right": "B" },
+    { "top": { "face": "E", "rotate": 90 }, "left": { "face": "A", "rotate": 90 }, "right": "B" },
+    { "top": { "face": "E", "rotate": 90 }, "left": "A", "right": { "face": "B", "rotate": 270 } },
+    { "top": { "face": "E", "rotate": 90 }, "left": "A", "right": "B" }
+  ],
+  "explanation": "หน้าสามเหลี่ยม (A), หน้าจุด (B) และหน้าแถบเทา (E) มาบรรจบกันที่มุมเดียวกัน ครึ่งดำของ A ต้องติดกับหน้า E (ตัด ข) แถบเทาของ E ต้องอยู่ฝั่งที่ติดกับ B (ตัด ก) และจุดของ B อยู่มุมที่ไกลจากทั้ง A และ E (ตัด ค)"
+}

@@ -1,17 +1,10 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/anuphan';
 
-@import "tailwindcss";
-
-* {
-  box-sizing: border-box;
-}
-
-html,
-body,
-#app {
-  min-height: 100%;
+@theme {
+  --font-sans: 'Anuphan Variable', ui-sans-serif, system-ui, sans-serif;
 }
 
 body {
-  margin: 0;
+  @apply bg-[#f7f6f3] font-sans text-stone-900 antialiased;
 }
-

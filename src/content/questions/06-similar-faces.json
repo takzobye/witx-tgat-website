@@ -1,0 +1,26 @@
+{
+  "title": "หน้าที่คล้ายกัน",
+  "difficulty": "hard",
+  "layout": [
+    "A...",
+    "BCDE",
+    "...F"
+  ],
+  "faces": {
+    "A": [{ "type": "polygon", "points": [[0, 0], [100, 0], [0, 100]] }],
+    "B": [{ "type": "polygon", "points": [[0, 0], [100, 0], [100, 100]] }],
+    "C": [{ "type": "rect", "x": 0, "y": 0, "w": 100, "h": 50, "fill": "gray" }],
+    "D": [{ "type": "circle", "cx": 50, "cy": 50, "r": 14 }],
+    "F": [
+      { "type": "circle", "cx": 28, "cy": 28, "r": 9 },
+      { "type": "circle", "cx": 72, "cy": 72, "r": 9 }
+    ]
+  },
+  "choices": [
+    { "top": "B", "left": { "face": "F", "rotate": 270 }, "right": { "face": "C", "rotate": 90 } },
+    { "top": "A", "left": { "face": "F", "rotate": 270 }, "right": { "face": "C", "rotate": 90 } },
+    { "top": "B", "left": "F", "right": { "face": "C", "rotate": 90 } },
+    { "top": "B", "left": { "face": "F", "rotate": 270 }, "right": { "face": "C", "rotate": 270 } }
+  ],
+  "explanation": "หน้า B, F และ C มาบรรจบกันที่มุมเดียวกัน ครึ่งดำของ B ติดกับหน้า C (ตัด ข ซึ่งใช้หน้า A ที่ดูคล้ายกันแต่หมุนคนละทิศ) จุดสองจุดของ F เรียงตามแนวทแยงที่ชี้เข้ามุมที่ F, B และ C บรรจบกัน (ตัด ค) ส่วนครึ่งเทาของ C ติดกับหน้า A ซึ่งตรงข้ามกับ F จึงต้องอยู่ฝั่งที่ไกลจาก F (ตัด ง)"
+}
