@@ -129,3 +129,42 @@ src/components/    ui/ (คอมโพเนนต์กลาง), layout/ (�
                    cube-3d/ (three.js ทั้งหมด: พับ เลื่อน กลิ้ง — ข้างนอกใช้ได้แค่ LazyFoldStage / LazyLessonStage)
 src/routes/        / (แดชบอร์ด), /questions (คลังโจทย์), /questions/$questionId, /learn/$methodId, /lab
 ```
+
+## แนวทางเขียนโค้ด
+
+เป้าหมายคือโค้ดที่อ่านแล้วเข้าใจเลย review ง่าย เลยใช้กติกาชุดเดียวกันทั้งโปรเจค
+
+**ขอบเขตของโฟลเดอร์**
+
+- import ไปทางเดียว: `routes → components → progress / theme → content → lesson → cube` ห้ามย้อนกลับ
+- `cube/` กับ `lesson/` ห้ามมี React, three.js หรือ DOM
+- ทุกอย่างที่ใช้ three.js อยู่ใน `components/cube-3d/` ข้างนอกใช้ได้แค่ `LazyFoldStage` / `LazyLessonStage` three.js จะได้อยู่ใน chunk ที่โหลดทีหลังเสมอ
+- ไฟล์ route มีแค่ `Route` กับคอมโพเนนต์ของหน้านั้น ชิ้นส่วนอื่นไปอยู่ใน `components/<หมวด>/`
+
+**ไฟล์**
+
+- คอมโพเนนต์ตั้งชื่อ `PascalCase.tsx` และ export คอมโพเนนต์เดียวที่ชื่อตรงกับไฟล์ ตัวช่วยที่ใช้แค่ในไฟล์นั้นเขียนไว้ข้างล่างได้
+- ไฟล์อื่นเป็น `kebab-case.ts` ไฟล์ที่มีแค่ hook ตั้งชื่อ `use-*.ts` เทสวางไว้ข้างไฟล์ที่เทส (`*.test.ts`)
+- ใช้ named export ทั้งหมด ยกเว้นไฟล์ที่โหลดผ่าน `React.lazy` ซึ่งต้องเป็น `export default`
+
+**Styling**
+
+- เขียน class ของ Tailwind ตรง ๆ ที่ `className` ซ้ำกันหลายที่ได้ ไม่ทำไฟล์หรือค่าคงที่ไว้แชร์ string ของ class (`pnpm format` เรียง class ให้เอง)
+- ถ้าซ้ำกันทั้งหน้าตาและพฤติกรรม ก็ทำเป็นคอมโพเนนต์ไปเลย (อย่าง `Widget`, `MethodIcon`)
+- ตารางที่เลือก class ตามค่าที่มี type (เช่น `Record<ChoiceState, string>`) ใช้ได้ แต่ให้อยู่ในไฟล์ของคอมโพเนนต์ที่ใช้เท่านั้น
+
+**TypeScript**
+
+- props ตัวเดียวเขียน type inline ได้ ตั้งแต่ 2 ตัวขึ้นไปใช้ `interface XxxProps` วางไว้เหนือคอมโพเนนต์
+- `import type { ReactNode } from 'react'` ไม่ใช้ `React.ReactNode`
+- ตาราง lookup เขียนเป็น `const X: Record<Union, T> = {…}` ให้ TypeScript เช็กว่าครบทุกค่า
+- โค้ดแอปไม่ใช้ `any`, `as` (ยกเว้น `as const`) และ `!` ถ้า type ไม่พอให้แก้ type ที่ต้นทาง (ในเทสใช้ `!` กับ lookup ที่รู้ว่ามีแน่ ๆ ได้)
+
+**React**
+
+- คอมโพเนนต์รับข้อมูล ไม่รับ JSX ที่ประกอบมาแล้วหรือ render function ยกเว้น `children` กับ slot ที่ตั้งชื่อชัด ๆ (อย่าง `nav`)
+- reset state ด้วย `key` ยกเว้นตรงที่จะทำให้ canvas 3D mount ใหม่
+- `useMemo` / `useCallback` ใช้เฉพาะตอนที่ identity สำคัญ (deps ของ effect, three.js) หรือเป็นงานหนักจริง ๆ
+- loader คืนแค่ค่าเล็ก ๆ อย่าง index เพราะมันถูกส่งไปกับหน้าเว็บด้วย แล้วให้หน้าไปหยิบข้อมูลเอง
+
+**import** ใช้ `#/…` เวลาข้ามโฟลเดอร์ และ `./…` ในโฟลเดอร์เดียวกัน เรียงเป็น package → `#/` ที่ไม่ใช่ components → `#/components` → `./`
