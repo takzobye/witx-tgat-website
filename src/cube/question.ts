@@ -158,6 +158,34 @@ export function checkAnswer(draft: QuestionDraft): AnswerCheck {
   return { ok: false, problem: `ต้องมีตัวเลือกที่${kind}เพียง 1 ข้อ แต่ตอนนี้ข้อที่${kind}คือ ${found}` }
 }
 
+/** What the lab makes of question JSON as it is typed. */
+export type DraftParse =
+  | { status: 'syntax-error'; message: string }
+  | { status: 'invalid'; issues: { path: string; message: string }[] }
+  | { status: 'ready'; draft: QuestionDraft; answer: AnswerCheck }
+
+/** Reads question JSON as an author writes it: a syntax error, what to fix, or the draft and its answer. */
+export function parseQuestionDraft(source: string): DraftParse {
+  let json: unknown
+  try {
+    json = JSON.parse(source)
+  } catch (error) {
+    return {
+      status: 'syntax-error',
+      message: error instanceof Error ? error.message : String(error),
+    }
+  }
+  const result = questionDraftSchema.safeParse(json)
+  if (!result.success) {
+    const issues = result.error.issues.map((issue) => ({
+      path: issue.path.map(String).join('.'),
+      message: issue.message,
+    }))
+    return { status: 'invalid', issues }
+  }
+  return { status: 'ready', draft: result.data, answer: checkAnswer(result.data) }
+}
+
 export const questionSchema = questionDraftSchema.transform((draft, ctx) => {
   const check = checkAnswer(draft)
   if (!check.ok) {

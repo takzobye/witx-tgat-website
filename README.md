@@ -124,7 +124,8 @@ src/lesson/        โดเมนของบทเรียน: scene (จั�
 src/content/       คลังโจทย์ JSON + ตัวโหลดที่ตรวจทุกไฟล์, methods/ เนื้อหาบทเรียน 3 สูตร
 src/progress/      ประวัติการตอบ (localStorage) + สรุปความคืบหน้าสำหรับแดชบอร์ด
 src/theme/         ธีมที่ผู้ใช้เลือก (cookie อ่านได้ทั้ง server และ browser)
-src/components/    ui/ (คอมโพเนนต์กลาง), layout/ (แถบเมนู), dashboard/ (การ์ดหน้าแรก), cube/ (SVG), fold-stage/ (three.js),
-                   quiz/ (หน้าทำโจทย์), lesson-stage/ (three.js ของบทเรียน: พับ เลื่อน กลิ้ง), learn/ (หน้าต่างเลือกวิธีและหน้าบทเรียน)
+src/components/    ui/ (คอมโพเนนต์กลาง), layout/ (แถบเมนู), dashboard/ (การ์ดหน้าแรก), quiz/ (หน้าทำโจทย์),
+                   learn/ (หน้าต่างเลือกวิธีและหน้าบทเรียน), lab/ (หน้าสร้างโจทย์), cube/ (ภาพ SVG),
+                   cube-3d/ (three.js ทั้งหมด: พับ เลื่อน กลิ้ง — ข้างนอกใช้ได้แค่ LazyFoldStage / LazyLessonStage)
 src/routes/        / (แดชบอร์ด), /questions (คลังโจทย์), /questions/$questionId, /learn/$methodId, /lab
 ```

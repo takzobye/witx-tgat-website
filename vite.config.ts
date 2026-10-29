@@ -15,7 +15,7 @@ const config = defineConfig({
         enabled: true,
         // React Three Fiber reads dashed props as nested paths, so the injected
         // `data-tsd-source` attribute breaks every three.js element.
-        ignore: { files: [/^\/src\/components\/(fold|lesson)-stage\//] },
+        ignore: { files: [/^\/src\/components\/cube-3d\//] },
       },
     }),
     nitro(),

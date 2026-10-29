@@ -2,7 +2,7 @@ import { Box, Grid2x2 } from 'lucide-react'
 import type { FoldedCube, NetFace } from '#/cube/net'
 import type { ViewMatch } from '#/cube/view'
 import { NetDiagram } from '#/components/cube/NetDiagram'
-import { LazyFoldStage } from '#/components/fold-stage/LazyFoldStage'
+import { LazyFoldStage } from '#/components/cube-3d/LazyFoldStage'
 
 export type FigureMode = 'net' | '3d'
 

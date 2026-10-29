@@ -5,7 +5,7 @@ import { AppBackdrop } from '#/components/layout/AppBackdrop'
 import { AppNav } from '#/components/layout/AppNav'
 import { CANVAS_COLORS, readThemePreference } from '#/theme/theme'
 
-import appCss from '../styles.css?url'
+import appCss from '#/styles.css?url'
 
 export const Route = createRootRoute({
   loader: () => ({ theme: readThemePreference() }),

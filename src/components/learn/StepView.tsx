@@ -1,7 +1,8 @@
 import { Lightbulb, Timer, type LucideIcon } from 'lucide-react'
 import type { ReactNode } from 'react'
 import type { LessonStep } from '#/lesson/method'
-import { HandsOnFigure, SceneFigure } from './SceneFigure'
+import { HandsOnFigure } from './HandsOnFigure'
+import { SceneFigure } from './SceneFigure'
 import { useSceneTimeline } from './use-scene-timeline'
 import { WorkedExample } from './WorkedExample'
 
@@ -12,8 +13,17 @@ interface StepViewProps {
   nav: ReactNode
 }
 
+/** A lesson step: its 3D figure beside the explanation. */
+export function StepView({ step, number, nav }: StepViewProps) {
+  return step.handsOn ? (
+    <HandsOnStep step={step} number={number} nav={nav} />
+  ) : (
+    <WatchStep step={step} number={number} nav={nav} />
+  )
+}
+
 /** A step taught by a 3D scene that plays by itself, with an optional example to sort. */
-export function WatchStepView({ step, number, nav }: StepViewProps) {
+function WatchStep({ step, number, nav }: StepViewProps) {
   const timeline = useSceneTimeline(step.scene)
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:items-start">
@@ -36,7 +46,7 @@ export function WatchStepView({ step, number, nav }: StepViewProps) {
 }
 
 /** A step where the learner folds the net by hand. */
-export function HandsOnStepView({ step, number, nav }: StepViewProps) {
+function HandsOnStep({ step, number, nav }: StepViewProps) {
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:items-start">
       <div className="lg:sticky lg:top-6">

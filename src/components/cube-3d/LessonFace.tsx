@@ -5,7 +5,7 @@ import { Color, DoubleSide, type Group, type MeshStandardMaterial } from 'three'
 import type { Art } from '#/cube/art'
 import type { Direction } from '#/cube/net'
 import type { EdgeMark, Tone } from '#/lesson/scene'
-import { FacePanel } from '#/components/fold-stage/FacePanel'
+import { FacePanel } from './FacePanel'
 
 /** Light enough that black ink still reads on the tinted paper. */
 const TINTS: Record<Tone, string> = {

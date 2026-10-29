@@ -10,7 +10,7 @@ export type BankQuestion = Question & {
 const files = import.meta.glob<unknown>('./questions/*.json', { eager: true, import: 'default' })
 
 /** Raw question files; the id is the file name without `.json`, and file names set the order. */
-export const questionSources: readonly { id: string; json: unknown }[] = Object.entries(files)
+const questionSources: readonly { id: string; json: unknown }[] = Object.entries(files)
   .map(([path, json]) => ({ id: path.replace(/^.*\/|\.json$/g, ''), json }))
   .sort((a, b) => a.id.localeCompare(b.id))
 

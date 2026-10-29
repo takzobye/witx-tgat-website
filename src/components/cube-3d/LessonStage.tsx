@@ -5,10 +5,10 @@ import { useEffect, useMemo, useState } from 'react'
 import { Vector3 } from 'three'
 import type { Art } from '#/cube/art'
 import type { Pose } from '#/lesson/scene'
-import { setSeeThrough, useSeeThrough } from '#/components/fold-stage/see-through'
-import { SeeThroughToggle } from '#/components/fold-stage/SeeThroughToggle'
 import { framingDistance, isShut, stageState } from './kinematics'
 import { LessonModel } from './LessonModel'
+import { setSeeThrough, useSeeThrough } from './see-through'
+import { SeeThroughToggle } from './SeeThroughToggle'
 
 const FOV = 35
 /** A flat or half-folded net is seen from the front, a little above and to the right. */

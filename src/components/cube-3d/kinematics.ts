@@ -2,7 +2,7 @@ import { Matrix4, Quaternion, Vector2, Vector3 } from 'three'
 import { sameArrangement, type Arrangement, type Placement } from '#/cube/arrangement'
 import { HINGES, type FoldNode, type FoldedCube } from '#/cube/net'
 import type { Pose } from '#/lesson/scene'
-import { toQuaternion } from '#/components/fold-stage/quaternion'
+import { toQuaternion } from './quaternion'
 
 const FOLD_SECONDS = 1.2
 const MOVE_SECONDS = 1.1
