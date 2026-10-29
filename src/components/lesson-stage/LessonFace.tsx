@@ -1,7 +1,7 @@
 import { Html } from '@react-three/drei'
 import { useFrame, useThree } from '@react-three/fiber'
-import { useEffect, useMemo, useRef } from 'react'
-import { Color, type Group, type MeshStandardMaterial } from 'three'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { Color, DoubleSide, type Group, type MeshStandardMaterial } from 'three'
 import type { Art } from '#/cube/art'
 import type { Direction } from '#/cube/net'
 import type { EdgeMark, Tone } from '#/lesson/scene'
@@ -48,13 +48,16 @@ interface LessonFaceProps {
   tint: Tone | undefined
   edges: readonly EdgeMark[]
   label: string | undefined
+  seeThrough: boolean
   /** Receives the panel's group; its matrix is set every frame by the model. */
   panelRef: (group: Group | null) => void
 }
 
 /** One face of the lesson model: its drawing, a tint that fades in, edge marks and a label. */
-export function LessonFace({ art, tint, edges, label, panelRef }: LessonFaceProps) {
+export function LessonFace({ art, tint, edges, label, seeThrough, panelRef }: LessonFaceProps) {
   const material = useRef<MeshStandardMaterial>(null)
+  // The label is on the far side of the model: hidden by solid paper, faded through glass.
+  const [labelBehind, setLabelBehind] = useState(false)
   const invalidate = useThree((state) => state.invalidate)
   const target = useMemo(() => new Color(tint ? TINTS[tint] : PAPER), [tint])
 
@@ -72,11 +75,12 @@ export function LessonFace({ art, tint, edges, label, panelRef }: LessonFaceProp
 
   return (
     <group ref={panelRef} matrixAutoUpdate={false}>
-      <FacePanel art={art} materialRef={material} />
+      <FacePanel art={art} seeThrough={seeThrough} materialRef={material} />
       {edges.map(({ side, tone }) => (
         <mesh key={side} position={EDGE_BARS[side].position}>
           <planeGeometry args={EDGE_BARS[side].size} />
-          <meshBasicMaterial color={EDGE_COLORS[tone]} />
+          {/* Two-sided, so a mark on a far face still shows through see-through panes. */}
+          <meshBasicMaterial color={EDGE_COLORS[tone]} side={DoubleSide} />
         </mesh>
       ))}
       {label && (
@@ -84,10 +88,15 @@ export function LessonFace({ art, tint, edges, label, panelRef }: LessonFaceProp
           center
           position={[0, 0, LABEL_LIFT]}
           occlude
+          onOcclude={setLabelBehind}
           pointerEvents="none"
           zIndexRange={[20, 0]}
         >
-          <span className="rounded-full bg-stone-900/85 px-2 py-0.5 text-xs font-semibold whitespace-nowrap text-white shadow-sm">
+          <span
+            className={`rounded-full bg-stone-900/85 px-2 py-0.5 text-xs font-semibold whitespace-nowrap text-white shadow-sm transition-opacity ${
+              labelBehind ? (seeThrough ? 'opacity-50' : 'invisible') : ''
+            }`}
+          >
             {label}
           </span>
         </Html>

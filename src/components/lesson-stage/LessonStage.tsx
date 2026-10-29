@@ -5,6 +5,8 @@ import { useEffect, useMemo, useState } from 'react'
 import { Vector3 } from 'three'
 import type { Art } from '#/cube/art'
 import type { Pose } from '#/lesson/scene'
+import { setSeeThrough, useSeeThrough } from '#/components/fold-stage/see-through'
+import { SeeThroughToggle } from '#/components/fold-stage/SeeThroughToggle'
 import { framingDistance, isShut, stageState } from './kinematics'
 import { LessonModel } from './LessonModel'
 
@@ -26,6 +28,7 @@ export default function LessonStage({ sceneId, arts, pose, onArrive }: LessonSta
   const [controls, setControls] = useState<CameraControls | null>(null)
   // Bumped to bring the camera back after the learner has orbited away.
   const [reframes, setReframes] = useState(0)
+  const seeThrough = useSeeThrough()
 
   return (
     <div className="relative isolate h-full touch-none">
@@ -39,19 +42,28 @@ export default function LessonStage({ sceneId, arts, pose, onArrive }: LessonSta
         <ambientLight intensity={1.7} />
         <directionalLight position={[2, 6, 3]} intensity={1.2} />
         <directionalLight position={[-4, -2, -3]} intensity={0.5} />
-        <LessonModel key={sceneId} arts={arts} pose={pose} onArrive={onArrive} />
+        <LessonModel
+          key={sceneId}
+          arts={arts}
+          pose={pose}
+          seeThrough={seeThrough}
+          onArrive={onArrive}
+        />
         <Framing controls={controls} pose={pose} reframes={reframes} />
         <CameraControls ref={setControls} minDistance={2} maxDistance={18} />
       </Canvas>
-      <button
-        type="button"
-        onClick={() => setReframes((n) => n + 1)}
-        aria-label="กลับไปมุมมองเริ่มต้น"
-        title="กลับไปมุมมองเริ่มต้น"
-        className="absolute right-3 bottom-3 grid size-8 place-items-center rounded-full bg-surface/90 text-ink-soft shadow-sm ring-1 ring-line transition hover:bg-surface hover:text-ink"
-      >
-        <RotateCcw className="size-4" />
-      </button>
+      <div className="absolute right-3 bottom-3 flex items-center gap-2">
+        <SeeThroughToggle on={seeThrough} onChange={setSeeThrough} />
+        <button
+          type="button"
+          onClick={() => setReframes((n) => n + 1)}
+          aria-label="กลับไปมุมมองเริ่มต้น"
+          title="กลับไปมุมมองเริ่มต้น"
+          className="grid size-8 place-items-center rounded-full bg-surface/90 text-ink-soft shadow-sm ring-1 ring-line transition hover:bg-surface hover:text-ink"
+        >
+          <RotateCcw className="size-4" />
+        </button>
+      </div>
     </div>
   )
 }

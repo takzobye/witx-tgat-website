@@ -5,6 +5,8 @@ import { useCallback, useEffect, useState } from 'react'
 import { IDENTITY, type Matrix3, type Vec3 } from '#/cube/geometry'
 import type { FoldedCube } from '#/cube/net'
 import { FoldModel } from './FoldModel'
+import { setSeeThrough, useSeeThrough } from './see-through'
+import { SeeThroughToggle } from './SeeThroughToggle'
 
 /** Slightly above and to the right, far enough to keep a flat or half-folded net in frame. */
 const OVERVIEW_CAMERA: Vec3 = [2, 2.4, 5.8]
@@ -32,6 +34,7 @@ export default function FoldStage({
   // Kept in state: the controls mount inside the canvas after this component does,
   // and the camera can only be aimed once they exist.
   const [controls, setControls] = useState<CameraControls | null>(null)
+  const seeThrough = useSeeThrough()
   const framing = fold === 1 ? ISOMETRIC_CAMERA : OVERVIEW_CAMERA
 
   const resetCamera = useCallback(() => {
@@ -59,7 +62,12 @@ export default function FoldStage({
           <ambientLight intensity={1.7} />
           <directionalLight position={[2, 6, 3]} intensity={1.2} />
           <directionalLight position={[-4, -2, -3]} intensity={0.5} />
-          <FoldModel cube={cube} fold={fold} orientation={orientation ?? IDENTITY} />
+          <FoldModel
+            cube={cube}
+            fold={fold}
+            orientation={orientation ?? IDENTITY}
+            seeThrough={seeThrough}
+          />
           <CameraControls ref={setControls} minDistance={2} maxDistance={14} />
         </Canvas>
         {caption && (
@@ -94,6 +102,7 @@ export default function FoldStage({
         <span aria-hidden="true" className="w-10 text-right text-xs text-ink-muted tabular-nums">
           {percent}%
         </span>
+        <SeeThroughToggle on={seeThrough} onChange={setSeeThrough} />
         <button
           type="button"
           onClick={resetCamera}

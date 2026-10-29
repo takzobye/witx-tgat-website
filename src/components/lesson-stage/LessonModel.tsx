@@ -33,6 +33,7 @@ interface Motion {
 interface LessonModelProps {
   arts: Readonly<Record<string, Art>>
   pose: Pose
+  seeThrough: boolean
   /** Called once the model comes to rest at `pose`. */
   onArrive: () => void
 }
@@ -41,7 +42,7 @@ interface LessonModelProps {
  * The lesson's net, moving to each pose it is given: folding hinges, sliding or rolling
  * faces across the flat net, and turning the cube to be held a new way.
  */
-export function LessonModel({ arts, pose, onArrive }: LessonModelProps) {
+export function LessonModel({ arts, pose, seeThrough, onArrive }: LessonModelProps) {
   const holder = useRef<Group>(null)
   const body = useRef<Group>(null)
   const panels = useRef(new Map<string, Group>())
@@ -123,6 +124,7 @@ export function LessonModel({ arts, pose, onArrive }: LessonModelProps) {
             tint={pose.tints[id]}
             edges={edgesOf(id)}
             label={pose.labels[id]}
+            seeThrough={seeThrough}
             panelRef={(group) => registerPanel(id, group)}
           />
         ))}

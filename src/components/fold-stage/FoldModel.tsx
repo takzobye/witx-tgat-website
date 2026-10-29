@@ -19,13 +19,14 @@ interface FoldModelProps {
   fold: number
   /** How to hold the closed cube: a rotation from the root face's frame to view space. */
   orientation: Matrix3
+  seeThrough: boolean
 }
 
 /**
  * The net as nested hinges: each face hangs off its parent's edge and turns about it,
  * so one fold value drives the whole animation. Mirrors `foldNet` in `#/cube/net`.
  */
-export function FoldModel({ cube, fold, orientation }: FoldModelProps) {
+export function FoldModel({ cube, fold, orientation, seeThrough }: FoldModelProps) {
   const pose = useRef<Group>(null)
   const body = useRef<Group>(null)
   const hinges = useRef(new Map<string, Group>())
@@ -68,17 +69,23 @@ export function FoldModel({ cube, fold, orientation }: FoldModelProps) {
   return (
     <group ref={pose}>
       <group ref={body}>
-        <FaceNode node={cube.root} registerHinge={registerHinge} />
+        <FaceNode node={cube.root} seeThrough={seeThrough} registerHinge={registerHinge} />
       </group>
     </group>
   )
 }
 
-function FaceNode({ node, registerHinge }: { node: FoldNode; registerHinge: RegisterHinge }) {
+interface FaceNodeProps {
+  node: FoldNode
+  seeThrough: boolean
+  registerHinge: RegisterHinge
+}
+
+function FaceNode({ node, seeThrough, registerHinge }: FaceNodeProps) {
   return (
     <>
       <group position={[0.5, -0.5, 0]}>
-        <FacePanel art={node.face.art} />
+        <FacePanel art={node.face.art} seeThrough={seeThrough} />
       </group>
       {node.children.map((child) => (
         <group
@@ -87,7 +94,7 @@ function FaceNode({ node, registerHinge }: { node: FoldNode; registerHinge: Regi
           ref={(group) => registerHinge(child.face.id, group)}
         >
           <group position={HINGES[child.hinge].offset}>
-            <FaceNode node={child} registerHinge={registerHinge} />
+            <FaceNode node={child} seeThrough={seeThrough} registerHinge={registerHinge} />
           </group>
         </group>
       ))}
