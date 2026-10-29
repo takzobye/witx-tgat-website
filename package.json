@@ -11,7 +11,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "test": "vitest run",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsrs --noEmit --fast",
+    "typecheck:tsc": "tsc --noEmit"
   },
   "dependencies": {
     "@fontsource-variable/anuphan": "^5.3.0",
@@ -38,6 +39,7 @@
     "@types/react-dom": "^19.3.0",
     "@types/three": "^0.186.0",
     "@vitejs/plugin-react": "^6.1.2",
+    "tsrs": "0.20.1-ts7.1.0-beta",
     "typescript": "^7.0.2",
     "vite": "^8.3.5",
     "vitest": "^5.0.5"
