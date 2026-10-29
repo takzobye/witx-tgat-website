@@ -1,10 +1,94 @@
 @import 'tailwindcss';
 @import '@fontsource-variable/anuphan';
 
+/*
+ * Dark when the visitor picked it (`data-theme` on <html>), or when they picked nothing
+ * and their device is set to dark.
+ */
+@custom-variant dark {
+  &:where([data-theme='dark'], [data-theme='dark'] *) {
+    @slot;
+  }
+  @media (prefers-color-scheme: dark) {
+    &:where(:root:not([data-theme='light']), :root:not([data-theme='light']) *) {
+      @slot;
+    }
+  }
+}
+
 @theme {
   --font-sans: 'Anuphan Variable', ui-sans-serif, system-ui, sans-serif;
+
+  /* Neutrals named by role; the dark palette below swaps their values. */
+  --color-canvas: #f7f6f3;
+  --color-surface: #ffffff;
+  --color-sunken: var(--color-stone-50);
+  --color-fill: var(--color-stone-100);
+  --color-fill-strong: var(--color-stone-200);
+  --color-line: var(--color-stone-200);
+  --color-line-strong: var(--color-stone-300);
+  /* Hairlines and recesses are this colour at low opacity, e.g. `ring-contrast/5`. */
+  --color-contrast: var(--color-stone-900);
+
+  --color-ink: var(--color-stone-900);
+  --color-ink-soft: var(--color-stone-600);
+  --color-ink-muted: var(--color-stone-500);
+  --color-ink-faint: var(--color-stone-400);
+
+  --color-accent-soft: var(--color-indigo-50);
+  --color-accent-ink: var(--color-indigo-700);
+}
+
+:root {
+  color-scheme: light;
+
+  @variant dark {
+    color-scheme: dark;
+
+    --color-canvas: #0e0d0c;
+    --color-surface: #1b1917;
+    --color-sunken: #151312;
+    --color-fill: var(--color-stone-800);
+    --color-fill-strong: var(--color-stone-700);
+    --color-line: --alpha(var(--color-white) / 10%);
+    --color-line-strong: --alpha(var(--color-white) / 16%);
+    --color-contrast: var(--color-white);
+
+    --color-ink: var(--color-stone-100);
+    --color-ink-soft: var(--color-stone-300);
+    --color-ink-muted: var(--color-stone-400);
+    --color-ink-faint: var(--color-stone-500);
+
+    --color-accent-soft: --alpha(var(--color-indigo-400) / 15%);
+    --color-accent-ink: var(--color-indigo-300);
+  }
 }
 
 body {
-  @apply bg-[#f7f6f3] font-sans text-stone-900 antialiased;
+  @apply bg-canvas font-sans text-ink antialiased;
+}
+
+/* A backdrop splash wandering back and forth; each sets `--drift-*` for its own path. */
+@utility animate-drift {
+  animation: drift var(--drift-duration) ease-in-out infinite alternate;
+}
+
+@keyframes drift {
+  to {
+    transform: translate(var(--drift-x), var(--drift-y)) rotate(var(--drift-rotate))
+      scale(var(--drift-scale));
+  }
+}
+
+/*
+ * Exam figures are black ink on white paper. On a dark page, ink at the paper's edge would
+ * vanish into the background, so trace the figure with a thin paper-white rim.
+ */
+@utility figure-rim {
+  filter: drop-shadow(0 0 0.5px var(--color-white)) drop-shadow(0 0 0.5px var(--color-white));
+}
+
+/* Fine paper grain, so the blurred colour reads as paint on a wall. */
+@utility bg-grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }

@@ -32,7 +32,7 @@ export function NetDiagram({ net, showIds = false, className }: NetDiagramProps)
       viewBox={`${-PADDING} ${-PADDING} ${width + 2 * PADDING} ${height + 2 * PADDING}`}
       role="img"
       aria-label="แผ่นคลี่ของลูกบาศก์"
-      className={className}
+      className={`dark:figure-rim ${className ?? ''}`}
     >
       {net.map((face) => {
         const [x, y] = originOf(face)

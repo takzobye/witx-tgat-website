@@ -1,7 +1,11 @@
 import { z } from 'zod'
 import { questionSchema, type Question } from '#/cube/question'
 
-export type BankQuestion = Question & { id: string }
+export type BankQuestion = Question & {
+  id: string
+  /** Position in the bank, counting from 1 — shown as "ข้อ 3". */
+  number: number
+}
 
 const files = import.meta.glob<unknown>('./questions/*.json', { eager: true, import: 'default' })
 
@@ -10,10 +14,10 @@ export const questionSources: readonly { id: string; json: unknown }[] = Object.
   .map(([path, json]) => ({ id: path.replace(/^.*\/|\.json$/g, ''), json }))
   .sort((a, b) => a.id.localeCompare(b.id))
 
-export const questions: readonly BankQuestion[] = questionSources.map(({ id, json }) => {
+export const questions: readonly BankQuestion[] = questionSources.map(({ id, json }, index) => {
   const result = questionSchema.safeParse(json)
   if (!result.success) {
     throw new Error(`Invalid question file ${id}.json\n${z.prettifyError(result.error)}`)
   }
-  return { id, ...result.data }
+  return { id, number: index + 1, ...result.data }
 })

@@ -3,5 +3,7 @@ const BASE =
 
 export const buttonStyles = {
   primary: `${BASE} bg-indigo-600 text-white shadow-sm hover:bg-indigo-500 focus-visible:ring-indigo-500/30 disabled:hover:bg-indigo-600`,
-  secondary: `${BASE} border border-stone-300 bg-white text-stone-800 hover:bg-stone-50 focus-visible:ring-stone-400/30`,
+  secondary: `${BASE} border border-line-strong bg-surface text-ink hover:bg-sunken focus-visible:ring-ink-faint/30`,
+  soft: `${BASE} bg-accent-soft text-accent-ink hover:bg-indigo-100 focus-visible:ring-indigo-500/30 dark:hover:bg-indigo-400/25`,
+  icon: 'grid size-10 shrink-0 place-items-center rounded-full border border-line-strong bg-surface text-ink-soft transition hover:bg-sunken hover:text-ink focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-ink-faint/30',
 } as const

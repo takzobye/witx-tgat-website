@@ -13,6 +13,7 @@ import { questionFiles } from '#/content/question-files'
 import { ChoiceCard } from '#/components/quiz/ChoiceCard'
 import { QuestionFigure } from '#/components/quiz/QuestionFigure'
 import { useFigureState } from '#/components/quiz/use-figure-state'
+import { toneStyles } from '#/components/ui/tone-styles'
 
 export const Route = createFileRoute('/lab')({
   head: () => ({ meta: [{ title: 'สร้างโจทย์ · ฝึกพับกล่อง TGAT2' }] }),
@@ -43,7 +44,7 @@ function parse(source: string): Parsed {
 }
 
 const TOOLBAR_BUTTON =
-  'inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium text-stone-600 transition hover:bg-stone-100 hover:text-stone-900'
+  'inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium text-ink-soft transition hover:bg-fill hover:text-ink'
 
 function LabPage() {
   const [source, setSource] = useState(questionFiles[0].text)
@@ -70,18 +71,18 @@ function LabPage() {
     <div className="py-8 sm:py-10">
       <header className="max-w-3xl">
         <h1 className="text-3xl font-bold">สร้างโจทย์</h1>
-        <p className="mt-3 leading-relaxed text-stone-600">
+        <p className="mt-3 leading-relaxed text-ink-soft">
           เขียนโจทย์เป็น JSON แล้วดูผลได้ทันที ระบบจะพับแผ่นคลี่และบอกว่าตัวเลือกไหนพับได้จริง
           เมื่อเรียบร้อยแล้วให้บันทึกเป็นไฟล์ใหม่ใน{' '}
-          <code className="rounded bg-stone-200/70 px-1.5 py-0.5 text-sm">src/content/questions/</code>{' '}
+          <code className="rounded bg-fill-strong/70 px-1.5 py-0.5 text-sm">src/content/questions/</code>{' '}
           ชื่อไฟล์จะเป็นทั้งลำดับและ URL ของโจทย์
         </p>
       </header>
 
       <div className="mt-8 grid gap-6 lg:grid-cols-2 lg:items-start">
-        <section className="flex flex-col overflow-hidden rounded-3xl border border-stone-200 bg-white shadow-sm">
-          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-stone-200 px-3 py-2">
-            <label className="flex items-center gap-2 pl-1 text-sm text-stone-600">
+        <section className="flex flex-col overflow-hidden rounded-3xl border border-line bg-surface shadow-sm">
+          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-line px-3 py-2">
+            <label className="flex items-center gap-2 pl-1 text-sm text-ink-soft">
               เริ่มจาก
               <select
                 defaultValue={questionFiles[0].id}
@@ -89,7 +90,7 @@ function LabPage() {
                   const file = questionFiles.find((f) => f.id === event.target.value)
                   if (file) setSource(file.text)
                 }}
-                className="rounded-lg border border-stone-300 bg-white px-2 py-1 text-sm"
+                className="rounded-lg border border-line-strong bg-surface px-2 py-1 text-sm"
               >
                 {questionFiles.map((file) => (
                   <option key={file.id} value={file.id}>
@@ -100,7 +101,7 @@ function LabPage() {
             </label>
             <div className="flex items-center gap-1">
               <button type="button" onClick={copy} className={TOOLBAR_BUTTON}>
-                {copied ? <Check className="size-4 text-emerald-600" /> : <Copy className="size-4" />}
+                {copied ? <Check className={`size-4 ${toneStyles.emerald.text}`} /> : <Copy className="size-4" />}
                 {copied ? 'คัดลอกแล้ว' : 'คัดลอก'}
               </button>
               <button type="button" onClick={download} className={TOOLBAR_BUTTON}>
@@ -114,7 +115,7 @@ function LabPage() {
             spellCheck={false}
             wrap="off"
             aria-label="JSON ของโจทย์"
-            className="min-h-[65vh] w-full resize-y bg-white p-4 font-mono text-[13px] leading-relaxed text-stone-800 outline-none"
+            className="min-h-[65vh] w-full resize-y bg-surface p-4 font-mono text-[13px] leading-relaxed text-ink outline-none"
           />
         </section>
 
@@ -151,7 +152,7 @@ function StatusBanner({ parsed }: { parsed: Parsed }) {
       <ul className="mt-1 list-disc space-y-1 pl-5 text-sm">
         {parsed.issues.map(({ path, message }, i) => (
           <li key={i}>
-            {path && <code className="mr-1.5 rounded bg-rose-100 px-1 py-0.5">{path}</code>}
+            {path && <code className="mr-1.5 rounded bg-rose-100 px-1 py-0.5 dark:bg-rose-400/15">{path}</code>}
             {message}
           </li>
         ))}
@@ -161,9 +162,9 @@ function StatusBanner({ parsed }: { parsed: Parsed }) {
 }
 
 const BANNER_TONES = {
-  success: { box: 'border-emerald-200 bg-emerald-50 text-emerald-900', icon: CircleCheck },
-  warning: { box: 'border-amber-200 bg-amber-50 text-amber-900', icon: AlertTriangle },
-  error: { box: 'border-rose-200 bg-rose-50 text-rose-900', icon: X },
+  success: { box: toneStyles.emerald.panel, icon: CircleCheck },
+  warning: { box: toneStyles.amber.panel, icon: AlertTriangle },
+  error: { box: toneStyles.rose.panel, icon: X },
 } as const
 
 function Banner({
@@ -224,9 +225,9 @@ function Preview({ draft, answer }: { draft: QuestionDraft; answer: AnswerCheck 
             onClick={() => figure.compare(index)}
             footer={
               draft.foldable[index] ? (
-                <span className="text-emerald-700">พับได้</span>
+                <span className={toneStyles.emerald.text}>พับได้</span>
               ) : (
-                <span className="text-rose-700">พับไม่ได้</span>
+                <span className={toneStyles.rose.text}>พับไม่ได้</span>
               )
             }
           />
@@ -238,16 +239,16 @@ function Preview({ draft, answer }: { draft: QuestionDraft; answer: AnswerCheck 
 
 function FormatGuide() {
   return (
-    <details className="mt-10 rounded-3xl border border-stone-200 bg-white p-5 sm:p-6" open>
+    <details className="mt-10 rounded-3xl border border-line bg-surface p-5 sm:p-6" open>
       <summary className="cursor-pointer text-lg font-semibold">คู่มือรูปแบบโจทย์</summary>
-      <dl className="mt-4 grid gap-x-8 gap-y-4 text-sm leading-relaxed text-stone-700 md:grid-cols-[10rem_1fr]">
-        <dt className="font-mono font-semibold text-stone-900">layout</dt>
+      <dl className="mt-4 grid gap-x-8 gap-y-4 text-sm leading-relaxed text-ink-soft md:grid-cols-[10rem_1fr]">
+        <dt className="font-mono font-semibold text-ink">layout</dt>
         <dd>
           วาดแผ่นคลี่เป็นแถวตัวอักษร 1 ตัวต่อ 1 หน้า (A–Z หรือตัวเลข) และใช้ <code>.</code>{' '}
           แทนช่องว่าง ต้องมี 6 หน้าที่พับเป็นลูกบาศก์ได้จริง เช่น{' '}
           <code>["A...", "BCDE", ".F.."]</code>
         </dd>
-        <dt className="font-mono font-semibold text-stone-900">faces</dt>
+        <dt className="font-mono font-semibold text-ink">faces</dt>
         <dd>
           ลวดลายของแต่ละหน้า วาดในกรอบ 100×100 โดยมุมซ้ายบนคือ (0, 0) และมองจากด้านนอกกล่อง
           หน้าที่ไม่ได้ใส่จะเป็นหน้าว่าง รูปที่ใช้ได้:{' '}
@@ -258,7 +259,7 @@ function FormatGuide() {
           <code>"fill"</code> เป็น <code>"black"</code> (ค่าเริ่มต้น), <code>"gray"</code> หรือ{' '}
           <code>"none"</code> (เส้นขอบอย่างเดียว)
         </dd>
-        <dt className="font-mono font-semibold text-stone-900">choices</dt>
+        <dt className="font-mono font-semibold text-ink">choices</dt>
         <dd>
           ตัวเลือก 2–5 ข้อ แต่ละข้อบอกหน้าที่เห็นด้าน <code>top</code>, <code>left</code>,{' '}
           <code>right</code> เขียนเป็น <code>"A"</code> หรือ{' '}
@@ -266,12 +267,12 @@ function FormatGuide() {
           ลายด้านซ้ายและขวาจะตั้งตรง ส่วนด้านบนจะวางเหมือนพับขึ้นมาจากหน้าด้านซ้าย
           สลับไปดู 3D เพื่อเช็กว่าหน้าตาตรงกับที่ตั้งใจไว้
         </dd>
-        <dt className="font-mono font-semibold text-stone-900">ask</dt>
+        <dt className="font-mono font-semibold text-ink">ask</dt>
         <dd>
           <code>"possible"</code> (ค่าเริ่มต้น) ถามหารูปที่พับได้ หรือ <code>"impossible"</code>{' '}
           ถามหารูปที่พับไม่ได้ ระบบหาคำตอบเองจากการพับจริง จึงต้องมีคำตอบที่ถูกเพียงข้อเดียว
         </dd>
-        <dt className="font-mono font-semibold text-stone-900">อื่น ๆ</dt>
+        <dt className="font-mono font-semibold text-ink">อื่น ๆ</dt>
         <dd>
           <code>title</code> ชื่อโจทย์, <code>difficulty</code> เป็น <code>"easy"</code>,{' '}
           <code>"medium"</code> หรือ <code>"hard"</code>, <code>explanation</code>{' '}

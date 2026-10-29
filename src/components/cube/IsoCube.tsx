@@ -48,7 +48,7 @@ export function IsoCube({ view, className }: { view: CubeView; className?: strin
       viewBox={`${-WIDTH / 2} ${-HEIGHT / 2} ${WIDTH} ${HEIGHT}`}
       role="img"
       aria-label="ลูกบาศก์"
-      className={className}
+      className={`dark:figure-rim ${className ?? ''}`}
     >
       {SLOTS.map((slot) => (
         <g

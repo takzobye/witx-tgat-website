@@ -23,6 +23,13 @@ pnpm build
 
 three.js ถูกแยกเป็น chunk ที่โหลดเฉพาะตอนเปิดมุมมอง 3D (`LazyFoldStage`) หน้าแรกจึงเบา
 
+ความคืบหน้า (ข้อที่ทำถูก ความแม่นยำ กิจกรรม 7 วัน) เก็บเฉพาะในเบราว์เซอร์ของผู้เรียนผ่าน `localStorage`
+และอ่านด้วย `useSyncExternalStore` — ฝั่ง server ไม่รู้ประวัติ หน้าจึงแสดง skeleton จนกว่าจะ hydrate
+
+ธีมสว่าง/มืดตามการตั้งค่าของเครื่องจนกว่าผู้ใช้จะกดสลับ ค่าที่เลือกเก็บใน cookie `theme` เพื่อให้ server
+render ธีมที่ถูกต้องตั้งแต่แรก (ไม่กะพริบ) สีพื้นฐานใช้ token ตามบทบาท (`bg-surface`, `text-ink`, `border-line` …)
+ที่ประกาศใน `src/styles.css` ส่วนสีสถานะใช้ `toneStyles` — ไม่ควรใช้ `stone-*` / `white` ตรง ๆ ในคอมโพเนนต์
+
 ## เพิ่มโจทย์
 
 สร้างไฟล์ใหม่ใน `src/content/questions/` ชื่อไฟล์คือทั้งลำดับและ URL (เช่น `07-my-question.json` → `/questions/07-my-question`)
@@ -66,6 +73,8 @@ three.js ถูกแยกเป็น chunk ที่โหลดเฉพา�
 ```
 src/cube/          โดเมน (ไม่มี React): geometry, art, การพับแผ่นคลี่ (net), การเทียบภาพ (view), schema ของโจทย์
 src/content/       คลังโจทย์ JSON + ตัวโหลดที่ตรวจทุกไฟล์
-src/components/    cube/ (SVG), fold-stage/ (three.js), quiz/ (หน้าทำโจทย์)
-src/routes/        /, /questions/$questionId, /lab
+src/progress/      ประวัติการตอบ (localStorage) + สรุปความคืบหน้าสำหรับแดชบอร์ด
+src/theme/         ค่าธีมที่ผู้ใช้เลือก (cookie อ่านได้ทั้ง server และ browser)
+src/components/    layout/ (แถบเมนู), dashboard/ (การ์ดหน้าแรก), cube/ (SVG), fold-stage/ (three.js), quiz/ (หน้าทำโจทย์)
+src/routes/        / (แดชบอร์ด), /questions (คลังโจทย์), /questions/$questionId, /lab
 ```

@@ -9,7 +9,15 @@ z.config(z.locales.th())
 /** Thai exam choice letters; also caps how many choices a question may have. */
 export const CHOICE_LABELS = ['ก', 'ข', 'ค', 'ง', 'จ'] as const
 
-export const DIFFICULTY_LABELS = { easy: 'ง่าย', medium: 'ปานกลาง', hard: 'ยาก' } as const
+export const DIFFICULTIES = ['easy', 'medium', 'hard'] as const
+
+export type Difficulty = (typeof DIFFICULTIES)[number]
+
+export const DIFFICULTY_LABELS = {
+  easy: 'ง่าย',
+  medium: 'ปานกลาง',
+  hard: 'ยาก',
+} as const satisfies Record<Difficulty, string>
 
 const DEFAULT_PROMPTS = {
   possible: 'ถ้านำแผ่นคลี่นี้มาพับเป็นลูกบาศก์ จะได้รูปใด',
@@ -67,7 +75,7 @@ type ViewRef = z.output<typeof viewRefSchema>
 
 const questionInputSchema = z.strictObject({
   title: z.string().trim().min(1),
-  difficulty: z.enum(['easy', 'medium', 'hard']),
+  difficulty: z.enum(DIFFICULTIES),
   ask: z.enum(['possible', 'impossible']).default('possible'),
   prompt: z.string().trim().min(1).optional(),
   /** The net drawn as text rows, one character per cell, `.` for empty cells. */

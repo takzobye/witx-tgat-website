@@ -40,12 +40,12 @@ export function QuestionFigure({
   showFaceIds = false,
 }: QuestionFigureProps) {
   return (
-    <figure className="flex flex-col overflow-hidden rounded-3xl border border-stone-200 bg-white shadow-sm">
-      <div className="flex items-center justify-between gap-3 border-b border-stone-200 px-4 py-2.5">
-        <figcaption className="text-sm font-semibold text-stone-700">
+    <figure className="flex flex-col overflow-hidden rounded-3xl border border-line bg-surface shadow-sm">
+      <div className="flex items-center justify-between gap-3 border-b border-line px-4 py-2.5">
+        <figcaption className="text-sm font-semibold text-ink-soft">
           {mode === 'net' ? 'แผ่นคลี่' : 'โมเดลจำลองการพับ'}
         </figcaption>
-        <div role="group" aria-label="มุมมอง" className="flex rounded-full bg-stone-100 p-1">
+        <div role="group" aria-label="มุมมอง" className="flex rounded-full bg-fill p-1">
           {MODES.map(({ value, label, icon: Icon }) => (
             <button
               key={value}
@@ -53,7 +53,7 @@ export function QuestionFigure({
               aria-pressed={mode === value}
               onClick={() => onModeChange(value)}
               className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-medium transition ${
-                mode === value ? 'bg-white text-stone-900 shadow-sm' : 'text-stone-500 hover:text-stone-800'
+                mode === value ? 'bg-surface text-ink shadow-sm' : 'text-ink-muted hover:text-ink'
               }`}
             >
               <Icon className="size-4" />

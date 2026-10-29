@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react'
 import { CHOICE_LABELS, type Question } from '#/cube/question'
 import { matchView } from '#/cube/view'
 import { buttonStyles } from '#/components/ui/button-styles'
+import { toneStyles } from '#/components/ui/tone-styles'
 import { ChoiceCard, type ChoiceState } from './ChoiceCard'
 import { QuestionFigure } from './QuestionFigure'
 import { useFigureState } from './use-figure-state'
@@ -12,9 +13,11 @@ interface QuestionPlayerProps {
   question: Question
   /** Id of the following question, or `null` on the last one. */
   nextId: string | null
+  /** Called each time an answer is checked. */
+  onCheck: (correct: boolean) => void
 }
 
-export function QuestionPlayer({ question, nextId }: QuestionPlayerProps) {
+export function QuestionPlayer({ question, nextId, onCheck }: QuestionPlayerProps) {
   const [selected, setSelected] = useState<number | null>(null)
   const [checked, setChecked] = useState(false)
   const figure = useFigureState()
@@ -28,6 +31,7 @@ export function QuestionPlayer({ question, nextId }: QuestionPlayerProps) {
   const check = () => {
     setChecked(true)
     figure.compare(question.answer)
+    onCheck(selected === question.answer)
   }
 
   const retry = () => {
@@ -77,22 +81,20 @@ export function QuestionPlayer({ question, nextId }: QuestionPlayerProps) {
           <div
             role="status"
             className={`rounded-2xl border p-4 sm:p-5 ${
-              selected === question.answer
-                ? 'border-emerald-200 bg-emerald-50'
-                : 'border-rose-200 bg-rose-50'
+              selected === question.answer ? toneStyles.emerald.panel : toneStyles.rose.panel
             }`}
           >
             {selected === question.answer ? (
-              <p className="flex items-center gap-2 text-lg font-semibold text-emerald-800">
+              <p className="flex items-center gap-2 text-lg font-semibold">
                 <CircleCheck className="size-6" /> ถูกต้อง!
               </p>
             ) : (
-              <p className="flex items-center gap-2 text-lg font-semibold text-rose-800">
+              <p className="flex items-center gap-2 text-lg font-semibold">
                 <CircleX className="size-6" /> ยังไม่ถูก คำตอบคือข้อ {CHOICE_LABELS[question.answer]}
               </p>
             )}
             {question.explanation && (
-              <p className="mt-2 leading-relaxed text-stone-700">{question.explanation}</p>
+              <p className="mt-2 leading-relaxed text-ink-soft">{question.explanation}</p>
             )}
             <div className="mt-4 flex flex-wrap gap-2">
               <button type="button" onClick={retry} className={buttonStyles.secondary}>
@@ -107,15 +109,15 @@ export function QuestionPlayer({ question, nextId }: QuestionPlayerProps) {
                   ข้อต่อไป <ArrowRight className="size-4" />
                 </Link>
               ) : (
-                <Link to="/" className={buttonStyles.primary}>
+                <Link to="/questions" className={buttonStyles.primary}>
                   ดูโจทย์ทั้งหมด
                 </Link>
               )}
             </div>
           </div>
         ) : (
-          <div className="flex items-center justify-between gap-3 rounded-2xl border border-stone-200 bg-white p-2.5 pl-4">
-            <p className="text-sm text-stone-500">
+          <div className="flex items-center justify-between gap-3 rounded-2xl border border-line bg-surface p-2.5 pl-4">
+            <p className="text-sm text-ink-muted">
               {selected === null ? 'เลือกคำตอบที่คิดว่าถูก 1 ข้อ' : `เลือกข้อ ${CHOICE_LABELS[selected]}`}
             </p>
             <button
@@ -135,10 +137,10 @@ export function QuestionPlayer({ question, nextId }: QuestionPlayerProps) {
 
 function CompareHint({ active }: { active: boolean }) {
   return active ? (
-    <span className="inline-flex items-center gap-1 text-indigo-600">
+    <span className="inline-flex items-center gap-1 text-accent-ink">
       <Box className="size-3.5" /> แสดงใน 3D อยู่
     </span>
   ) : (
-    <span className="text-stone-400">แตะเพื่อเทียบใน 3D</span>
+    <span className="text-ink-faint">แตะเพื่อเทียบใน 3D</span>
   )
 }
