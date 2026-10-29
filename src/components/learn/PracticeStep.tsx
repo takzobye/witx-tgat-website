@@ -1,31 +1,19 @@
 import { Link } from '@tanstack/react-router'
-import { LayoutGrid, ListChecks, Shuffle } from 'lucide-react'
-import type { ReactNode } from 'react'
+import { ArrowLeft, LayoutGrid, ListChecks, Shuffle } from 'lucide-react'
 import type { BankMethod } from '#/content/methods'
 import type { BankQuestion } from '#/content/questions'
-import { recordAttempt } from '#/progress/attempts'
 import { QuestionPlayer } from '#/components/quiz/QuestionPlayer'
 
 interface PracticeStepProps {
   method: BankMethod
   question: BankQuestion
-  /** The question after it in the bank, for "ข้อต่อไป". */
-  next: BankQuestion | null
+  /** The step on screen, counting from 1. */
   number: number
   onPickAnother: () => void
-  /** Link back to the last lesson step. */
-  back: ReactNode
 }
 
 /** The last step: the method as an exam checklist, tried on a real question from the bank. */
-export function PracticeStep({
-  method,
-  question,
-  next,
-  number,
-  onPickAnother,
-  back,
-}: PracticeStepProps) {
+export function PracticeStep({ method, question, number, onPickAnother }: PracticeStepProps) {
   return (
     <div className="flex flex-col gap-6">
       <header>
@@ -62,16 +50,18 @@ export function PracticeStep({
 
       <section aria-label="โจทย์จริง">
         <h2 className="mb-4 text-lg font-semibold text-balance sm:text-xl">{question.prompt}</h2>
-        <QuestionPlayer
-          key={question.id}
-          question={question}
-          nextId={next?.id ?? null}
-          onCheck={(correct) => recordAttempt(question.id, correct)}
-        />
+        <QuestionPlayer key={question.id} question={question} />
       </section>
 
       <nav className="flex flex-wrap items-center justify-between gap-3 border-t border-line pt-5">
-        {back}
+        <Link
+          to="/learn/$methodId"
+          params={{ methodId: method.id }}
+          search={{ step: number - 1 }}
+          className="inline-flex items-center justify-center gap-2 rounded-full border border-line-strong bg-surface px-5 py-2.5 text-sm font-semibold text-ink transition hover:bg-sunken focus-visible:ring-4 focus-visible:ring-ink-faint/30 focus-visible:outline-none"
+        >
+          <ArrowLeft className="size-4" aria-hidden="true" /> ย้อนกลับ
+        </Link>
         <div className="flex flex-wrap gap-2">
           <button
             type="button"

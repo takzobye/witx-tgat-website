@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import type { FigureMode } from './QuestionFigure'
+
+export type FigureMode = 'net' | '3d'
 
 /** What the question figure shows: 2D net or 3D model, how far it is folded, and which choice it is compared with. */
 export function useFigureState() {
@@ -22,3 +23,5 @@ export function useFigureState() {
 
   return { mode, setMode, fold, setFold, comparedIndex, compare, reset }
 }
+
+export type FigureState = ReturnType<typeof useFigureState>

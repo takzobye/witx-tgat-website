@@ -1,35 +1,25 @@
 import { Link } from '@tanstack/react-router'
 import { ArrowRight, Box, CircleCheck, CircleX, RotateCcw } from 'lucide-react'
-import { useMemo, useState } from 'react'
-import { CHOICE_LABELS, type Question } from '#/cube/question'
-import { matchView } from '#/cube/view'
+import { useState } from 'react'
+import { CHOICE_LABELS } from '#/cube/question'
+import { questions, type BankQuestion } from '#/content/questions'
+import { recordAttempt } from '#/progress/attempts'
 import { ChoiceCard, type ChoiceState } from './ChoiceCard'
 import { QuestionFigure } from './QuestionFigure'
 import { useFigureState } from './use-figure-state'
 
-interface QuestionPlayerProps {
-  question: Question
-  /** Id of the following question, or `null` on the last one. */
-  nextId: string | null
-  /** Called each time an answer is checked. */
-  onCheck: (correct: boolean) => void
-}
-
-export function QuestionPlayer({ question, nextId, onCheck }: QuestionPlayerProps) {
+/** Pick a choice and check it, then compare any choice with the folded cube. Every check is recorded. */
+export function QuestionPlayer({ question }: { question: BankQuestion }) {
   const [selected, setSelected] = useState<number | null>(null)
   const [checked, setChecked] = useState(false)
   const figure = useFigureState()
-  const matches = useMemo(
-    () => question.choices.map((choice) => matchView(question.cube, choice)),
-    [question],
-  )
 
   const choose = (index: number) => (checked ? figure.compare(index) : setSelected(index))
 
   const check = () => {
     setChecked(true)
     figure.compare(question.answer)
-    onCheck(selected === question.answer)
+    recordAttempt(question.id, selected === question.answer)
   }
 
   const retry = () => {
@@ -45,19 +35,16 @@ export function QuestionPlayer({ question, nextId, onCheck }: QuestionPlayerProp
   }
 
   const compared = figure.comparedIndex
+  // `number` counts from 1, so it is also the index of the question after this one.
+  const next = questions.at(question.number)
 
   return (
     <div className="grid gap-6 lg:grid-cols-2 lg:items-start">
       <QuestionFigure
         net={question.net}
         cube={question.cube}
-        mode={figure.mode}
-        onModeChange={figure.setMode}
-        fold={figure.fold}
-        onFoldChange={figure.setFold}
-        comparison={
-          compared === null ? null : { label: CHOICE_LABELS[compared], match: matches[compared] }
-        }
+        choices={question.choices}
+        figure={figure}
       />
 
       <section aria-label="ตัวเลือก" className="flex flex-col gap-4">
@@ -104,10 +91,10 @@ export function QuestionPlayer({ question, nextId, onCheck }: QuestionPlayerProp
               >
                 <RotateCcw className="size-4" /> ทำข้อนี้อีกครั้ง
               </button>
-              {nextId ? (
+              {next ? (
                 <Link
                   to="/questions/$questionId"
-                  params={{ questionId: nextId }}
+                  params={{ questionId: next.id }}
                   className="inline-flex items-center justify-center gap-2 rounded-full bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-500 focus-visible:ring-4 focus-visible:ring-brand-500/30 focus-visible:outline-none"
                 >
                   ข้อต่อไป <ArrowRight className="size-4" />

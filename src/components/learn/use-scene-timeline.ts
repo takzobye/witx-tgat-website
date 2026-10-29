@@ -33,7 +33,8 @@ const isFinished = (state: TimelineState) =>
 /** Plays a scene's poses one after another, and lets the learner step, replay or hold one pose. */
 export function useSceneTimeline(scene: Scene) {
   const [stored, setState] = useState(() => startOf(scene))
-  // A new scene starts again from its first pose.
+  // A new scene starts again from its first pose. Not reset with a `key`, which would also
+  // remount the 3D canvas that stays on screen from one step to the next.
   const state = stored.scene === scene ? stored : startOf(scene)
   if (stored !== state) setState(state)
 

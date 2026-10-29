@@ -1,25 +1,17 @@
 import { Box, Grid2x2 } from 'lucide-react'
 import type { FoldedCube, NetFace } from '#/cube/net'
-import type { ViewMatch } from '#/cube/view'
+import { CHOICE_LABELS } from '#/cube/question'
+import { matchView, type CubeView, type ViewMatch } from '#/cube/view'
 import { NetDiagram } from '#/components/cube/NetDiagram'
 import { LazyFoldStage } from '#/components/cube-3d/LazyFoldStage'
-
-export type FigureMode = 'net' | '3d'
-
-/** A choice being compared with the real folded cube. */
-export interface Comparison {
-  label: string
-  match: ViewMatch
-}
+import type { FigureMode, FigureState } from './use-figure-state'
 
 interface QuestionFigureProps {
   net: readonly NetFace[]
   cube: FoldedCube
-  mode: FigureMode
-  onModeChange: (mode: FigureMode) => void
-  fold: number
-  onFoldChange: (fold: number) => void
-  comparison: Comparison | null
+  choices: readonly CubeView[]
+  /** What to show, from `useFigureState`. */
+  figure: FigureState
   showFaceIds?: boolean
 }
 
@@ -32,13 +24,17 @@ const MODES: { value: FigureMode; label: string; icon: typeof Box }[] = [
 export function QuestionFigure({
   net,
   cube,
-  mode,
-  onModeChange,
-  fold,
-  onFoldChange,
-  comparison,
+  choices,
+  figure,
   showFaceIds = false,
 }: QuestionFigureProps) {
+  const { mode, fold, comparedIndex } = figure
+  // A draft in the lab can lose choices while it is edited; a choice that is gone is not compared.
+  const comparison =
+    comparedIndex === null || comparedIndex >= choices.length
+      ? null
+      : { label: CHOICE_LABELS[comparedIndex], match: matchView(cube, choices[comparedIndex]) }
+
   return (
     <figure className="flex flex-col overflow-hidden rounded-3xl border border-line bg-surface shadow-sm">
       <div className="flex items-center justify-between gap-3 border-b border-line px-4 py-2.5">
@@ -51,7 +47,7 @@ export function QuestionFigure({
               key={value}
               type="button"
               aria-pressed={mode === value}
-              onClick={() => onModeChange(value)}
+              onClick={() => figure.setMode(value)}
               className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-medium transition ${
                 mode === value ? 'bg-surface text-ink shadow-sm' : 'text-ink-muted hover:text-ink'
               }`}
@@ -71,7 +67,7 @@ export function QuestionFigure({
           <LazyFoldStage
             cube={cube}
             fold={fold}
-            onFoldChange={onFoldChange}
+            onFoldChange={figure.setFold}
             orientation={comparison?.match.orientation ?? null}
             caption={comparison ? comparisonCaption(comparison) : undefined}
           />
@@ -81,7 +77,7 @@ export function QuestionFigure({
   )
 }
 
-function comparisonCaption({ label, match }: Comparison): string {
+function comparisonCaption({ label, match }: { label: string; match: ViewMatch }): string {
   return match.matchedSlots === 3
     ? `ตัวเลือก ${label}: ตรงกับกล่องจริงทุกหน้า`
     : `ตัวเลือก ${label}: กล่องจริงตรงกับรูปเพียง ${match.matchedSlots} จาก 3 หน้า`

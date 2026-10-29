@@ -1,12 +1,13 @@
 import { Link, createFileRoute, notFound } from '@tanstack/react-router'
-import { ArrowLeft, ArrowRight, Shuffle } from 'lucide-react'
-import { useState, type ReactNode } from 'react'
+import { ArrowLeft, Shuffle } from 'lucide-react'
+import { useState } from 'react'
 import { z } from 'zod'
 import { methods } from '#/content/methods'
 import { questions } from '#/content/questions'
 import { LessonHeader } from '#/components/learn/LessonHeader'
 import { MethodPickerDialog } from '#/components/learn/MethodPickerDialog'
 import { PracticeStep } from '#/components/learn/PracticeStep'
+import { StepNav } from '#/components/learn/StepNav'
 import { StepView } from '#/components/learn/StepView'
 
 export const Route = createFileRoute('/learn/$methodId')({
@@ -22,6 +23,7 @@ export const Route = createFileRoute('/learn/$methodId')({
     )
     if (practiceIndex === -1)
       throw new Error(`Practice question "${methods[index].practiceId}" is missing`)
+    // Loader data is sent to the browser with the page, so indexes keep it small.
     return { index, practiceIndex }
   },
   head: ({ loaderData }) => ({
@@ -43,42 +45,8 @@ function LessonPage() {
 
   const method = methods[index]
   const lessonSteps = method.steps.length
-  const total = lessonSteps + 1
-  const number = Math.min(requested, total)
-
-  const stepLink = (to: number, className: string, children: ReactNode) => (
-    <Link
-      to="/learn/$methodId"
-      params={{ methodId: method.id }}
-      search={{ step: to }}
-      className={className}
-    >
-      {children}
-    </Link>
-  )
-  const back =
-    number > 1 &&
-    stepLink(
-      number - 1,
-      'inline-flex items-center justify-center gap-2 rounded-full border border-line-strong bg-surface px-5 py-2.5 text-sm font-semibold text-ink transition hover:bg-sunken focus-visible:ring-4 focus-visible:ring-ink-faint/30 focus-visible:outline-none',
-      <>
-        <ArrowLeft className="size-4" aria-hidden="true" /> ย้อนกลับ
-      </>,
-    )
-  const nav = (
-    <nav className="flex items-center gap-3 border-t border-line pt-5">
-      {back}
-      {stepLink(
-        number + 1,
-        'inline-flex items-center justify-center gap-2 rounded-full bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-500 focus-visible:ring-4 focus-visible:ring-brand-500/30 focus-visible:outline-none ml-auto',
-        <>
-          {number === lessonSteps ? 'ลองโจทย์จริง' : 'ขั้นถัดไป'}
-          <ArrowRight className="size-4" aria-hidden="true" />
-        </>,
-      )}
-    </nav>
-  )
-
+  // The step after the last lesson step is the practice question.
+  const number = Math.min(requested, lessonSteps + 1)
   const step = number <= lessonSteps ? method.steps[number - 1] : null
 
   return (
@@ -105,13 +73,15 @@ function LessonPage() {
         <PracticeStep
           method={method}
           question={questions[practiceIndex]}
-          next={questions[practiceIndex + 1] ?? null}
           number={number}
           onPickAnother={() => setPicking(true)}
-          back={back}
         />
       ) : (
-        <StepView step={step} number={number} nav={nav} />
+        <StepView
+          step={step}
+          number={number}
+          nav={<StepNav methodId={method.id} number={number} lessonSteps={lessonSteps} />}
+        />
       )}
 
       <MethodPickerDialog open={picking} onClose={() => setPicking(false)} />

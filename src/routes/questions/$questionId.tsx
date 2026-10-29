@@ -1,6 +1,5 @@
 import { createFileRoute, notFound } from '@tanstack/react-router'
 import { questions } from '#/content/questions'
-import { recordAttempt } from '#/progress/attempts'
 import { DifficultyBadge } from '#/components/quiz/DifficultyBadge'
 import { QuestionNav } from '#/components/quiz/QuestionNav'
 import { QuestionPlayer } from '#/components/quiz/QuestionPlayer'
@@ -9,6 +8,7 @@ export const Route = createFileRoute('/questions/$questionId')({
   loader: ({ params }) => {
     const index = questions.findIndex((q) => q.id === params.questionId)
     if (index === -1) throw notFound()
+    // Loader data is sent to the browser with the page, so an index keeps it small.
     return { index }
   },
   head: ({ loaderData }) => ({
@@ -26,7 +26,6 @@ export const Route = createFileRoute('/questions/$questionId')({
 function QuestionPage() {
   const { index } = Route.useLoaderData()
   const question = questions[index]
-  const next = index < questions.length - 1 ? questions[index + 1] : null
 
   return (
     <div className="py-6 sm:py-10">
@@ -40,12 +39,7 @@ function QuestionPage() {
         <h1 className="mt-2 text-2xl font-bold text-balance sm:text-3xl">{question.prompt}</h1>
       </header>
 
-      <QuestionPlayer
-        key={question.id}
-        question={question}
-        nextId={next?.id ?? null}
-        onCheck={(correct) => recordAttempt(question.id, correct)}
-      />
+      <QuestionPlayer key={question.id} question={question} />
     </div>
   )
 }
