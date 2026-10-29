@@ -16,7 +16,7 @@ import { toneStyles } from '#/components/ui/tone-styles'
 const TAG = 'inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ring-1 ring-inset'
 
 const MEDIA_TONES = {
-  indigo: 'bg-linear-to-br from-indigo-50 to-violet-100 dark:from-indigo-500/20 dark:to-violet-500/10',
+  brand: 'bg-linear-to-br from-brand-50 to-cyan-100 dark:from-brand-500/20 dark:to-cyan-500/10',
   emerald: 'bg-linear-to-br from-emerald-50 to-teal-100 dark:from-emerald-500/20 dark:to-teal-500/10',
   amber: 'bg-linear-to-br from-amber-50 to-orange-100 dark:from-amber-500/20 dark:to-orange-500/10',
 } as const
@@ -54,7 +54,7 @@ export function NextQuestionCard({ progress }: { progress: BankProgress | null }
   if (!progress) {
     return (
       <FeatureCard
-        tone="indigo"
+        tone="brand"
         media={null}
         tag={<Skeleton className="h-5 w-16 rounded-full" />}
         title={<Skeleton className="h-5 w-40 rounded-md" />}
@@ -88,7 +88,7 @@ export function NextQuestionCard({ progress }: { progress: BankProgress | null }
 
   return (
     <FeatureCard
-      tone="indigo"
+      tone="brand"
       media={<NetDiagram net={next.net} className="max-h-full w-full" />}
       tag={<DifficultyBadge difficulty={next.difficulty} />}
       aside={<span className="tabular-nums">ข้อถัดไป · ข้อ {next.number}</span>}

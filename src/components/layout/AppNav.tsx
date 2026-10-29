@@ -9,10 +9,10 @@ const NAV_ITEMS = [
   { to: '/lab', label: 'สร้างโจทย์', icon: PenLine, exact: false },
 ] as const
 
-const FOCUS_RING = 'focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-indigo-500/30'
+const FOCUS_RING = 'focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-brand-500/30'
 
 const ITEM = `group relative flex h-10 items-center gap-2 rounded-full px-3 text-sm font-medium transition lg:size-12 lg:justify-center lg:px-0 ${FOCUS_RING}`
-const ITEM_ACTIVE = 'bg-indigo-600 text-white shadow-md shadow-indigo-600/25'
+const ITEM_ACTIVE = 'bg-brand-600 text-white'
 const ITEM_INACTIVE = 'text-ink-muted hover:bg-surface hover:text-ink'
 
 const TOOLTIP =

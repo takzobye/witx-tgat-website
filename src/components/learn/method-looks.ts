@@ -14,9 +14,9 @@ interface MethodLook {
 export const METHOD_LOOKS = {
   'four-walls': {
     icon: BrickWall,
-    tile: 'bg-indigo-50 text-indigo-600 dark:bg-indigo-400/10 dark:text-indigo-300',
+    tile: 'bg-brand-50 text-brand-600 dark:bg-brand-400/10 dark:text-brand-300',
     badge:
-      'bg-indigo-50 text-indigo-700 ring-indigo-600/20 dark:bg-indigo-400/10 dark:text-indigo-300 dark:ring-indigo-400/25',
+      'bg-brand-50 text-brand-700 ring-brand-600/20 dark:bg-brand-400/10 dark:text-brand-300 dark:ring-brand-400/25',
   },
   'quick-cut': { icon: Zap, tile: toneStyles.amber.tile, badge: toneStyles.amber.badge },
   rolling: { icon: Dices, tile: toneStyles.emerald.tile, badge: toneStyles.emerald.badge },

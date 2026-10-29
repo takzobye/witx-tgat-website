@@ -19,6 +19,19 @@
 @theme {
   --font-sans: 'Anuphan Variable', ui-sans-serif, system-ui, sans-serif;
 
+  /* WIT X blue (witx.in.th) sits at 600, where the buttons are; the other steps share its hue. */
+  --color-brand-50: #eef7fe;
+  --color-brand-100: #daeeff;
+  --color-brand-200: #bce0ff;
+  --color-brand-300: #90c8ff;
+  --color-brand-400: #5cacff;
+  --color-brand-500: #3b9aff;
+  --color-brand-600: #0084ff;
+  --color-brand-700: #016bdd;
+  --color-brand-800: #1154b3;
+  --color-brand-900: #1a4187;
+  --color-brand-950: #142955;
+
   /* Neutrals named by role; the dark palette below swaps their values. */
   --color-canvas: #f7f6f3;
   --color-surface: #ffffff;
@@ -35,8 +48,8 @@
   --color-ink-muted: var(--color-stone-500);
   --color-ink-faint: var(--color-stone-400);
 
-  --color-accent-soft: var(--color-indigo-50);
-  --color-accent-ink: var(--color-indigo-700);
+  --color-accent-soft: var(--color-brand-50);
+  --color-accent-ink: var(--color-brand-700);
 }
 
 :root {
@@ -59,8 +72,8 @@
     --color-ink-muted: var(--color-stone-400);
     --color-ink-faint: var(--color-stone-500);
 
-    --color-accent-soft: --alpha(var(--color-indigo-400) / 15%);
-    --color-accent-ink: var(--color-indigo-300);
+    --color-accent-soft: --alpha(var(--color-brand-400) / 15%);
+    --color-accent-ink: var(--color-brand-300);
   }
 }
 

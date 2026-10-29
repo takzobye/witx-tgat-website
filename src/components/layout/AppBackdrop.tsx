@@ -4,13 +4,13 @@
  */
 const SPLASHES = [
   {
-    paint: 'from-indigo-400',
+    paint: 'from-brand-400',
     spot: '-top-[30%] -left-[15%] h-[70vmax] w-[85vmax]',
     drift:
       '[--drift-duration:31s] [--drift-rotate:18deg] [--drift-scale:1.15] [--drift-x:14vw] [--drift-y:12vh]',
   },
   {
-    paint: 'from-fuchsia-300',
+    paint: 'from-cyan-300',
     spot: '-top-[35%] left-[30%] h-[60vmax] w-[70vmax]',
     drift:
       '[--drift-duration:43s] [--drift-rotate:-24deg] [--drift-scale:1.25] [--drift-x:-12vw] [--drift-y:18vh]',

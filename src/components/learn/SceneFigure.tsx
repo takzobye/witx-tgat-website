@@ -55,9 +55,9 @@ export function SceneFigure({ step, timeline }: { step: LessonStep; timeline: Sc
                 <span
                   className={`h-1.5 w-full rounded-full transition ${
                     !held && i === index
-                      ? 'bg-indigo-600'
+                      ? 'bg-brand-600'
                       : i < index
-                        ? 'bg-indigo-300 dark:bg-indigo-400/50'
+                        ? 'bg-brand-300 dark:bg-brand-400/50'
                         : 'bg-fill-strong group-hover:bg-line-strong'
                   }`}
                 />

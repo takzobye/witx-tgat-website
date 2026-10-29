@@ -75,7 +75,7 @@ function DayBar({ share, highlight }: { share: number; highlight: boolean }) {
     <div className="relative h-16 w-full max-w-5 overflow-hidden rounded-md bg-fill">
       {share > 0 && (
         <div
-          className={`absolute inset-x-0 bottom-0 rounded-md ${highlight ? 'bg-indigo-600 dark:bg-indigo-500' : 'bg-indigo-300 dark:bg-indigo-400/40'}`}
+          className={`absolute inset-x-0 bottom-0 rounded-md ${highlight ? 'bg-brand-600 dark:bg-brand-500' : 'bg-brand-300 dark:bg-brand-400/40'}`}
           style={{ height: `${Math.max(share * 100, 12)}%` }}
         />
       )}

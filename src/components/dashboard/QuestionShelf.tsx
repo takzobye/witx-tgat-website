@@ -31,7 +31,7 @@ export function QuestionShelf({ progress }: { progress: BankProgress | null }) {
                 to="/questions/$questionId"
                 params={{ questionId: question.id }}
                 aria-label={`ข้อ ${question.number} ${question.title}${status ? ` (${STATUS_LABELS[status]})` : ''}`}
-                className="relative grid aspect-square place-items-center rounded-xl bg-sunken p-3 ring-1 ring-contrast/5 transition ring-inset hover:bg-accent-soft hover:ring-indigo-400/40"
+                className="relative grid aspect-square place-items-center rounded-xl bg-sunken p-3 ring-1 ring-contrast/5 transition ring-inset hover:bg-accent-soft hover:ring-brand-400/40"
               >
                 <NetDiagram net={question.net} className="max-h-full w-full" />
                 <span className="absolute bottom-1 left-2 text-[10px] font-semibold text-ink-faint tabular-nums">

@@ -149,9 +149,9 @@ function LessonHeader({ method, number }: { method: BankMethod; number: number }
               <span
                 className={`block h-1.5 rounded-full transition ${
                   i + 1 === number
-                    ? 'bg-indigo-600'
+                    ? 'bg-brand-600'
                     : i + 1 < number
-                      ? 'bg-indigo-300 dark:bg-indigo-400/50'
+                      ? 'bg-brand-300 dark:bg-brand-400/50'
                       : 'bg-fill-strong group-hover:bg-line-strong'
                 }`}
               />

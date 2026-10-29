@@ -63,7 +63,7 @@ export function MethodPickerDialog({ open, onClose }: MethodPickerDialogProps) {
             type="button"
             onClick={onClose}
             aria-label="ปิด"
-            className="-mt-1 -mr-1 grid size-9 shrink-0 place-items-center rounded-full text-ink-muted transition hover:bg-fill hover:text-ink focus-visible:ring-4 focus-visible:ring-indigo-500/30 focus-visible:outline-none"
+            className="-mt-1 -mr-1 grid size-9 shrink-0 place-items-center rounded-full text-ink-muted transition hover:bg-fill hover:text-ink focus-visible:ring-4 focus-visible:ring-brand-500/30 focus-visible:outline-none"
           >
             <X className="size-5" />
           </button>
@@ -78,7 +78,7 @@ export function MethodPickerDialog({ open, onClose }: MethodPickerDialogProps) {
                   to="/learn/$methodId"
                   params={{ methodId: method.id }}
                   onClick={onClose}
-                  className="group flex items-start gap-4 rounded-2xl p-4 ring-1 ring-line transition hover:bg-sunken hover:ring-line-strong focus-visible:ring-4 focus-visible:ring-indigo-500/30 focus-visible:outline-none"
+                  className="group flex items-start gap-4 rounded-2xl p-4 ring-1 ring-line transition hover:bg-sunken hover:ring-line-strong focus-visible:ring-4 focus-visible:ring-brand-500/30 focus-visible:outline-none"
                 >
                   <span className={`grid size-12 shrink-0 place-items-center rounded-2xl ${tile}`}>
                     <Icon className="size-6" aria-hidden="true" />

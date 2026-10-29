@@ -8,7 +8,7 @@ export type ChoiceState = 'idle' | 'selected' | 'correct' | 'wrong' | 'muted'
 
 const CARD_STYLES: Record<ChoiceState, string> = {
   idle: 'border-line hover:border-line-strong',
-  selected: 'border-indigo-500 ring-4 ring-indigo-500/15',
+  selected: 'border-brand-500 ring-4 ring-brand-500/15',
   correct: 'border-emerald-500 bg-emerald-50/60 ring-4 ring-emerald-500/15 dark:bg-emerald-400/10',
   wrong: 'border-rose-500 bg-rose-50/60 ring-4 ring-rose-500/15 dark:bg-rose-400/10',
   muted: 'border-line opacity-75 hover:opacity-100',
@@ -16,7 +16,7 @@ const CARD_STYLES: Record<ChoiceState, string> = {
 
 const BADGE_STYLES: Record<ChoiceState, string> = {
   idle: 'bg-fill text-ink-soft',
-  selected: 'bg-indigo-600 text-white',
+  selected: 'bg-brand-600 text-white',
   correct: 'bg-emerald-600 text-white',
   wrong: 'bg-rose-600 text-white',
   muted: 'bg-fill text-ink-muted',
@@ -39,7 +39,7 @@ export function ChoiceCard({ label, view, state, pressed, onClick, footer }: Cho
       onClick={onClick}
       aria-pressed={pressed}
       aria-label={`ตัวเลือก ${label}`}
-      className={`group relative flex flex-col items-center rounded-2xl border-2 bg-surface p-3 text-left transition focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-indigo-500/30 sm:p-4 ${CARD_STYLES[state]}`}
+      className={`group relative flex flex-col items-center rounded-2xl border-2 bg-surface p-3 text-left transition focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-brand-500/30 sm:p-4 ${CARD_STYLES[state]}`}
     >
       <span
         className={`absolute top-2.5 left-2.5 grid size-8 place-items-center rounded-full text-base font-semibold transition ${BADGE_STYLES[state]}`}

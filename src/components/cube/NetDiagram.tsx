@@ -67,7 +67,7 @@ export function NetDiagram({ net, showIds = false, className }: NetDiagramProps)
 function FaceIdBadge({ id }: { id: string }) {
   return (
     <g transform="translate(14 14)">
-      <circle r={10} className="fill-indigo-600" />
+      <circle r={10} className="fill-brand-600" />
       <text
         textAnchor="middle"
         dominantBaseline="central"

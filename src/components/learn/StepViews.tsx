@@ -11,7 +11,7 @@ const LAYOUT = 'grid gap-6 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:items
 const FIGURE_COLUMN = 'lg:sticky lg:top-6'
 
 const RULE_PANEL =
-  'border-indigo-200 bg-indigo-50 text-indigo-900 dark:border-indigo-400/25 dark:bg-indigo-400/10 dark:text-indigo-200'
+  'border-brand-200 bg-brand-50 text-brand-900 dark:border-brand-400/25 dark:bg-brand-400/10 dark:text-brand-200'
 
 interface StepViewProps {
   step: LessonStep

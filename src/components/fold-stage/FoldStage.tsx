@@ -83,7 +83,7 @@ export default function FoldStage({ cube, fold, onFoldChange, orientation, capti
           onChange={(event) => onFoldChange(Number(event.target.value) / 100)}
           aria-label="ระดับการพับ"
           aria-valuetext={`พับแล้ว ${percent}%`}
-          className="min-w-0 flex-1 accent-indigo-600"
+          className="min-w-0 flex-1 accent-brand-600"
         />
         <span aria-hidden="true" className="w-10 text-right text-xs text-ink-muted tabular-nums">
           {percent}%

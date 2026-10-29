@@ -4,7 +4,7 @@ import { SRGBColorSpace, type MeshStandardMaterial } from 'three'
 import type { Art } from '#/cube/art'
 import { paintFace } from './paint-face'
 
-const INSIDE_COLOR = '#c7d2fe'
+const INSIDE_COLOR = '#bce0ff'
 
 interface FacePanelProps {
   art: Art
