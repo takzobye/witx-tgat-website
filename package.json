@@ -11,7 +11,11 @@
     "build": "vite build",
     "preview": "vite preview",
     "test": "vitest run",
-    "typecheck": "tsrs --noEmit --fast"
+    "typecheck": "tsrs --noEmit --fast",
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix",
+    "format": "oxfmt",
+    "format:check": "oxfmt --check"
   },
   "dependencies": {
     "@fontsource-variable/anuphan": "^5.3.0",
@@ -38,6 +42,8 @@
     "@types/react-dom": "^19.3.0",
     "@types/three": "^0.186.0",
     "@vitejs/plugin-react": "^6.1.2",
+    "oxfmt": "^0.75.0",
+    "oxlint": "^1.90.0",
     "tsrs": "0.20.1-ts7.1.0-beta",
     "vite": "^8.3.5",
     "vitest": "^5.0.5"

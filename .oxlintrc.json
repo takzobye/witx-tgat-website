@@ -1,0 +1,18 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["typescript", "unicorn", "oxc", "react", "import", "vitest"],
+  "categories": {
+    "correctness": "error"
+  },
+  "env": {
+    "builtin": true,
+    "browser": true,
+    "node": true
+  },
+  "rules": {
+    "vitest/valid-expect": ["error", { "maxArgs": 2 }],
+    "vitest/no-conditional-expect": "off",
+    "vitest/require-to-throw-message": "off"
+  },
+  "ignorePatterns": ["src/routeTree.gen.ts"]
+}
