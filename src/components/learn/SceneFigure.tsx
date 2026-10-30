@@ -21,20 +21,22 @@ export function SceneFigure({ step, timeline }: SceneFigureProps) {
 
   return (
     <figure className="flex flex-col overflow-hidden rounded-3xl border border-line bg-surface shadow-sm">
-      <div className="relative h-72 sm:h-96 lg:h-[30rem]">
-        <LazyLessonStage
-          sceneId={step.id}
-          arts={step.scene.arts}
-          pose={pose}
-          onArrive={timeline.onArrive}
-        />
+      {/* The caption sits below the stage, not over it, because the stage frames the model to its
+          whole area. Sharing one fixed height keeps the page still when a caption wraps. */}
+      <div className="flex h-72 flex-col sm:h-96 lg:h-[30rem]">
+        <div className="min-h-0 flex-1">
+          <LazyLessonStage
+            sceneId={step.id}
+            arts={step.scene.arts}
+            pose={pose}
+            onArrive={timeline.onArrive}
+          />
+        </div>
         <figcaption
           aria-live="polite"
-          className="pointer-events-none absolute inset-x-3 top-3 flex justify-start"
+          className="border-t border-line px-4 py-2.5 text-sm leading-snug font-medium text-ink"
         >
-          <span className="max-w-md rounded-2xl bg-surface/90 px-3 py-2 text-sm leading-snug font-medium text-ink shadow-sm ring-1 ring-line backdrop-blur-sm">
-            {pose.note}
-          </span>
+          {pose.note}
         </figcaption>
       </div>
 
