@@ -120,6 +120,7 @@ export function LessonModel({ arts, pose, seeThrough, onArrive }: LessonModelPro
         {Object.entries(arts).map(([id, art]) => (
           <LessonFace
             key={id}
+            id={id}
             art={art}
             tint={pose.tints[id]}
             edges={edgesOf(id)}

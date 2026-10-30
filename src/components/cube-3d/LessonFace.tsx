@@ -1,11 +1,12 @@
 import { Html } from '@react-three/drei'
 import { useFrame, useThree } from '@react-three/fiber'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { Color, DoubleSide, type Group, type MeshStandardMaterial } from 'three'
+import { Color, DoubleSide, SRGBColorSpace, type Group, type MeshStandardMaterial } from 'three'
 import type { Art } from '#/cube/art'
 import type { Direction } from '#/cube/net'
 import type { EdgeMark, Tone } from '#/lesson/scene'
 import { FacePanel } from './FacePanel'
+import { paintFaceId } from './paint-face'
 
 /** Light enough that black ink still reads on the tinted paper. */
 const TINTS: Record<Tone, string> = {
@@ -33,6 +34,10 @@ const EDGE_WIDTH = 0.09
 /** Just off the paper, so marks never flicker against it. */
 const EDGE_LIFT = 0.004
 const LABEL_LIFT = 0.03
+/** The id badge sits in the drawing's top-left corner, like `FaceIdBadge` in the net diagram. */
+const ID_RADIUS = 0.1
+/** Lifted above an edge mark, which it overlaps in the corner. */
+const ID_POSITION: [number, number, number] = [-0.36, 0.36, 2 * EDGE_LIFT]
 
 /** Where a side's mark sits on the unit panel, and its size. */
 const EDGE_BARS: Record<Direction, { position: [number, number, number]; size: [number, number] }> =
@@ -44,6 +49,7 @@ const EDGE_BARS: Record<Direction, { position: [number, number, number]; size: [
   }
 
 interface LessonFaceProps {
+  id: string
   art: Art
   tint: Tone | undefined
   edges: readonly EdgeMark[]
@@ -53,13 +59,17 @@ interface LessonFaceProps {
   panelRef: (group: Group | null) => void
 }
 
-/** One face of the lesson model: its drawing, a tint that fades in, edge marks and a label. */
-export function LessonFace({ art, tint, edges, label, seeThrough, panelRef }: LessonFaceProps) {
+/**
+ * One face of the lesson model: its drawing with the id the lesson text calls it by,
+ * a tint that fades in, edge marks and a label.
+ */
+export function LessonFace({ id, art, tint, edges, label, seeThrough, panelRef }: LessonFaceProps) {
   const material = useRef<MeshStandardMaterial>(null)
   // The label is on the far side of the model: hidden by solid paper, faded through glass.
   const [labelBehind, setLabelBehind] = useState(false)
   const invalidate = useThree((state) => state.invalidate)
   const target = useMemo(() => new Color(tint ? TINTS[tint] : PAPER), [tint])
+  const idTexture = useMemo(() => paintFaceId(id), [id])
 
   useEffect(() => invalidate(), [target, invalidate])
 
@@ -83,6 +93,13 @@ export function LessonFace({ art, tint, edges, label, seeThrough, panelRef }: Le
           <meshBasicMaterial color={EDGE_COLORS[tone]} side={DoubleSide} />
         </mesh>
       ))}
+      <mesh position={ID_POSITION}>
+        <circleGeometry args={[ID_RADIUS, 32]} />
+        {/* Off the paper, so the tint does not recolour it; two-sided like the edge marks. */}
+        <meshBasicMaterial side={DoubleSide}>
+          <canvasTexture attach="map" args={[idTexture]} colorSpace={SRGBColorSpace} />
+        </meshBasicMaterial>
+      </mesh>
       {label && (
         <Html
           center
